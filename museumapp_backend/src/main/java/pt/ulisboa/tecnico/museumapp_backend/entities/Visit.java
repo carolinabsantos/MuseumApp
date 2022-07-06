@@ -1,46 +1,21 @@
 package pt.ulisboa.tecnico.museumapp_backend.entities;
 
-import javax.persistence.*;
+public class Visit {
 
-public class Visitor {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
-
-    @Column(nullable = false)
     private String firstName;
-
-    @Column(nullable = false)
     private String lastName;
-
-    @Column(nullable = false)
     private String emailAddress;
-
-    @Column(nullable = false)
     private int contact;
-
     private int n_visitors;
+    private String message;
 
+    public String getFirstName() {return firstName;}
 
-    public long getId(){
-        return id;
-    }
+    public void setFirstName(String firstName) {this.firstName = firstName;}
 
-    public String getFirstName(){
-        return firstName;
-    }
+    public String getLastName() {return lastName;}
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName(){
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+    public void setLastName(String lastName) {this.lastName = lastName;}
 
     public String getEmailAddress(){
         return emailAddress;
@@ -64,5 +39,13 @@ public class Visitor {
 
     public void setN_visitors(int n_visitors) {
         this.n_visitors = n_visitors;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

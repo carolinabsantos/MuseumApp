@@ -170,7 +170,7 @@
               </div>
 
             <div class="col-md-6">
-               <form id="request" class="main_form">
+               <form action="#" th:action="@{/visit}" th:object="${visit}" method="post" class="main_form">
                   <div class="row">
                       <div id="TDV">
                         <label for="visittype">Qual o tipo de visita? </label>
@@ -248,18 +248,25 @@
                   </div>
                   <p></p>
                      <div class="col-md-12 ">
-                        <input class="contactus" placeholder="Name" type="type" name="Name" required="required">
+                        <input class="contactus" type="text" th:field="*{firstName}" placeholder="firstName" name="First Name" required="required">
+                     </div>
+                     <div class="col-md-12 ">
+                        <input class="contactus" type="text" th:field="*{lastName}" placeholder="lastName" name="Last Name" required="required">
                      </div>
                      <div class="col-md-12">
-                        <input class="contactus" placeholder=" Email" type="type" name="Email" required="required">
+                        <input class="contactus" type="text" th:field="*{email}" placeholder=" Email" name="Email" required="required">
                      </div>
                      <div class="col-md-12">
-                        <input class="contactus" placeholder=" Phone Number" type="type" name="Phone Number" required="required">
+                        <input class="contactus" type="text" th:field="*{contact}" placeholder=" Phone Number" name="Phone Number" required="required">
                      </div>
                      <div class="col-md-12">
-                        <textarea class="contactus" placeholder="Message" type="type" Message="Name">Message </textarea>
+                        <input class="contactus" type="text" th:field="*{n_visitors}" placeholder="NVisitors" name="Number of Visitors">
+                     </div>
+                     <div class="col-md-12">
+                        <textarea class="contactus" type="text" th:field="*{message}" placeholder="Message" Message="Name">Message </textarea>
                      </div>
                      <div class="col-sm-12">
+                        <input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
                         <button class="send_btn">Enviar</button>
                      </div>
                   </div>
