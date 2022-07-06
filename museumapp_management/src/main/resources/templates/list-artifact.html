@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script crossorigin="anonymous"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script crossorigin="anonymous"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" rel="stylesheet">
+    <script crossorigin="anonymous"
+            integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <title>Museum - All Artifacts</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" th:href="@{/home}">Peddy Room System</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="/interactionpies">Interaction Pies</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/databases">Databases</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuMuseumLink" role="button" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    Museum
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" th:href="@{/index-visitor}">Visitors</a>
+                    <a class="dropdown-item" th:href="@{/index-artifact}">Artifacts</a>
+                    <a class="dropdown-item" th:href="@{/index-time-machine}">Time Machines</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    Games
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="/escapetheroom">Escape The Room</a>
+                    <a class="dropdown-item" href="#">Peddy Paper</a>
+                    <a class="dropdown-item" href="#">Who Wants To Be An Engineer</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <input class="btn btn-secondary" type="button" value="Voltar atrás" onclick="history.back()">
+</nav>
+<main role="main">
+    <div class="jumbotron">
+        <div class="container">
+            <h1 class="display-3">Time Machines</h1>
+            <p>Here an administrator can see all the Time Machine in the system.</p>
+        </div>
+    </div>
+</main>
+<div class="container">
+
+    <h3>List Visitor</h3>
+
+    <hr/>
+
+    <table class="table table-bordered table-striped">
+
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Designation</th>
+            <th>Description</th>
+            <th>Technical Characteristics</th>
+            <th>More Info</th>
+            <th>Model</th>
+            <th>Country</th>
+            <th>Brand</th>
+            <th>Made In</th>
+            <th>Creation Year</th>
+            <th>Serial Number</th>
+            <th>Donated By</th>
+            <th>Exhibitor</th>
+            <th>Item Nº</th>
+            <th>Type Category</th>
+            <th>Category</th>
+            <th>Category2</th>
+            <th>Category3</th>
+            <th>Category4</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="artifact: ${artifacts}">
+            <td>
+                <a th:href="@{/update-artifact(artifact_id=${artifact.id})}" class="btn btn-info">Update</a>
+            </td>
+            <td th:text="${artifact.name}" />
+            <td th:text="${artifact.designation}" />
+            <td th:text="${artifact.description}" />
+            <td th:text="${artifact.techCharacteristics}" />
+            <td th:text="${artifact.moreInfo}" />
+            <td th:text="${artifact.model}" />
+            <td th:text="${artifact.country}" />
+            <td th:text="${artifact.brand}" />
+            <td th:text="${artifact.madeIn}" />
+            <td th:text="${artifact.creationYear}" />
+            <td th:text="${artifact.serialNumber}" />
+            <td th:text="${artifact.donatedBy}" />
+            <td th:text="${artifact.exhibitor}" />
+            <td th:text="${artifact.itemNo}" />
+            <td th:text="${artifact.typeCat}" />
+            <td th:text="${artifact.category}" />
+            <td th:text="${artifact.category2}" />
+            <td th:text="${artifact.category3}" />
+            <td th:text="${artifact.category4}" />
+        </tr>
+        </tbody>
+
+    </table>
+</div>
+<a th:href="@{/new-visitor}" class="btn btn-secondary">Add new visitor</a>
+<input class="btn btn-secondary" type="button" value="Voltar atrás" onclick="history.back()">
+</body>
+</html>

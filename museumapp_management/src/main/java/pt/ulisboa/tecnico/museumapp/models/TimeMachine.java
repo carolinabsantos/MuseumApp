@@ -1,0 +1,59 @@
+package pt.ulisboa.tecnico.museumapp.models;
+
+import pt.ulisboa.tecnico.museumapp.entities.TypeOfTimeMachine;
+
+import java.sql.Timestamp;
+import java.util.List;
+
+public class TimeMachine {
+    private TypeOfTimeMachine type;
+    private String name;
+
+    private List<Artifact> artifacts;
+
+    public TimeMachine(){}
+
+    public TimeMachine(TypeOfTimeMachine type, String name,List<Artifact> artifacts){
+        this.type=type;
+        this.name=name;
+        this.artifacts=artifacts;
+    }
+
+    public TimeMachine(TypeOfTimeMachine type, String name){
+        this.type=type;
+        this.name=name;
+    }
+
+    public TypeOfTimeMachine getType() {
+        return type;
+    }
+
+    public void setType(TypeOfTimeMachine type) {
+        this.type = type;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<Artifact> getArtifacts() {
+        return artifacts;
+    }
+
+    public void setArtifacts(List<Artifact> artifacts) {
+        this.artifacts = artifacts;
+    }
+
+    @Override
+    public String toString() {
+        return "TimeMachine{" +
+                "type=" + type +
+                ", name='" + name + '\'' +
+                ", artifacts=" + artifacts +
+                '}';
+    }
+}
