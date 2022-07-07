@@ -74,6 +74,7 @@
         <thead>
         <tr>
             <th>Actions</th>
+            <th>Id</th>
             <th>Name</th>
             <th>Type</th>
         </tr>
@@ -82,9 +83,11 @@
         <tr th:each="timeMachine: ${timeMachines}">
             <td>
                 <a th:href="@{/update-time-machine(timeMachine_id=${timeMachine.id})}" class="btn btn-info">Update</a>
+                <a th:href="@{/delete-time-machine/{id}(id = ${timeMachine.id})}" class="btn btn-info">Delete</a>
             </td>
-            <td th:text="${timeMachine.name}" />
-            <td th:text="${timeMachine.type}" />
+            <td th:text="${timeMachine.id}"></td>
+            <td th:text="${timeMachine.name}"></td>
+            <td th:text="${timeMachine.type}"></td>
         </tr>
         </tbody>
 

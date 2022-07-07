@@ -48,4 +48,9 @@ public class ArtifactServiceImpl implements ArtifactService{
     }
     @Override
     public Optional<ArtifactEntity> findArtifact(Integer artifactId) {return artifactRepository.findById(artifactId);}
+
+    @Override
+    public void deleteArtifact(Integer id){
+        artifactRepository.deleteById(id);
+    }
 }

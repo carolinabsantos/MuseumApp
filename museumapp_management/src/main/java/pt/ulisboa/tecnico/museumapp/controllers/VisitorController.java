@@ -44,9 +44,11 @@ public class VisitorController implements WebMvcConfigurer{
         mav.addObject("visitor", visitor);
         return mav;
     }
-    @PostMapping("/delete-visitor")
-    public void deleteVisitorView(@RequestParam Integer visitor_id) {
-        Optional<VisitorEntity> visitor = visitorService.deleteVisitor(visitor_id);
+    @GetMapping("/delete-visitor/{id}")
+    public String deleteVisitor(@PathVariable(value = "id", required = false) Integer visitorId) {
+        System.out.println(visitorId);
+        visitorService.deleteVisitor(visitorId);
+        return "redirect:/list-visitor";
     }
 
 

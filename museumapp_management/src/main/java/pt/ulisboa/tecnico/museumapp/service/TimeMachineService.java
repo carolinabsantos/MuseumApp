@@ -11,4 +11,6 @@ public interface TimeMachineService {
     Optional<TimeMachineEntity> findTimeMachine(Integer timeMachineId);
 
     Optional<TimeMachineEntity> findById(Integer timeMachineId);
+
+    void deleteTimeMachine(Integer id);
 }

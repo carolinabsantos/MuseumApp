@@ -10,4 +10,5 @@ public interface ArtifactService {
     ArtifactEntity createArtifact(ArtifactEntity artifact);
 
     Optional<ArtifactEntity> findArtifact(Integer artifactId);
+    void deleteArtifact(Integer id);
 }

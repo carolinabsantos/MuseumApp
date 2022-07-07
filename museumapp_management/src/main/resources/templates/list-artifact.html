@@ -99,6 +99,7 @@
         <tr th:each="artifact: ${artifacts}">
             <td>
                 <a th:href="@{/update-artifact(artifact_id=${artifact.id})}" class="btn btn-info">Update</a>
+                <a th:href="@{/delete-artifact/{id}(id = ${artifact.id})}" class="btn btn-info">Delete</a>
             </td>
             <td th:text="${artifact.name}" />
             <td th:text="${artifact.designation}" />

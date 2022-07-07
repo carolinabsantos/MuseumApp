@@ -31,4 +31,8 @@ public class TimeMachineServiceImpl implements TimeMachineService{
     public Optional<TimeMachineEntity> findById(Integer timeMachineId){
         return timeMachineRepository.findById(timeMachineId);
     }
+    @Override
+    public void deleteTimeMachine(Integer id){
+        timeMachineRepository.deleteById(id);
+    }
 }

@@ -24,10 +24,10 @@ public class VisitorServiceImpl implements VisitorService {
 
     @Override
     public Optional<VisitorEntity> findVisitor(Integer visitorId) {return visitorRepository.findById(visitorId);}
+
     @Override
-    public Optional<VisitorEntity> deleteVisitor(Integer visitorId) {
-        visitorRepository.deleteById(visitorId);
-        return null;
+    public void deleteVisitor(Integer id){
+        visitorRepository.deleteById(id);
     }
 
 }

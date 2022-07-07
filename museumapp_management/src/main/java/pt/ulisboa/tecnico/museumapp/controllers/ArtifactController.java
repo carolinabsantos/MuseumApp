@@ -46,4 +46,11 @@ public class ArtifactController implements WebMvcConfigurer{
         mav.addObject("artifact", artifact);
         return mav;
     }
+
+    @GetMapping("/delete-artifact/{id}")
+    public String deleteArtifact(@PathVariable(value = "id", required = false) Integer artifactId) {
+        System.out.println(artifactId);
+        artifactService.deleteArtifact(artifactId);
+        return "redirect:/list-artifact";
+    }
 }
