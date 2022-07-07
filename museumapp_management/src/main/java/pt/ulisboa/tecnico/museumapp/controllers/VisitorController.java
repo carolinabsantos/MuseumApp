@@ -8,6 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import pt.ulisboa.tecnico.museumapp.models.Visitor;
 import pt.ulisboa.tecnico.museumapp.entities.VisitorEntity;
+import pt.ulisboa.tecnico.museumapp.repositories.VisitorRepository;
 import pt.ulisboa.tecnico.museumapp.service.VisitorService;
 
 import java.util.Optional;
@@ -16,6 +17,8 @@ import java.util.Optional;
 public class VisitorController implements WebMvcConfigurer{
     @Autowired
     private VisitorService visitorService;
+    @Autowired
+    private VisitorRepository visitorRepository;
 
     @GetMapping("/list-visitor")
     public ModelAndView findAllVisitors() {
@@ -31,7 +34,6 @@ public class VisitorController implements WebMvcConfigurer{
     @PostMapping("/save-visitor")
     public String saveVisitor(@ModelAttribute Visitor visitor) {
         VisitorEntity visitorFinal = new VisitorEntity(visitor.getfName(), visitor.getlName(), visitor.getEmail_address(), visitor.getContact(), visitor.getNoVisitors());
-        // visitorRepository.save(visitorFinal);
         visitorService.createVisitor(visitorFinal);
         return "saved-visitor";
     }
@@ -41,6 +43,10 @@ public class VisitorController implements WebMvcConfigurer{
         Optional<VisitorEntity> visitor = visitorService.findVisitor(visitor_id);
         mav.addObject("visitor", visitor);
         return mav;
+    }
+    @PostMapping("/delete-visitor")
+    public void deleteVisitorView(@RequestParam Integer visitor_id) {
+        Optional<VisitorEntity> visitor = visitorService.deleteVisitor(visitor_id);
     }
 
 

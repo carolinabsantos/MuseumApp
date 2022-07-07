@@ -8,6 +8,6 @@ import java.util.Optional;
 public interface VisitorService {
     Iterable <VisitorEntity> getAllVisitors();
     VisitorEntity createVisitor(VisitorEntity visitor);
-
     Optional<VisitorEntity> findVisitor(Integer visitorId);
+    Optional<VisitorEntity> deleteVisitor(Integer visitorId);
 }

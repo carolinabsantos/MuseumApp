@@ -59,16 +59,34 @@
     <div class="jumbotron">
         <div class="container">
             <h1 class="display-3">Time Machines</h1>
-            <p>Here an administrator can see all the Time Machine in the system.</p>
+            <p>Here an administrator can see the just added time machine in the system.</p>
         </div>
     </div>
 </main>
-<div class="my-3">
-    <p><strong>Name:</strong> <span th:text="${timeMachine.name}"></span></p>
-    <p><strong>Designation:</strong> <span th:text="${timeMachine.type}"></span></p>
+<div class="container">
+
+    <h3>Saved Time Machine</h3>
+
+    <hr/>
+
+    <table class="table table-bordered table-striped">
+
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+        </tr>
+        </thead>
+        <tbody>
+        <td th:text="${timeMachine.name}" />
+        <td th:text="${timeMachine.type}" />
+        </tr>
+        </tbody>
+
+    </table>
 </div>
 <a th:href="@{/new-time-machine}" class="btn btn-secondary">Add new time machine</a>
-<a th:href="@{/list-time-machine}" class="btn btn-secondary">List all time machines</a>
+<a th:href="@{/list-time-machine}" class="btn btn-secondary">List time machines</a>
 
 </body>
 </html>

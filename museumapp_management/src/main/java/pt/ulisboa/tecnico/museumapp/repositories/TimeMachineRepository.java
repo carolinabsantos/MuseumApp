@@ -11,4 +11,5 @@ import java.util.List;
 @Transactional
 public interface TimeMachineRepository extends JpaRepository<TimeMachineEntity, Integer> {
     public List<TimeMachineEntity> findAll();
+
 }

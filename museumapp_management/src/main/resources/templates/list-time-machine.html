@@ -59,13 +59,13 @@
     <div class="jumbotron">
         <div class="container">
             <h1 class="display-3">Time Machines</h1>
-            <p>Here an administrator can see all the Time Machine in the system.</p>
+            <p>Here an administrator can see all the Time Machines in the system.</p>
         </div>
     </div>
 </main>
 <div class="container">
 
-    <h3>List Time Machines</h3>
+    <h3>List of time machines</h3>
 
     <hr/>
 
@@ -73,17 +73,18 @@
 
         <thead>
         <tr>
+            <th>Actions</th>
             <th>Name</th>
             <th>Type</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="timeMachine: ${timeMachines}">
-            <td th:text="${timeMachine.name}" />
-            <td th:text="${timeMachine.type}" />
             <td>
                 <a th:href="@{/update-time-machine(timeMachine_id=${timeMachine.id})}" class="btn btn-info">Update</a>
             </td>
+            <td th:text="${timeMachine.name}" />
+            <td th:text="${timeMachine.type}" />
         </tr>
         </tbody>
 

@@ -3,13 +3,11 @@ package pt.ulisboa.tecnico.museumapp.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import pt.ulisboa.tecnico.museumapp.entities.TimeMachineEntity;
+import pt.ulisboa.tecnico.museumapp.entities.VisitorEntity;
 import pt.ulisboa.tecnico.museumapp.models.TimeMachine;
 import pt.ulisboa.tecnico.museumapp.service.TimeMachineService;
 
