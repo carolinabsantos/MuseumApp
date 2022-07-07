@@ -7,12 +7,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import pt.ulisboa.tecnico.museumapp.entities.TimeMachineEntity;
-import pt.ulisboa.tecnico.museumapp.entities.VisitorEntity;
 import pt.ulisboa.tecnico.museumapp.models.TimeMachine;
 import pt.ulisboa.tecnico.museumapp.repositories.TimeMachineRepository;
 import pt.ulisboa.tecnico.museumapp.service.TimeMachineService;
-
-import java.util.Optional;
 
 import static java.lang.Integer.parseInt;
 
@@ -44,11 +41,12 @@ public class TimeMachineController implements WebMvcConfigurer {
         return "saved-time-machine";
     }
 
-    @GetMapping("/update-time-machine")
-    public ModelAndView updateVisitorView(@RequestParam Integer timeMachine_id) {
+    @GetMapping("/update-time-machine/{id}")
+    public ModelAndView updateVisitor(@PathVariable(value = "id", required = false) Integer timeMachineId, Model model) {
         ModelAndView mav = new ModelAndView("new-time-machine");
-        Optional<TimeMachineEntity> timeMachine = timeMachineService.findTimeMachine(timeMachine_id);
+        TimeMachineEntity timeMachine = timeMachineService.findTimeMachine(timeMachineId).get();
         mav.addObject("timeMachine", timeMachine);
+        timeMachineService.deleteTimeMachine(timeMachineId);
         return mav;
     }
 

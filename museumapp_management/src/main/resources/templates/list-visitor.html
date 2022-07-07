@@ -84,7 +84,7 @@
         <tbody>
         <tr th:each="visitor: ${visitors}">
             <td>
-                <a th:href="@{/update-visitor(visitor_id=${visitor.id})}" class="btn btn-info">Update</a>
+                <a th:href="@{/update-visitor/{id}(id = ${visitor.id})}" class="btn btn-info">Update</a>
                 <a th:href="@{/delete-visitor/{id}(id = ${visitor.id})}" class="btn btn-info">Delete</a>
             </td>
             <td th:text="${visitor.fName}" />

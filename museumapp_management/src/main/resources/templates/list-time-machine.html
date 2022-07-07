@@ -82,7 +82,7 @@
         <tbody>
         <tr th:each="timeMachine: ${timeMachines}">
             <td>
-                <a th:href="@{/update-time-machine(timeMachine_id=${timeMachine.id})}" class="btn btn-info">Update</a>
+                <a th:href="@{/update-time-machine/{id}(id = ${timeMachine.id})}" class="btn btn-info">Update</a>
                 <a th:href="@{/delete-time-machine/{id}(id = ${timeMachine.id})}" class="btn btn-info">Delete</a>
             </td>
             <td th:text="${timeMachine.id}"></td>
