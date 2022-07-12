@@ -85,6 +85,18 @@
             <label>Number of Visitors</label>
             <input type="number" class="form-control" th:field="*{noVisitors}">
         </div>
+        <div class="form-row">
+            <div class="col-md-6 form-group">
+                <label>Visit:</label>
+                <div class="col-md-6 form-group" th:each="visit : ${T(pt.ulisboa.tecnico.museumapp.entities.VisitEntity).values()}">
+                    <div th:each="visit : ${visits}">
+                        <div>
+                            <input type="radio" name="trainer" th:value="${visit.id}" th:text="${visit.name}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <ul th:if="${#fields.hasErrors('*')}">
         <li th:each="error : ${#fields.errors('*')}" th:text="${error}">error</li>

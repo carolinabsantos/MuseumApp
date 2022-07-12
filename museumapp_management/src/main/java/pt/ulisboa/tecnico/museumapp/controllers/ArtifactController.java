@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import pt.ulisboa.tecnico.museumapp.entities.ArtifactEntity;
-import pt.ulisboa.tecnico.museumapp.entities.VisitorEntity;
 import pt.ulisboa.tecnico.museumapp.models.Artifact;
 import pt.ulisboa.tecnico.museumapp.service.ArtifactService;
 
@@ -40,12 +39,11 @@ public class ArtifactController implements WebMvcConfigurer{
         return "saved-artifact";
     }
 
-    @GetMapping("/update-artifact/{id}")
-    public ModelAndView updateVisitor(@PathVariable(value = "id", required = false) Integer artifactId) {
+    @GetMapping("/update-artifact")
+    public ModelAndView updateVisitorView(@RequestParam Integer artifact_id) {
         ModelAndView mav = new ModelAndView("new-artifact");
-        ArtifactEntity artifact = artifactService.findArtifact(artifactId).get();
+        Optional<ArtifactEntity> artifact = artifactService.findArtifact(artifact_id);
         mav.addObject("artifact", artifact);
-        artifactService.deleteArtifact(artifactId);
         return mav;
     }
 
