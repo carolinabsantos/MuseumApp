@@ -3,22 +3,23 @@ package pt.ulisboa.tecnico.museumapp.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import pt.ulisboa.tecnico.museumapp.models.Visitor;
+import pt.ulisboa.tecnico.museumapp.entities.TimeMachineEntity;
+import pt.ulisboa.tecnico.museumapp.entities.VisitEntity;
 import pt.ulisboa.tecnico.museumapp.entities.VisitorEntity;
-import pt.ulisboa.tecnico.museumapp.repositories.VisitorRepository;
+import pt.ulisboa.tecnico.museumapp.models.Visitor;
 import pt.ulisboa.tecnico.museumapp.service.VisitorService;
 
-import java.util.Optional;
 
 @Controller // This means that this class is a Controller
 public class VisitorController implements WebMvcConfigurer{
     @Autowired
     private VisitorService visitorService;
-    @Autowired
-    private VisitorRepository visitorRepository;
 
     @GetMapping("/list-visitor")
     public ModelAndView findAllVisitors() {
@@ -29,16 +30,19 @@ public class VisitorController implements WebMvcConfigurer{
     @GetMapping("/new-visitor")
     public String createVisitorForm(Model model) {
         model.addAttribute("visitor", new Visitor());
+        model.addAttribute("visits", visitorService.getAllVisits());
         return "new-visitor";
     }
     @PostMapping("/save-visitor")
     public String saveVisitor(@ModelAttribute Visitor visitor) {
-        VisitorEntity visitorFinal = new VisitorEntity(visitor.getfName(), visitor.getlName(), visitor.getEmail_address(), visitor.getContact(), visitor.getNoVisitors());
+        TimeMachineEntity timeMachine = new TimeMachineEntity(visitor.getVisit().getTimeMachine().getType(), visitor.getVisit().getTimeMachine().getName());
+        VisitEntity visit = new VisitEntity(visitor.getVisit().getStart_time(), visitor.getVisit().getEnd_time(), visitor.getVisit().getState(), timeMachine);
+        VisitorEntity visitorFinal = new VisitorEntity(visitor.getfName(), visitor.getlName(), visitor.getEmail_address(), visitor.getContact(), visitor.getNoVisitors(), visit);
         visitorService.createVisitor(visitorFinal);
         return "saved-visitor";
     }
     @GetMapping("/update-visitor/{id}")
-    public ModelAndView updateVisitor(@PathVariable(value = "id", required = false) Integer visitorId, Model model) {
+    public ModelAndView updateVisitor(@PathVariable(value = "id", required = false) Integer visitorId) {
         ModelAndView mav = new ModelAndView("new-visitor");
         VisitorEntity visitor = visitorService.findVisitor(visitorId).get();
         mav.addObject("visitor", visitor);
@@ -51,7 +55,4 @@ public class VisitorController implements WebMvcConfigurer{
         visitorService.deleteVisitor(visitorId);
         return "redirect:/list-visitor";
     }
-
-
-
 }

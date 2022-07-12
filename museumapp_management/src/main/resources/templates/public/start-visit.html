@@ -13,7 +13,7 @@
     <script crossorigin="anonymous"
             integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
             src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-    <title>Museum - Add Visitor</title>
+    <title>Museum - Saved Visitor</title>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -58,51 +58,41 @@
 <main role="main">
     <div class="jumbotron">
         <div class="container">
-            <h1 class="display-3">Add Visitor</h1>
-            <p>Here an administrator can choose to add a new Visitor to the system.</p>
+            <h1 class="display-3">Visitors</h1>
+            <p>Here an administrator can see the just added visitor in the system.</p>
         </div>
     </div>
 </main>
-<form method="post" th:action="@{/save-visitor}" th:object="${visitor}">
-    <div class="form-row">
-        <div class="col-md-6 form-group">
-            <label>First Name:</label>
-            <input type="text" class="form-control" th:field="*{fName}">
-        </div>
-        <div class="col-md-6 form-group">
-            <label>Last Name:</label>
-            <input type="text" class="form-control" th:field="*{lName}">
-        </div>
-        <div class="col-md-6 form-group">
-            <label>Email Address:</label>
-            <input type="email" class="form-control" th:field="*{email_address}">
-        </div>
-        <div class="col-md-6 form-group">
-            <label>Contact:</label>
-            <input type="number" class="form-control" th:field="*{contact}">
-        </div>
-        <div class="col-md-6 form-group">
-            <label>Number of Visitors</label>
-            <input type="number" class="form-control" th:field="*{noVisitors}">
-        </div>
-        <div class="form-row">
-            <div class="col-md-6 form-group">
-                <label>Visit:</label>
-                <div class="col-md-6 form-group" th:each="visit : ${T(pt.ulisboa.tecnico.museumapp.entities.VisitEntity).values()}">
-                    <div th:each="visit : ${visits}">
-                        <div>
-                            <input type="radio" name="trainer" th:value="${visit.id}" th:text="${visit.name}">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <ul th:if="${#fields.hasErrors('*')}">
-        <li th:each="error : ${#fields.errors('*')}" th:text="${error}">error</li>
-    </ul>
-    <input type="submit" class="btn btn-secondary" value="Submeter">
-    <input class="btn btn-secondary" type="button" value="Voltar atrás" onclick="history.back()">
-</form>
+<div class="container">
+
+    <h3>Saved visitor</h3>
+
+    <hr/>
+
+    <table class="table table-bordered table-striped">
+
+        <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email Address</th>
+            <th>Contact</th>
+            <th>Nº Visitors</th>
+        </tr>
+        </thead>
+        <tbody>
+            <td th:text="${visitor.fName}" />
+            <td th:text="${visitor.lName}" />
+            <td th:text="${visitor.email_address}" />
+            <td th:text="${visitor.contact}" />
+            <td th:text="${visitor.noVisitors}" />
+        </tr>
+        </tbody>
+
+    </table>
+</div>
+<a th:href="@{/new-visitor}" class="btn btn-secondary">Add new visitor</a>
+<a th:href="@{/list-visitor}" class="btn btn-secondary">List visitors</a>
+
 </body>
 </html>

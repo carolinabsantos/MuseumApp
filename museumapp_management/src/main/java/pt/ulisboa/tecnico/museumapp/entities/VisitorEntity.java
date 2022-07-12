@@ -24,12 +24,17 @@ public class VisitorEntity {
     @Column(name = "noVisitors", nullable = false)
     protected int noVisitors;
 
-    public VisitorEntity(String fName, String lName, String email_address, int contact, int noVisitors){
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "visitId")
+    private VisitEntity visit;
+
+    public VisitorEntity(String fName, String lName, String email_address, int contact, int noVisitors, VisitEntity visit){
         this.fName=fName;
         this.lName=lName;
         this.email_address=email_address;
         this.contact=contact;
         this.noVisitors=noVisitors;
+        this.visit=visit;
     }
 
     public VisitorEntity() {
@@ -80,6 +85,14 @@ public class VisitorEntity {
         this.noVisitors = noVisitors;
     }
 
+    public VisitEntity getVisit() {
+        return visit;
+    }
+
+    public void setVisit(VisitEntity visit) {
+        this.visit = visit;
+    }
+
     @Override
     public String toString() {
         return "VisitorEntity{" +
@@ -89,6 +102,7 @@ public class VisitorEntity {
                 ", email_address='" + email_address + '\'' +
                 ", contact=" + contact +
                 ", noVisitors=" + noVisitors +
+                ", visit=" + visit +
                 '}';
     }
 }
