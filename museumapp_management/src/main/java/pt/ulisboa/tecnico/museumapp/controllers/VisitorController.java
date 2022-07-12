@@ -41,13 +41,11 @@ public class VisitorController implements WebMvcConfigurer{
         visitorService.createVisitor(visitorFinal);
         return "saved-visitor";
     }
-<<<<<<< HEAD
     @GetMapping("/update-visitor/{id}")
     public ModelAndView updateVisitor(@PathVariable(value = "id", required = false) Integer visitorId) {
+<<<<<<< HEAD
 =======
-    @GetMapping("/update-visitor")
-    public ModelAndView updateVisitorView(@RequestParam Integer visitor_id) {
->>>>>>> parent of 468bafe (Fix: Update functionality)
+>>>>>>> e13db94af4ad8bf9d8cee7448376cdb392d4d3aa
         ModelAndView mav = new ModelAndView("new-visitor");
         Optional<VisitorEntity> visitor = visitorService.findVisitor(visitor_id);
         mav.addObject("visitor", visitor);
