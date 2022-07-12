@@ -1,5 +1,5 @@
 package pt.ulisboa.tecnico.museumapp.entities;
 
-public enum StateEntity {
+public enum State {
     TO_START, ONGOING, ENDED
 }

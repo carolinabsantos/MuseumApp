@@ -3,17 +3,14 @@ package pt.ulisboa.tecnico.museumapp.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import pt.ulisboa.tecnico.museumapp.entities.TimeMachineEntity;
-import pt.ulisboa.tecnico.museumapp.entities.VisitEntity;
 import pt.ulisboa.tecnico.museumapp.entities.VisitorEntity;
 import pt.ulisboa.tecnico.museumapp.models.Visitor;
 import pt.ulisboa.tecnico.museumapp.service.VisitorService;
+
+import java.util.Optional;
 
 
 @Controller // This means that this class is a Controller
@@ -35,9 +32,7 @@ public class VisitorController implements WebMvcConfigurer{
     }
     @PostMapping("/save-visitor")
     public String saveVisitor(@ModelAttribute Visitor visitor) {
-        TimeMachineEntity timeMachine = new TimeMachineEntity(visitor.getVisit().getTimeMachine().getType(), visitor.getVisit().getTimeMachine().getName());
-        VisitEntity visit = new VisitEntity(visitor.getVisit().getStart_time(), visitor.getVisit().getEnd_time(), visitor.getVisit().getState(), timeMachine);
-        VisitorEntity visitorFinal = new VisitorEntity(visitor.getfName(), visitor.getlName(), visitor.getEmail_address(), visitor.getContact(), visitor.getNoVisitors(), visit);
+        VisitorEntity visitorFinal = new VisitorEntity(visitor.getfName(), visitor.getlName(), visitor.getEmail_address(), visitor.getContact(), visitor.getNoVisitors());
         visitorService.createVisitor(visitorFinal);
         return "saved-visitor";
     }
