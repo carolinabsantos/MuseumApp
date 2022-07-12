@@ -41,11 +41,8 @@ public class VisitorController implements WebMvcConfigurer{
         visitorService.createVisitor(visitorFinal);
         return "saved-visitor";
     }
-    @GetMapping("/update-visitor/{id}")
-    public ModelAndView updateVisitor(@PathVariable(value = "id", required = false) Integer visitorId) {
-<<<<<<< HEAD
-=======
->>>>>>> e13db94af4ad8bf9d8cee7448376cdb392d4d3aa
+        @GetMapping("/update-visitor")
+    public ModelAndView updateVisitorView(@RequestParam Integer visitor_id) {
         ModelAndView mav = new ModelAndView("new-visitor");
         Optional<VisitorEntity> visitor = visitorService.findVisitor(visitor_id);
         mav.addObject("visitor", visitor);
