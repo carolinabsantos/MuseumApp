@@ -3,6 +3,7 @@ package pt.ulisboa.tecnico.museumapp.entities;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class TimeMachineEntity implements Serializable {
@@ -17,14 +18,19 @@ public class TimeMachineEntity implements Serializable {
     @Column(name = "name", nullable = false)
     protected String name;
 
-    @ManyToMany(targetEntity = ArtifactEntity.class, cascade = CascadeType.ALL)
-    protected List<ArtifactEntity> artifacts;
+    @ManyToMany
+    @JoinTable(
+            name = "artifacts",
+            joinColumns = @JoinColumn(name = "timeMachine_id"),
+            inverseJoinColumns = @JoinColumn(name = "artifact_id"))
+    List<ArtifactEntity> artifacts;
 
+    @Column(name = "artifactsCount")
+    protected Integer artifactsCount;
 
     public TimeMachineEntity(TypeOfTimeMachine type, String name ){
         this.type=type;
         this.name=name;
-        this.artifacts=artifacts;
     }
 
     protected TimeMachineEntity() {
@@ -62,6 +68,15 @@ public class TimeMachineEntity implements Serializable {
     public void addArtifact(ArtifactEntity a){
         this.artifacts.add(a);
     }
+
+    public Integer getArtifactsCount() {
+        return artifactsCount;
+    }
+
+    public void setArtifactsCount(Integer artifactsCount) {
+        this.artifactsCount = artifactsCount;
+    }
+
     @Override
     public String toString() {
         return "TimeMachineEntity{" +

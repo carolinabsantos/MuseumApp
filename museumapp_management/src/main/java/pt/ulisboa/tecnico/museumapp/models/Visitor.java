@@ -3,6 +3,8 @@ package pt.ulisboa.tecnico.museumapp.models;
 import java.io.Serializable;
 
 public class Visitor implements Serializable {
+
+    private Integer id;
     private String fName;
     private String lName;
     private String email_address;
@@ -15,9 +17,24 @@ public class Visitor implements Serializable {
         this.email_address=email_address;
         this.contact=contact;
         this.noVisitors=noVisitors;
-
+    }
+    public Visitor(Integer id, String fName, String lName, String email_address, Integer contact, Integer noVisitors) {
+        this.id=id;
+        this.fName=fName;
+        this.lName=lName;
+        this.email_address=email_address;
+        this.contact=contact;
+        this.noVisitors=noVisitors;
     }
     public Visitor(){}
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getfName() {
         return fName;
@@ -62,7 +79,8 @@ public class Visitor implements Serializable {
     @Override
     public String toString() {
         return "Visitor{" +
-                "fName='" + fName + '\'' +
+                "id='" + id + '\'' +
+                ", fName='" + fName + '\'' +
                 ", lName='" + lName + '\'' +
                 ", email_address='" + email_address + '\'' +
                 ", contact=" + contact +

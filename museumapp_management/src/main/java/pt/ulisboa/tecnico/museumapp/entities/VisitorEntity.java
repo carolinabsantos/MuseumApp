@@ -24,6 +24,10 @@ public class VisitorEntity {
     @Column(name = "noVisitors", nullable = false)
     protected int noVisitors;
 
+    @OneToOne(mappedBy = "visitor", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    protected VisitEntity visit;
+
 
     public VisitorEntity(String fName, String lName, String email_address, int contact, int noVisitors){
         this.fName=fName;

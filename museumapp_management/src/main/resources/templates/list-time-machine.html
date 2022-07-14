@@ -36,6 +36,7 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <a class="dropdown-item" th:href="@{/index-visitor}">Visitors</a>
+                    <a class="dropdown-item" th:href="@{/index-visit}">Visits</a>
                     <a class="dropdown-item" th:href="@{/index-artifact}">Artifacts</a>
                     <a class="dropdown-item" th:href="@{/index-time-machine}">Time Machines</a>
                 </div>
@@ -77,6 +78,7 @@
             <th>Id</th>
             <th>Name</th>
             <th>Type</th>
+            <th>NumberOfArifacts</th>
         </tr>
         </thead>
         <tbody>
@@ -84,10 +86,12 @@
             <td>
                 <a th:href="@{/update-time-machine(timeMachine_id=${timeMachine.id})}" class="btn btn-info">Update</a>
                 <a th:href="@{/delete-time-machine/{id}(id = ${timeMachine.id})}" class="btn btn-info">Delete</a>
+                <a th:href="@{/list-artifact-tm/{id}(id = ${timeMachine.id})}" class="btn btn-info">Artefactos</a>
             </td>
             <td th:text="${timeMachine.id}"></td>
             <td th:text="${timeMachine.name}"></td>
             <td th:text="${timeMachine.type}"></td>
+            <td th:text="${timeMachine.artifactsCount}"></td>
         </tr>
         </tbody>
 

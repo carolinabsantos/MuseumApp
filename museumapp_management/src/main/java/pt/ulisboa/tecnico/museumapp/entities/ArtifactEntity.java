@@ -2,6 +2,7 @@ package pt.ulisboa.tecnico.museumapp.entities;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 //@EnableJpaAuditing
 @Entity
@@ -68,10 +69,8 @@ public class ArtifactEntity {
     @Column(name = "category4")
     protected String category4;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "timeMachine")
-    private List<TimeMachineEntity> timeMachines;
-
+    @ManyToMany(mappedBy = "artifacts")
+    List<TimeMachineEntity> timeMachines;
 
     public ArtifactEntity(String name, String designation, String description, String techCharacteristics, String moreInfo, String model, String country, String brand, String madeIn, int creationYear, String serialNumber, String donatedBy,String exhibitor, int itemNo, String typeCat, String category, String category2, String category3, String category4){
         this.name = name;

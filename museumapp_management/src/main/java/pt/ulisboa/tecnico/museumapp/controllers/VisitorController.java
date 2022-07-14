@@ -27,13 +27,13 @@ public class VisitorController implements WebMvcConfigurer{
     @GetMapping("/new-visitor")
     public String createVisitorForm(Model model) {
         model.addAttribute("visitor", new Visitor());
-        model.addAttribute("visits", visitorService.getAllVisits());
         return "new-visitor";
     }
     @PostMapping("/save-visitor")
     public String saveVisitor(@ModelAttribute Visitor visitor) {
         VisitorEntity visitorFinal = new VisitorEntity(visitor.getfName(), visitor.getlName(), visitor.getEmail_address(), visitor.getContact(), visitor.getNoVisitors());
         visitorService.createVisitor(visitorFinal);
+        visitor.setId(visitorFinal.getId());
         return "saved-visitor";
     }
     @GetMapping("/update-visitor")
@@ -45,7 +45,6 @@ public class VisitorController implements WebMvcConfigurer{
     }
     @GetMapping("/delete-visitor/{id}")
     public String deleteVisitor(@PathVariable(value = "id", required = false) Integer visitorId) {
-        System.out.println(visitorId);
         visitorService.deleteVisitor(visitorId);
         return "redirect:/list-visitor";
     }

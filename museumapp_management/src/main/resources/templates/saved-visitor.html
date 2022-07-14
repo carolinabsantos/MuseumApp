@@ -36,6 +36,7 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <a class="dropdown-item" th:href="@{/index-visitor}">Visitors</a>
+                    <a class="dropdown-item" th:href="@{/index-visit}">Visits</a>
                     <a class="dropdown-item" th:href="@{/index-artifact}">Artifacts</a>
                     <a class="dropdown-item" th:href="@{/index-time-machine}">Time Machines</a>
                 </div>
@@ -88,11 +89,11 @@
             <td th:text="${visitor.noVisitors}" />
         </tr>
         </tbody>
-
     </table>
+    <p>Se os seus dados estiverem corretos, clique em Book Visit. Caso acontrário clique em Alterar para corrigi-los.</p>
 </div>
-<a th:href="@{/new-visitor}" class="btn btn-secondary">Add new visitor</a>
+<a th:href="@{/update-visitor(visitor_id=${visitor.id})}" class="btn btn-secondary">Aterar</a>
+<a th:href="@{/book-visit(visitor_id=${visitor.id})}" class="btn btn-secondary">Book visit</a>
 <a th:href="@{/list-visitor}" class="btn btn-secondary">List visitors</a>
-
 </body>
 </html>

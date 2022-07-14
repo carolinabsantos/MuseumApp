@@ -6,6 +6,7 @@
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
         <title>Museum</title>
     </head>
@@ -30,6 +31,7 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <a class="dropdown-item" th:href="@{/index-visitor}">Visitors</a>
+                    <a class="dropdown-item" th:href="@{/index-visit}">Visits</a>
                     <a class="dropdown-item" th:href="@{/index-artifact}">Artifacts</a>
                     <a class="dropdown-item" th:href="@{/index-time-machine}">Time Machines</a>
                 </div>
@@ -64,6 +66,11 @@
                 <h2 style="text-align: center">Visitors</h2>
                 <p>This is where we can manage visitors in the database</p>
                 <p style="text-align: center"><a class="btn btn-secondary" th:href="@{/index-visitor}" role="button">Visitors »</a></p>
+            </div>
+            <div class="col-md-4" style="margin: auto auto 5px;">
+                <h2 style="text-align: center">Visits</h2>
+                <p>This is where we can manage visits in the database</p>
+                <p style="text-align: center"><a class="btn btn-secondary" th:href="@{/index-visit}" role="button">Visits »</a></p>
             </div>
             <div class="col-md-4" style="margin: auto auto 5px;">
                 <h2 style="text-align: center">Artifacts</h2>

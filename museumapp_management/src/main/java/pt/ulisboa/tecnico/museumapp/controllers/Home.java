@@ -14,6 +14,10 @@ public class Home implements WebMvcConfigurer {
     public String indexVisitor() {
         return "index-visitor";
     }
+    @GetMapping("/index-visit")
+    public String indexVisit() {
+        return "index-visit";
+    }
     @GetMapping("/index-artifact")
     public String indexArtifact() {
         return "index-artifact";

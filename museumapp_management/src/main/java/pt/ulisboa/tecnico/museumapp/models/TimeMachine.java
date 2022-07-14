@@ -10,6 +10,7 @@ public class TimeMachine {
     private String name;
 
     private List<Artifact> artifacts;
+    private Integer artifactsCount;
 
     public TimeMachine(){}
 
@@ -48,6 +49,13 @@ public class TimeMachine {
         this.artifacts = artifacts;
     }
 
+    public Integer getArtifactsCount() {
+        return artifactsCount;
+    }
+
+    public void setArtifactCount(){
+        this.artifactsCount=this.artifacts.size();
+    }
     @Override
     public String toString() {
         return "TimeMachine{" +

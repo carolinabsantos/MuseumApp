@@ -12,5 +12,6 @@ import java.util.Optional;
 @Transactional
 public interface ArtifactRepository extends JpaRepository <ArtifactEntity, Integer> {
     List<ArtifactEntity> findAll();
+
 }
 

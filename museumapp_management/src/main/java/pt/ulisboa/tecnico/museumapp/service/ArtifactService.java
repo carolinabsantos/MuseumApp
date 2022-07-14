@@ -7,6 +7,11 @@ import java.util.Optional;
 
 public interface ArtifactService {
     Iterable <ArtifactEntity> getAllArtifacts();
+
+    void updateTimeMachine(ArtifactEntity artifact);
+
+    void updateTimeMachine();
+
     ArtifactEntity createArtifact(ArtifactEntity artifact);
 
     Optional<ArtifactEntity> findArtifact(Integer artifactId);
