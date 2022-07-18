@@ -43,7 +43,7 @@ public class TimeMachineController implements WebMvcConfigurer {
 
     @PostMapping("/save-time-machine")
     public String saveTimeMachine(@ModelAttribute TimeMachine timeMachine) {
-        TimeMachineEntity timeMachineFinal = new TimeMachineEntity(timeMachine.getType(), timeMachine.getName());
+        TimeMachineEntity timeMachineFinal = new TimeMachineEntity(timeMachine.getType(), timeMachine.getName(), timeMachine.getCapacity());
         timeMachineService.createTimeMachine(timeMachineFinal);
         artifactService.updateTimeMachine();
         return "saved-time-machine";

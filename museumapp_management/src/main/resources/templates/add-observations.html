@@ -13,7 +13,7 @@
     <script crossorigin="anonymous"
             integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
             src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-    <title>Museum - All Artifacts</title>
+    <title>Museum - Add Visit Observations</title>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -59,73 +59,35 @@
 <main role="main">
     <div class="jumbotron">
         <div class="container">
-            <h1 class="display-3">Artifacts</h1>
-            <p>Here an administrator can see all the Artifacts in the system.</p>
+            <h1 class="display-3">Choose Time Machine</h1>
+            <p>Here an administrator can choose to choose the Visit to book.</p>
         </div>
     </div>
 </main>
-<div class="container">
-
-    <h3>List of artifacts</h3>
-
-    <hr/>
-
-    <table class="table table-bordered table-striped">
-
-        <thead>
-        <tr>
-            <th>Actions</th>
-            <th>Name</th>
-            <th>Designation</th>
-            <th>Description</th>
-            <th>Technical Characteristics</th>
-            <th>More Info</th>
-            <th>Model</th>
-            <th>Country</th>
-            <th>Brand</th>
-            <th>Made In</th>
-            <th>Creation Year</th>
-            <th>Serial Number</th>
-            <th>Donated By</th>
-            <th>Exhibitor</th>
-            <th>Item Nº</th>
-            <th>Type Category</th>
-            <th>Category</th>
-            <th>Category2</th>
-            <th>Category3</th>
-            <th>Category4</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="artifact: ${artifacts}">
-            <td>
-                <a th:href="@{/update-artifact(artifact_id=${artifact.id})}" class="btn btn-info">Update</a>
-                <a th:href="@{/delete-artifact/{id}(id = ${artifact.id})}" class="btn btn-info">Delete</a>
-            </td>
-            <td th:text="${artifact.name}" />
-            <td th:text="${artifact.designation}" />
-            <td th:text="${artifact.description}" />
-            <td th:text="${artifact.techCharacteristics}" />
-            <td th:text="${artifact.moreInfo}" />
-            <td th:text="${artifact.model}" />
-            <td th:text="${artifact.country}" />
-            <td th:text="${artifact.brand}" />
-            <td th:text="${artifact.madeIn}" />
-            <td th:text="${artifact.creationYear}" />
-            <td th:text="${artifact.serialNumber}" />
-            <td th:text="${artifact.donatedBy}" />
-            <td th:text="${artifact.exhibitor}" />
-            <td th:text="${artifact.itemNo}" />
-            <td th:text="${artifact.typeCat}" />
-            <td th:text="${artifact.category}" />
-            <td th:text="${artifact.category2}" />
-            <td th:text="${artifact.category3}" />
-            <td th:text="${artifact.category4}" />
-        </tr>
-        </tbody>
-    </table>
-</div>
-<a th:href="@{/new-artifact}" class="btn btn-secondary">Add new artifact</a>
-<input class="btn btn-secondary" type="button" value="Voltar atrás" onclick="history.back()">
+<form method="post" th:action="@{/save-observations}" th:object="${visit}">
+    <div class="form-row">
+        <div class="col-md-6 form-group">
+            <input type="hidden" class="form-control" th:field="*{visitorId}">
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-6 form-group">
+            <input type="hidden" class="form-control" th:field="*{id}">
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-6 form-group">
+            <div class="form-group">
+                <label>Description</label>
+                <textarea class="form-control" th:field="*{observations}" rows="3"></textarea>
+            </div>
+        </div>
+    </div>
+    <ul th:if="${#fields.hasErrors('*')}">
+        <li th:each="error : ${#fields.errors('*')}" th:text="${error}">error</li>
+    </ul>
+    <input type="submit" class="btn btn-secondary" value="Submeter">
+    <input class="btn btn-secondary" type="button" value="Voltar atrás" onclick="history.back()">
+</form>
 </body>
 </html>

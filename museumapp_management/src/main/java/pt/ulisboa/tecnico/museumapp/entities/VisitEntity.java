@@ -1,9 +1,10 @@
 package pt.ulisboa.tecnico.museumapp.entities;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
-import java.util.Optional;
+import java.util.Date;
 
 @Entity
 public class VisitEntity implements Serializable {
@@ -29,22 +30,31 @@ public class VisitEntity implements Serializable {
     @JoinColumn(name = "visitor_id", nullable = false)
     protected VisitorEntity visitor;
 
+    @Column(name = "visit_date", nullable = false)
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    private String visitDate;
+    @Column(name = "observations", nullable = false)
+    protected String observations;
 
-    public VisitEntity(TimeMachineEntity timeMachine, String startTime, String endTime, State state, VisitorEntity visitor){
+    public VisitEntity(TimeMachineEntity timeMachine, String startTime, String endTime, State state, VisitorEntity visitor, String observations, String visitDate){
         this.timeMachine=timeMachine;
         this.startTime=startTime;
         this.endTime=endTime;
         this.state=state;
         this.visitor=visitor;
+        this.observations=observations;
+        this.visitDate=visitDate;
 
     }
-    public VisitEntity(TimeMachineEntity timeMachine, VisitorEntity visitor){
+
+    public VisitEntity(TimeMachineEntity timeMachine, VisitorEntity visitor, String observations, String visitDate){
         this.timeMachine=timeMachine;
         this.startTime="Not_started";
         this.endTime="Not_started";
         this.state=State.TO_START;
         this.visitor=visitor;
-
+        this.observations=observations;
+        this.visitDate=visitDate;
     }
 
     protected VisitEntity() {
@@ -94,6 +104,21 @@ public class VisitEntity implements Serializable {
         this.visitor = visitor;
     }
 
+    public String getObservations(){
+        return observations;
+    }
+    public void setObservations(String observations){
+        this.observations=observations;
+    }
+
+    public String getVisitDate() {
+        return visitDate;
+    }
+
+    public void setVisitDate(String visitDate) {
+        this.visitDate = visitDate;
+    }
+
     @Override
     public String toString() {
         return "VisitEntity{" +
@@ -102,7 +127,9 @@ public class VisitEntity implements Serializable {
                 ", startTime='" + startTime + '\'' +
                 ", endTime='" + endTime + '\'' +
                 ", state=" + state + '\'' +
-                ", visitor=" + visitor +
+                ", visitor=" + visitor + '\'' +
+                ", visit date=" + visitDate + '\'' +
+                ", observations=" + observations +
                 '}';
     }
 }

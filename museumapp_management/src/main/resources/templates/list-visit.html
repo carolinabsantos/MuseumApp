@@ -13,7 +13,7 @@
     <script crossorigin="anonymous"
             integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
             src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-    <title>Museum - All Time Machines</title>
+    <title>Museum - All Visits</title>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -77,18 +77,26 @@
             <th>Actions</th>
             <th>State</th>
             <th>Time Machine</th>
-            <th>Visitor Id</th>
+            <th>Nº Visitors</th>
+            <th>Visitor First Name</th>
+            <th>Visitor Last Name</th>
+            <th>Visit Date</th>
+            <th>Observações</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="visit: ${visits}">
             <td>
+                <a th:href="@{/add-observations(visit_id = ${visit.id})}" class="btn btn-info">Update</a>
                 <a th:href="@{/delete-visit/{id}(id = ${visit.id})}" class="btn btn-info">Delete</a>
             </td>
             <td th:text="${visit.state}"></td>
-            <td th:text="${visit.timeMachine.name}"></td>
-            <td th:text="${visit.visitor.id}" />
+            <td th:text="${visit.timeMachine.name}"/>
+            <td th:text="${visit.visitor.noVisitors}" />
             <td th:text="${visit.visitor.fName}" />
+            <td th:text="${visit.visitor.lName}" />
+            <td th:text="${visit.visitDate}" />
+            <td th:text="${visit.observations}" />
         </tr>
         </tbody>
 

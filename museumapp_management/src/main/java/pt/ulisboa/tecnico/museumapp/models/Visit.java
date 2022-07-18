@@ -1,15 +1,19 @@
 package pt.ulisboa.tecnico.museumapp.models;
 
 import pt.ulisboa.tecnico.museumapp.entities.State;
-import pt.ulisboa.tecnico.museumapp.entities.VisitorEntity;
+
+import java.util.Date;
 
 
 public class Visit {
+    private Integer id;
     private TimeMachine timeMachine;
     private String startTime;
     private String endTime;
     private State state;
     private Integer visitorId;
+    private String visitDate;
+    private String observations;
 
     public Visit(){}
 
@@ -17,12 +21,24 @@ public class Visit {
         this.visitorId=visitorId;
     }
 
-    public Visit(TimeMachine timeMachine, String startTime, String endTime, State state, Integer visitorId){
+    public Visit(TimeMachine timeMachine, String startTime, String endTime, State state, Integer visitorId, String observations, String visitDate){
         this.timeMachine=timeMachine;
         this.startTime=startTime;
         this.endTime=endTime;
         this.state=state;
         this.visitorId=visitorId;
+        this.observations=observations;
+        this.visitDate=visitDate;
+    }
+    public Visit(Integer id, TimeMachine timeMachine, String startTime, String endTime, State state, Integer visitorId, String observations, String visitDate){
+        this.id=id;
+        this.timeMachine=timeMachine;
+        this.startTime=startTime;
+        this.endTime=endTime;
+        this.state=state;
+        this.visitorId=visitorId;
+        this.observations=observations;
+        this.visitDate=visitDate;
     }
 
     public Visit(TimeMachine timeMachine){
@@ -68,15 +84,40 @@ public class Visit {
     public void setVisitorId(Integer visitorId) {
         this.visitorId = visitorId;
     }
+    public String getObservations(){
+        return observations;
+    }
+    public void setObservations(String observations){
+        this.observations=observations;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getVisitDate() {
+        return visitDate;
+    }
+
+    public void setVisitDate(String visitDate) {
+        this.visitDate = visitDate;
+    }
 
     @Override
     public String toString() {
         return "Visit{" +
-                ", timeMachine=" + timeMachine +
+                "id=" + id +
+                ", timeMachine=" + timeMachine + '\'' +
                 ", startTime='" + startTime + '\'' +
                 ", endTime='" + endTime + '\'' +
                 ", state=" + state + '\'' +
-                ", visitorId=" + visitorId +
+                ", visitorId=" + visitorId + '\'' +
+                ", visit date=" + visitDate + '\'' +
+                ", observations=" + observations +
                 '}';
     }
 }

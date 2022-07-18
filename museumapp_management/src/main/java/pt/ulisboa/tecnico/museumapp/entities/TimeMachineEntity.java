@@ -11,10 +11,8 @@ public class TimeMachineEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     protected Integer id;
-
     @Column(name = "type", nullable = false)
     protected TypeOfTimeMachine type;
-
     @Column(name = "name", nullable = false)
     protected String name;
 
@@ -28,9 +26,13 @@ public class TimeMachineEntity implements Serializable {
     @Column(name = "artifactsCount")
     protected Integer artifactsCount;
 
-    public TimeMachineEntity(TypeOfTimeMachine type, String name ){
+    @Column(name = "capacity", nullable = false)
+    protected Integer capacity;
+
+    public TimeMachineEntity(TypeOfTimeMachine type, String name, Integer capacity){
         this.type=type;
         this.name=name;
+        this.capacity=capacity;
     }
 
     protected TimeMachineEntity() {
@@ -77,13 +79,22 @@ public class TimeMachineEntity implements Serializable {
         this.artifactsCount = artifactsCount;
     }
 
+    public Integer getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(Integer capacity) {
+        this.capacity = capacity;
+    }
+
     @Override
     public String toString() {
         return "TimeMachineEntity{" +
                 "id=" + id +
                 ", type=" + type +
                 ", name='" + name + '\'' +
-                ", artifacts=" + artifacts +
+                ", artifacts=" + artifacts + '\'' +
+                ", capacity=" + capacity +
                 '}';
     }
 }
