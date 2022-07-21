@@ -59,7 +59,7 @@
 <main role="main">
     <div class="jumbotron">
         <div class="container">
-            <h1 class="display-3">Choose Time Machine</h1>
+            <h1 class="display-3">Book a visit - 2/2 - Visit information</h1>
             <p>Here an administrator can choose to choose the Visit to book.</p>
         </div>
     </div>
@@ -67,12 +67,16 @@
 <form method="post" th:action="@{/save-visit}" th:object="${visit}">
     <div class="form-row">
         <div class="col-md-6 form-group">
-            <input type="hidden" class="form-control" th:field="*{visitorId}">
+            <input type="hidden" class="form-control" th:field="*{visitorId}" required>
         </div>
     </div>
     <div class="form-row">
         <div class="col-md-6 form-group">
-            <input type="datetime-local" class="form-control" th:field="*{visitDate}">
+            <input type="datetime-local" class="form-control"th:field="*{visitDate}" required aria-describedby="visitDate-error">
+            <p class="error-message mili island-1-4 push 0" id="visitDate-error">
+                <i class="icon i--16"><svg><use xlink:href="images/icons.svg#error"></use></svg></i>
+                <span class="icon-label">Please provide a valid date.</span>
+            </p>
         </div>
     </div>
     <div class="form-row">
@@ -81,7 +85,7 @@
             <div class="col-md-6 form-group" th:each="timeMachine: ${timeMachines}">
                 <div class="custom-control custom-radio custom-control-inline">
                     <input type="radio" th:field="*{timeMachine.name}" th:value="${timeMachine.name}" class="custom-control-input">
-                    <label class="custom-control-label" th:for="${#ids.prev('timeMachine.name')}" th:text="${timeMachine.name}">name</label>
+                    <label class="custom-control-label" th:for="${#ids.prev('timeMachine.name')}" th:text="${timeMachine.name}" required>name</label>
                 </div>
             </div>
         </div>

@@ -2,6 +2,7 @@ package pt.ulisboa.tecnico.museumapp.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -11,12 +12,14 @@ public class TimeMachineEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     protected Integer id;
+
     @Column(name = "type", nullable = false)
     protected TypeOfTimeMachine type;
+
     @Column(name = "name", nullable = false)
     protected String name;
 
-    @ManyToMany
+    @ManyToMany(cascade ={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(
             name = "artifacts",
             joinColumns = @JoinColumn(name = "timeMachine_id"),
@@ -29,10 +32,14 @@ public class TimeMachineEntity implements Serializable {
     @Column(name = "capacity", nullable = false)
     protected Integer capacity;
 
+    @Column(name = "visitTime", nullable = false)
+    protected Integer visitTime;
+
     public TimeMachineEntity(TypeOfTimeMachine type, String name, Integer capacity){
         this.type=type;
         this.name=name;
         this.capacity=capacity;
+        this.visitTime=0;
     }
 
     protected TimeMachineEntity() {
@@ -68,7 +75,13 @@ public class TimeMachineEntity implements Serializable {
     }
 
     public void addArtifact(ArtifactEntity a){
-        this.artifacts.add(a);
+        List<ArtifactEntity> artifactEntities = new ArrayList<>();
+        System.out.println(this.artifacts);
+        System.out.println(a);
+        artifactEntities.add(a);
+        System.out.println(artifactEntities);
+        this.artifacts.addAll(artifactEntities);
+        this.setArtifacts(artifactEntities);
     }
 
     public Integer getArtifactsCount() {
@@ -87,6 +100,14 @@ public class TimeMachineEntity implements Serializable {
         this.capacity = capacity;
     }
 
+    public Integer getVisitTime() {
+        return visitTime;
+    }
+
+    public void setVisitTime(Integer visitTime) {
+        this.visitTime = visitTime;
+    }
+
     @Override
     public String toString() {
         return "TimeMachineEntity{" +
@@ -94,7 +115,8 @@ public class TimeMachineEntity implements Serializable {
                 ", type=" + type +
                 ", name='" + name + '\'' +
                 ", artifacts=" + artifacts + '\'' +
-                ", capacity=" + capacity +
+                ", capacity=" + capacity + '\'' +
+                ", visitTime=" + visitTime +
                 '}';
     }
 }

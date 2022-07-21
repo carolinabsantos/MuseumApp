@@ -34,7 +34,7 @@ public class ArtifactController implements WebMvcConfigurer{
     @PostMapping("/save-artifact")
     public String saveArtifact(@ModelAttribute Artifact artifact) {
         artifact = artifact.getNullValues(artifact);
-        ArtifactEntity artifactFinal = new ArtifactEntity(artifact.getName(),artifact.getDesignation(),artifact.getDescription(),artifact.getTechCharacteristics(),artifact.getMoreInfo(), artifact.getModel(), artifact.getCountry(),artifact.getBrand(),artifact.getMadeIn(),artifact.getCreationYear(),artifact.getSerialNumber(),artifact.getDonatedBy(),artifact.getExhibitor(),artifact.getItemNo(),artifact.getTypeCat(),artifact.getCategory(),artifact.getCategory2(),artifact.getCategory3(),artifact.getCategory4());
+        ArtifactEntity artifactFinal = new ArtifactEntity(artifact.getName(),artifact.getDesignation(),artifact.getDescription(),artifact.getTechCharacteristics(),artifact.getMoreInfo(), artifact.getModel(), artifact.getCountry(),artifact.getBrand(),artifact.getMadeIn(),artifact.getCreationYear(),artifact.getSerialNumber(),artifact.getDonatedBy(),artifact.getExhibitor(),artifact.getItemNo(),artifact.getTypeCat(),artifact.getCategory(),artifact.getCategory2(),artifact.getCategory3(),artifact.getCategory4(), artifact.getTimeToVisit());
         artifactService.createArtifact(artifactFinal);
         return "saved-artifact";
     }
@@ -42,8 +42,10 @@ public class ArtifactController implements WebMvcConfigurer{
     @GetMapping("/update-artifact")
     public ModelAndView updateVisitorView(@RequestParam Integer artifact_id) {
         ModelAndView mav = new ModelAndView("new-artifact");
-        Optional<ArtifactEntity> artifact = artifactService.findArtifact(artifact_id);
+        ArtifactEntity artifact = artifactService.findArtifact(artifact_id).get();
         mav.addObject("artifact", artifact);
+        artifactService.removeArtifactFromTimeMachines(artifact);
+        artifactService.deleteArtifact(artifact_id);
         return mav;
     }
 

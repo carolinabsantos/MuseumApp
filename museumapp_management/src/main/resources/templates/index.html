@@ -30,6 +30,7 @@
                     Museum
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" th:href="@{/index-system}">System</a>
                     <a class="dropdown-item" th:href="@{/index-visitor}">Visitors</a>
                     <a class="dropdown-item" th:href="@{/index-visit}">Visits</a>
                     <a class="dropdown-item" th:href="@{/index-artifact}">Artifacts</a>
@@ -81,6 +82,11 @@
             <h2 style="text-align: center">Time Machines</h2>
                 <p>This is where we can manage time machines in the database</p>
                 <p style="text-align: center"><a class="btn btn-secondary" th:href="@{/index-time-machine}" role="button">Time Machines »</a></p>
+            </div>
+            <div class="col-md-4" style="margin: auto auto 5px;">
+                <h2 style="text-align: center">System</h2>
+                <p>This is where we can manage the system like schedule etc. in the database</p>
+                <p style="text-align: center"><a class="btn btn-secondary" th:href="@{/index-system}" role="button">System »</a></p>
             </div>
         </div>
         <hr>

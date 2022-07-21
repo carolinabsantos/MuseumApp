@@ -3,6 +3,7 @@ package pt.ulisboa.tecnico.museumapp.models;
 import java.util.List;
 
 public class Artifact {
+    private Integer id;
     private String name;
     private String designation;
     private String description;
@@ -24,7 +25,9 @@ public class Artifact {
     protected String category4;
     protected List<TimeMachine> timeMachines;
 
-    public Artifact(String name, String designation, String description, String techCharacteristics, String moreInfo, String model, String country, String brand, String madeIn, int creationYear, String serialNumber, String donatedBy,String exhibitor, int itemNo, String typeCat, String category, String category2, String category3, String category4){
+    protected Integer timeToVisit;
+
+    public Artifact(String name, String designation, String description, String techCharacteristics, String moreInfo, String model, String country, String brand, String madeIn, int creationYear, String serialNumber, String donatedBy,String exhibitor, int itemNo, String typeCat, String category, String category2, String category3, String category4, Integer timeToVisit){
         this.name = name;
         this.designation=designation;
         this.description=description;
@@ -44,8 +47,9 @@ public class Artifact {
         this.category2=category2;
         this.category3=category3;
         this.category4=category4;
+        this.timeToVisit=timeToVisit;
     }
-    public Artifact(String name, String designation, String description, String techCharacteristics, String moreInfo, String model, String country, String brand, String madeIn, int creationYear, String serialNumber, String donatedBy,String exhibitor, int itemNo, String typeCat, String category, String category2, String category3, String category4,List<TimeMachine> timeMachines){
+    public Artifact(String name, String designation, String description, String techCharacteristics, String moreInfo, String model, String country, String brand, String madeIn, int creationYear, String serialNumber, String donatedBy,String exhibitor, int itemNo, String typeCat, String category, String category2, String category3, String category4,List<TimeMachine> timeMachines, Integer timeToVisit){
         this.name = name;
         this.designation=designation;
         this.description=description;
@@ -66,9 +70,14 @@ public class Artifact {
         this.category3=category3;
         this.category4=category4;
         this.timeMachines=timeMachines;
+        this.timeToVisit=timeToVisit;
     }
 
     public Artifact(){}
+
+    public Integer getId() {
+        return id;
+    }
 
     public String getName() {
         return name;
@@ -229,6 +238,16 @@ public class Artifact {
     public void addTimeMachine(TimeMachine t){
         this.timeMachines.add(t);
     }
+
+
+    public Integer getTimeToVisit() {
+        return timeToVisit;
+    }
+
+
+    public void setTimeToVisit(Integer timeToVisit) {
+        this.timeToVisit = timeToVisit;
+    }
     public Artifact getNullValues(Artifact artifact){
         if(artifact.getDesignation() == "")
             artifact.setDesignation("NULL");
@@ -258,6 +277,8 @@ public class Artifact {
             artifact.setCategory3("NULL");
         if(artifact.getCategory4()== "")
             artifact.setCategory4("NULL");
+        if(artifact.getTimeToVisit()==null)
+            artifact.setTimeToVisit(0);
         return artifact;
     }
 
@@ -283,6 +304,7 @@ public class Artifact {
                 ", category2='" + category2 + '\'' +
                 ", category3='" + category3 + '\'' +
                 ", category4='" + category4 + '\'' +
+                ", timeToVisit='" + timeToVisit +
                 '}';
     }
 }

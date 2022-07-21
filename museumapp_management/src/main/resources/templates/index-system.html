@@ -29,6 +29,7 @@
                     Museum
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" th:href="@{/index-system}">System</a>
                     <a class="dropdown-item" th:href="@{/index-visitor}">Visitors</a>
                     <a class="dropdown-item" th:href="@{/index-visit}">Visits</a>
                     <a class="dropdown-item" th:href="@{/index-artifact}">Artifacts</a>
@@ -63,16 +64,9 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4" style="margin: auto auto 5px;">
-                <h2 style="text-align: center">List all visits</h2>
-                <p>This is where we can see all visits in the system</p>
-                <p style="text-align: center"><a class="btn btn-secondary" role="button" th:href="@{/list-visits}">List visits »</a></p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4" style="margin: auto auto 5px;">
-                <h2 style="text-align: center">Book new visit</h2>
-                <p>This is where we can book a new visit in the system</p>
-                <p style="text-align: center"><a class="btn btn-secondary" role="button" th:href="@{/new-visitor}">Book visit »</a></p>
+                <h2 style="text-align: center">New schedule</h2>
+                <p>This is where we can change the regular hours when the museum is open in the system</p>
+                <p style="text-align: center"><a class="btn btn-secondary" role="button" th:href="@{/new-schedule}">New schedule »</a></p>
             </div>
         </div>
         <hr>

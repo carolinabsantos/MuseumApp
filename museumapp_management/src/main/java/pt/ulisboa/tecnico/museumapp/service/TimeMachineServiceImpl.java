@@ -60,4 +60,15 @@ public class TimeMachineServiceImpl implements TimeMachineService{
     public void deleteTimeMachine(Integer id){
         timeMachineRepository.deleteById(id);
     }
+
+    @Override
+    public void updateVisitTime() {
+        for (TimeMachineEntity timeMachine : timeMachineRepository.findAll()) {
+            Integer visitTime = timeMachine.getVisitTime();
+            for (ArtifactEntity a : timeMachine.getArtifacts()){
+                visitTime += a.getTimeToVisit();
+            }
+            timeMachine.setVisitTime(visitTime);
+        }
+    }
 }

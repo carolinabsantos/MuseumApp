@@ -31,6 +31,7 @@ public class TimeMachineController implements WebMvcConfigurer {
     public ModelAndView findAllTimeMachines() {
         ModelAndView mav = new ModelAndView("list-time-machine");
         timeMachineService.updateArtifacts();
+        timeMachineService.updateVisitTime();
         mav.addObject("timeMachines", timeMachineService.getAllTimeMachines());
         return mav;
     }
@@ -45,15 +46,18 @@ public class TimeMachineController implements WebMvcConfigurer {
     public String saveTimeMachine(@ModelAttribute TimeMachine timeMachine) {
         TimeMachineEntity timeMachineFinal = new TimeMachineEntity(timeMachine.getType(), timeMachine.getName(), timeMachine.getCapacity());
         timeMachineService.createTimeMachine(timeMachineFinal);
-        artifactService.updateTimeMachine();
+        TimeMachineEntity tm = timeMachineService.findTimeMachineByName(timeMachineFinal.getName()).get();
+        System.out.println(tm);
+        artifactService.getArtifactsFromTimeMachine(tm);
         return "saved-time-machine";
     }
 
     @GetMapping("/update-time-machine")
     public ModelAndView updateVisitorView(@RequestParam Integer timeMachine_id) {
         ModelAndView mav = new ModelAndView("new-time-machine");
-        Optional<TimeMachineEntity> timeMachine = timeMachineService.findTimeMachine(timeMachine_id);
+        TimeMachineEntity timeMachine = timeMachineService.findTimeMachine(timeMachine_id).get();
         mav.addObject("timeMachine", timeMachine);
+        timeMachineService.deleteTimeMachine(timeMachine_id);
         return mav;
     }
 

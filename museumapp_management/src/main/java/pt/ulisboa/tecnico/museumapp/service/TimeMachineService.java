@@ -2,7 +2,6 @@ package pt.ulisboa.tecnico.museumapp.service;
 
 import pt.ulisboa.tecnico.museumapp.entities.ArtifactEntity;
 import pt.ulisboa.tecnico.museumapp.entities.TimeMachineEntity;
-import pt.ulisboa.tecnico.museumapp.entities.VisitEntity;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,5 +20,7 @@ public interface TimeMachineService {
 
     List<ArtifactEntity> listArtifacts(Integer timeMachineId);
 
-    void deleteTimeMachine(Integer id);
+    void deleteTimeMachine(Integer timeMachineId);
+
+    void updateVisitTime();
 }

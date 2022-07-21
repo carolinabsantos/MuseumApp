@@ -69,10 +69,13 @@ public class ArtifactEntity {
     @Column(name = "category4")
     protected String category4;
 
+    @Column(name = "timeToVisit")
+    protected Integer timeToVisit;
+
     @ManyToMany(mappedBy = "artifacts")
     List<TimeMachineEntity> timeMachines;
 
-    public ArtifactEntity(String name, String designation, String description, String techCharacteristics, String moreInfo, String model, String country, String brand, String madeIn, int creationYear, String serialNumber, String donatedBy,String exhibitor, int itemNo, String typeCat, String category, String category2, String category3, String category4){
+    public ArtifactEntity(String name, String designation, String description, String techCharacteristics, String moreInfo, String model, String country, String brand, String madeIn, int creationYear, String serialNumber, String donatedBy,String exhibitor, int itemNo, String typeCat, String category, String category2, String category3, String category4, Integer timeToVisit){
         this.name = name;
         this.designation=designation;
         this.description=description;
@@ -92,9 +95,10 @@ public class ArtifactEntity {
         this.category2=category2;
         this.category3=category3;
         this.category4=category4;
+        this.timeToVisit=timeToVisit;
     }
 
-    public ArtifactEntity(String name, String designation, String description, String techCharacteristics, String moreInfo, String model, String country, String brand, String madeIn, int creationYear, String serialNumber, String donatedBy,String exhibitor, int itemNo, String typeCat, String category, String category2, String category3, String category4, List<TimeMachineEntity> timeMachines){
+    public ArtifactEntity(String name, String designation, String description, String techCharacteristics, String moreInfo, String model, String country, String brand, String madeIn, int creationYear, String serialNumber, String donatedBy,String exhibitor, int itemNo, String typeCat, String category, String category2, String category3, String category4, List<TimeMachineEntity> timeMachines, Integer timeToVisit){
         this.name = name;
         this.designation=designation;
         this.description=description;
@@ -115,6 +119,7 @@ public class ArtifactEntity {
         this.category3=category3;
         this.category4=category4;
         this.timeMachines=timeMachines;
+        this.timeToVisit=timeToVisit;
     }
     public ArtifactEntity(){}
 
@@ -279,9 +284,17 @@ public class ArtifactEntity {
     }
 
     public void addTimeMachine(TimeMachineEntity timeMachine) {
-        System.out.println(timeMachine);
         this.timeMachines.add(timeMachine);
     }
+
+    public Integer getTimeToVisit() {
+        return timeToVisit;
+    }
+
+    public void setTimeToVisit(Integer timeToVisit) {
+        this.timeToVisit = timeToVisit;
+    }
+
     @Override
     public String toString() {
         return "ArtifactEntity{" +
@@ -305,6 +318,7 @@ public class ArtifactEntity {
                 ", category2='" + category2 + '\'' +
                 ", category3='" + category3 + '\'' +
                 ", category4='" + category4 + '\'' +
+                ", timeToVisit='" + timeToVisit +
                 '}';
     }
 }

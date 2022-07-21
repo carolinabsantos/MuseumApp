@@ -14,12 +14,6 @@ import pt.ulisboa.tecnico.museumapp.service.TimeMachineService;
 import pt.ulisboa.tecnico.museumapp.service.VisitService;
 import pt.ulisboa.tecnico.museumapp.service.VisitorService;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.Optional;
-
 
 @Controller // This means that this class is a Controller
 public class VisitController implements WebMvcConfigurer{
@@ -29,6 +23,7 @@ public class VisitController implements WebMvcConfigurer{
     private VisitorService visitorService;
     @Autowired
     private TimeMachineService timeMachineService;
+
 
     @GetMapping("/book-visit")
     public ModelAndView bookVisitView(@RequestParam Integer visitor_id) {

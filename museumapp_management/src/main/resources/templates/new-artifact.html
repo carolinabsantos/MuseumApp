@@ -142,6 +142,10 @@
             <label>Category4:</label>
             <input type="text" class="form-control" th:field="*{category4}">
         </div>
+        <div class="col-md-6 form-group">
+            <label>Time To Visit (in minutes):</label>
+            <input type="number" class="form-control" th:field="*{timeToVisit}">
+        </div>
     </div>
     <ul th:if="${#fields.hasErrors('*')}">
         <li th:each="error : ${#fields.errors('*')}" th:text="${error}">error</li>

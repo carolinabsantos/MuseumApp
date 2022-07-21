@@ -27,4 +27,9 @@ public class Home implements WebMvcConfigurer {
         return "index-time-machine";
     }
 
+    @GetMapping("/index-system")
+    public String indexSystem() {
+        return "index-system";
+    }
+
 }

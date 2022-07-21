@@ -2,9 +2,7 @@ package pt.ulisboa.tecnico.museumapp.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import pt.ulisboa.tecnico.museumapp.entities.ArtifactEntity;
 import pt.ulisboa.tecnico.museumapp.entities.TimeMachineEntity;
-import pt.ulisboa.tecnico.museumapp.models.Artifact;
 
 import javax.transaction.Transactional;
 import java.util.List;
