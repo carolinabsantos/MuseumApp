@@ -79,21 +79,25 @@
             <th>Id</th>
             <th>Begining Date</th>
             <th>Ending Date</th>
+            <th>Begining Hour</th>
+            <th>Ending Hour</th>
             <th>Time Slot Duration (in minutes)</th>
             <th>Capacity</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="timeSlot: ${timeSlots}">
+        <tr th:each="schedule: ${schedules}">
             <td>
-                <a th:href="@{/update-schedule(timeSlot_id=${timeSlot.id})}" class="btn btn-info">Update</a>
-                <a th:href="@{/delete-schedule/{id}(id = ${timeSlot.id})}" class="btn btn-info">Delete</a>
+                <a th:href="@{/list-time-slots(schedule_id = ${schedule.id})}" class="btn btn-info">Time Slots</a>
+                <a th:href="@{/delete-schedule/{id}(id = ${schedule.id})}" class="btn btn-info">Delete</a>
             </td>
-            <td th:text="${timeSlot.id}"></td>
-            <td th:text="${timeSlot.beginingDate}"></td>
-            <td th:text="${timeSlot.endingDate}"></td>
-            <td th:text="${timeSlot.timeSlotDuration}"></td>
-            <td th:text="${timeSlot.capacity}"></td>
+            <td th:text="${schedule.id}"></td>
+            <td th:text="${schedule.beginningDate}"></td>
+            <td th:text="${schedule.endingDate}"></td>
+            <td th:text="${schedule.beginningHour}"></td>
+            <td th:text="${schedule.endingHour}"></td>
+            <td th:text="${schedule.timeSlotsDuration}"></td>
+            <td th:text="${schedule.capacity}"></td>
         </tr>
         </tbody>
 

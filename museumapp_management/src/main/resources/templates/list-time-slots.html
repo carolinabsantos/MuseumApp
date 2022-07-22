@@ -13,7 +13,7 @@
     <script crossorigin="anonymous"
             integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
             src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-    <title>Museum - Saved Schedule</title>
+    <title>Museum - All Time Slots</title>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -60,14 +60,14 @@
 <main role="main">
     <div class="jumbotron">
         <div class="container">
-            <h1 class="display-3">System</h1>
-            <p>Here an administrator can see the just added schedule in the system.</p>
+            <h1 class="display-3">Time Slots</h1>
+            <p>Here an administrator can see all the Time Slots in the system.</p>
         </div>
     </div>
 </main>
 <div class="container">
 
-    <h3>Saved Time Machine</h3>
+    <h3>List of time slots</h3>
 
     <hr/>
 
@@ -75,24 +75,25 @@
 
         <thead>
         <tr>
-            <th>Begining Date</th>
-            <th>Ending Date</th>
-            <th>Duration (in minutes)</th>
+            <th>Id</th>
+            <th>Time Slot Duration (in minutes)</th>
+            <th>Date</th>
             <th>Capacity</th>
         </tr>
         </thead>
         <tbody>
-        <td th:text="${schedule.beginningDate}" />
-        <td th:text="${schedule.endingDate}" />
-        <td th:text="${schedule.timeSlotsDuration}" />
-        <td th:text="${schedule.capacity}" />
+        <tr th:each="timeSlot: ${timeSlots}">
+            <td th:text="${timeSlot.id}"></td>
+            <td th:text="${timeSlot.startTime}"></td>
+            <td th:text="${timeSlot.endTime}"></td>
+            <td th:text="${timeSlot.date}"></td>
+            <td th:text="${timeSlot.capacity}"></td>
         </tr>
         </tbody>
 
     </table>
 </div>
 <a th:href="@{/new-schedule}" class="btn btn-secondary">Add new schedule</a>
-<a th:href="@{/list-schedule}" class="btn btn-secondary">List schedules</a>
-
+<input class="btn btn-secondary" type="button" value="Voltar atrás" onclick="history.back()">
 </body>
 </html>

@@ -15,8 +15,11 @@ public class BookingEntity {
     private Integer timeMachineId;
     @Column(name="visitor_id")
     private Integer visitorId;
-    @Column(name="booking_date")
-    private Date date;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "timeslot_id", nullable = false)
+    private TimeSlotEntity timeSlot;
+
 
     public Integer getId() {
         return id;
@@ -46,12 +49,12 @@ public class BookingEntity {
         this.visitorId = visitorId;
     }
 
-    public Date getDate() {
-        return date;
+    public TimeSlotEntity getTimeSlot() {
+        return timeSlot;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setTimeSlot(TimeSlotEntity timeSlot) {
+        this.timeSlot = timeSlot;
     }
 
     @Override
@@ -59,8 +62,9 @@ public class BookingEntity {
         return "BookingEntity{" +
                 "id=" + id +
                 ", visitId=" + visitId +
+                ", timeMachineId=" + timeMachineId +
                 ", visitorId=" + visitorId +
-                ", date=" + date +
+                ", timeSlot=" + timeSlot +
                 '}';
     }
 }

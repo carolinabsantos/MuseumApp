@@ -18,16 +18,23 @@ public class ScheduleEntity {
     @Column(name = "ending_date")
     private Date endingDate;
 
+    @Column(name = "capacity")
+    private Integer capacity;
+
+    @Column(name = "time_slots_duration")
+    private Integer timeSlotsDuration;
+
     @OneToMany(mappedBy = "schedule", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
-    private List<TimeSlotEntity> timeSlots;
+    List<TimeSlotEntity> timeSlots;
 
     public ScheduleEntity(){}
 
-    public ScheduleEntity(Date beginingDate, Date endingDate, List<TimeSlotEntity> timeSlots){
+    public ScheduleEntity(Date beginingDate, Date endingDate, Integer capacity, Integer timeSlotsDuration){
         this.beginingDate=beginingDate;
         this.endingDate=endingDate;
-        this.timeSlots=timeSlots;
+        this.capacity=capacity;
+        this.timeSlotsDuration=timeSlotsDuration;
     }
 
     public Integer getId() {
@@ -50,12 +57,20 @@ public class ScheduleEntity {
         this.endingDate = endingDate;
     }
 
-    public List<TimeSlotEntity> getTimeSlots() {
-        return timeSlots;
+    public Integer getCapacity() {
+        return capacity;
     }
 
-    public void setTimeSlots(List<TimeSlotEntity> timeSlots) {
-        this.timeSlots = timeSlots;
+    public void setCapacity(Integer capacity) {
+        this.capacity = capacity;
+    }
+
+    public Integer getTimeSlotsDuration() {
+        return timeSlotsDuration;
+    }
+
+    public void setTimeSlotsDuration(Integer timeSlotsDuration) {
+        this.timeSlotsDuration = timeSlotsDuration;
     }
 
     @Override
@@ -64,7 +79,8 @@ public class ScheduleEntity {
                 "id=" + id +
                 ", beginingDate=" + beginingDate +
                 ", endingDate=" + endingDate +
-                ", timeSlots=" + timeSlots +
+                ", capacity=" + capacity +
+                ", timeSlotsDuration=" + timeSlotsDuration +
                 '}';
     }
 }
