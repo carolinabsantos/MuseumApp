@@ -14,6 +14,7 @@ public class Visit {
     private Integer visitorId;
     private String visitDate;
     private String observations;
+    private Integer timeSlotId;
 
     public Visit(){}
 
@@ -45,6 +46,10 @@ public class Visit {
         this.timeMachine=timeMachine;
     }
 
+    public Visit(Integer id, Integer visitorId){
+        this.id=id;
+        this.visitorId=visitorId;
+    }
     public TimeMachine getTimeMachine() {
         return timeMachine;
     }
@@ -107,17 +112,26 @@ public class Visit {
         this.visitDate = visitDate;
     }
 
+    public Integer getTimeSlot() {
+        return timeSlotId;
+    }
+
+    public void setTimeSlot(Integer timeSlotId) {
+        this.timeSlotId = timeSlotId;
+    }
+
     @Override
     public String toString() {
         return "Visit{" +
                 "id=" + id +
-                ", timeMachine=" + timeMachine + '\'' +
+                ", timeMachine=" + timeMachine +
                 ", startTime='" + startTime + '\'' +
                 ", endTime='" + endTime + '\'' +
-                ", state=" + state + '\'' +
-                ", visitorId=" + visitorId + '\'' +
-                ", visit date=" + visitDate + '\'' +
-                ", observations=" + observations +
+                ", state=" + state +
+                ", visitorId=" + visitorId +
+                ", visitDate='" + visitDate + '\'' +
+                ", observations='" + observations + '\'' +
+                ", timeSlotId=" + timeSlotId +
                 '}';
     }
 }

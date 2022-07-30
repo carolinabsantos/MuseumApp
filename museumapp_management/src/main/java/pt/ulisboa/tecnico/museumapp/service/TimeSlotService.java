@@ -2,6 +2,7 @@ package pt.ulisboa.tecnico.museumapp.service;
 
 import pt.ulisboa.tecnico.museumapp.entities.TimeSlotEntity;
 import pt.ulisboa.tecnico.museumapp.models.Schedule;
+import pt.ulisboa.tecnico.museumapp.models.TimeSlot;
 
 import java.text.ParseException;
 import java.util.List;
@@ -19,4 +20,11 @@ public interface TimeSlotService {
 
     List<TimeSlotEntity> getTimeSlots(Schedule schedule) throws ParseException;
 
+    TimeSlotEntity findTimeSlotByName(String name);
+
+    List<TimeSlotEntity> findTimeSlotBySchedule(Integer scheduleId);
+
+    List<TimeSlotEntity> findTimeSlotByVisit(Integer visit_id);
+
+    void updateTimeSlot(Integer timeSlotId, Integer visitorId);
 }

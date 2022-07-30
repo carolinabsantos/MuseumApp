@@ -2,11 +2,13 @@ package pt.ulisboa.tecnico.museumapp.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pt.ulisboa.tecnico.museumapp.entities.TimeSlotEntity;
+import pt.ulisboa.tecnico.museumapp.entities.*;
 import pt.ulisboa.tecnico.museumapp.models.Schedule;
 import pt.ulisboa.tecnico.museumapp.repositories.TimeSlotRepository;
 
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static java.lang.Integer.parseInt;
@@ -18,6 +20,12 @@ public class TimeSlotServiceImpl implements TimeSlotService {
 
     @Autowired
     ScheduleService scheduleService;
+
+    @Autowired
+    VisitService visitService;
+
+    @Autowired
+    VisitorService visitorService;
 
     @Override
     public List<TimeSlotEntity> getAllTimeSlots() {
@@ -83,5 +91,59 @@ public class TimeSlotServiceImpl implements TimeSlotService {
             }
         }
         return timeSlots;
+    }
+    @Override
+    public TimeSlotEntity findTimeSlotByName(String name){
+        for (TimeSlotEntity ts: timeSlotRepository.findAll()){
+            if (ts.getName() == name){
+                return ts;
+            }
+        }
+        return null;
+    }
+    @Override
+    public List<TimeSlotEntity> findTimeSlotBySchedule(Integer scheduleId){
+        List<TimeSlotEntity> timeSlots = new ArrayList<>();
+        for (TimeSlotEntity ts: timeSlotRepository.findAll()){
+            if (ts.getScheduleId() == scheduleId){
+                timeSlots.add(ts);
+            }
+        }
+        return timeSlots;
+    }
+    @Override
+    public List<TimeSlotEntity> findTimeSlotByVisit(Integer visit_id){
+        VisitEntity visit = visitService.findVisit(visit_id).get();
+        VisitorEntity visitor = visitorService.findVisitor(visit.getVisitor().getId()).get();
+        String patternDate = "yyyy-MM-dd";
+        DateFormat dfDate = new SimpleDateFormat(patternDate);
+        List<TimeSlotEntity> timeSlots = new ArrayList<>();
+        for (TimeSlotEntity ts : getAllTimeSlots()){
+            String tsDateAsString = dfDate.format(ts.getDate());
+            if (ts.getState() == TimeSlotState.AVAILABLE && tsDateAsString.equals(visit.getVisitDate()) && visitor.getNoVisitors() <= ts.getCapacity()){
+                timeSlots.add(ts);
+            }
+        }
+        return timeSlots;
+    }
+
+
+    @Override
+    public void updateTimeSlot(Integer timeSlotId, Integer visitorId){
+        TimeSlotEntity ts = findTimeSlot(timeSlotId).get();
+        VisitorEntity v = visitorService.findVisitor(visitorId).get();
+        Date startTime = ts.getStartTime();
+        Date endTime = ts.getEndTime();
+        Date date = ts.getDate();
+        TimeSlotState state = ts.getState();
+        Integer scheduleId = ts.getScheduleId();
+        if(ts.getCapacity() == v.getNoVisitors()){
+            state = TimeSlotState.FULL;
+        }
+        Integer capacity = ts.getCapacity() - v.getNoVisitors();
+        String name = ts.getName();
+        deleteTimeSlot(timeSlotId);
+        TimeSlotEntity timeSlot= new TimeSlotEntity(startTime, endTime, date, scheduleId, capacity, state, name);
+        createTimeSlot(timeSlot);
     }
 }

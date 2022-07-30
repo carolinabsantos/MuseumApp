@@ -85,6 +85,14 @@ public class VisitorEntity {
         this.noVisitors = noVisitors;
     }
 
+    public VisitEntity getVisit() {
+        return visit;
+    }
+
+    public void setVisit(VisitEntity visit) {
+        this.visit = visit;
+    }
+
     @Override
     public String toString() {
         return "VisitorEntity{" +

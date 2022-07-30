@@ -40,7 +40,7 @@ public class ScheduleServiceImpl implements ScheduleService{
         List<TimeSlotEntity> timeSlotEntities = new ArrayList<>();
         ScheduleEntity s = scheduleRepository.findById(scheduleId).get();
         for (TimeSlotEntity ts : timeSlotRepository.findAll()){
-            if(s.getId() == ts.getSchedule().getId()){
+            if(s.getId() == ts.getScheduleId()){
                 timeSlotEntities.add(ts);
             }
         }
@@ -51,12 +51,11 @@ public class ScheduleServiceImpl implements ScheduleService{
     @Override
     public List<Integer> getHoursTimeSlots(Integer scheduleId){
         List<TimeSlotEntity> timeSlotEntities = getScheduleTimeSlots(scheduleId);
-        System.out.println(timeSlotEntities);
         Date startDate = timeSlotEntities.get(0).getStartTime();
         List<Integer> timeSlotTimes = new ArrayList<>();
         int startTime = startDate.getHours();
         timeSlotTimes.add(startTime);
-        Date endDate = timeSlotEntities.get(-1).getEndTime();
+        Date endDate = timeSlotEntities.get(timeSlotEntities.size() - 1).getEndTime();
         int endTime= endDate.getHours();
         timeSlotTimes.add(endTime);
         return timeSlotTimes;

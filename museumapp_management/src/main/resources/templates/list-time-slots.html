@@ -75,25 +75,35 @@
 
         <thead>
         <tr>
+            <th>Actions</th>
             <th>Id</th>
-            <th>Time Slot Duration (in minutes)</th>
+            <th>Start Time</th>
+            <th>End Time</th>
             <th>Date</th>
             <th>Capacity</th>
+            <th>State</th>
+            <th>Name</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="timeSlot: ${timeSlots}">
+            <td>
+                <a th:href="@{/time-slot-state(timeslot_id = ${timeSlot.id})}" class="btn btn-info">Update</a>
+            </td>
             <td th:text="${timeSlot.id}"></td>
             <td th:text="${timeSlot.startTime}"></td>
             <td th:text="${timeSlot.endTime}"></td>
-            <td th:text="${timeSlot.date}"></td>
+            <td th:text="${#dates.format(timeSlot.date, 'dd/MM/yyyy')}"></td>
             <td th:text="${timeSlot.capacity}"></td>
+            <td th:text="${timeSlot.state}"></td>
+            <td th:text="${timeSlot.name}"></td>
         </tr>
         </tbody>
 
     </table>
 </div>
 <a th:href="@{/new-schedule}" class="btn btn-secondary">Add new schedule</a>
+<a th:href="@{/list-schedule}" class="btn btn-secondary">List schedules</a>
 <input class="btn btn-secondary" type="button" value="Voltar atrás" onclick="history.back()">
 </body>
 </html>

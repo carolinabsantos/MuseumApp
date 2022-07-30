@@ -8,11 +8,17 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import pt.ulisboa.tecnico.museumapp.entities.ScheduleEntity;
+import pt.ulisboa.tecnico.museumapp.entities.TimeMachineEntity;
 import pt.ulisboa.tecnico.museumapp.entities.TimeSlotEntity;
+import pt.ulisboa.tecnico.museumapp.entities.VisitEntity;
 import pt.ulisboa.tecnico.museumapp.models.Schedule;
+import pt.ulisboa.tecnico.museumapp.models.TimeMachine;
+import pt.ulisboa.tecnico.museumapp.models.TimeSlot;
+import pt.ulisboa.tecnico.museumapp.models.Visit;
 import pt.ulisboa.tecnico.museumapp.service.ScheduleService;
 import pt.ulisboa.tecnico.museumapp.service.TimeSlotService;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -25,6 +31,8 @@ public class ScheduleController implements WebMvcConfigurer {
     ScheduleService scheduleService;
     @Autowired
     TimeSlotService timeSlotService;
+    private List<TimeSlotEntity> timeSlots;
+
     @GetMapping("/new-schedule")
     public String createScheduleForm(Model model) {
         model.addAttribute("schedule", new Schedule());
@@ -36,25 +44,21 @@ public class ScheduleController implements WebMvcConfigurer {
         ModelAndView mav = new ModelAndView("list-schedule");
         List<Schedule> schedules = new ArrayList<>();
         for (ScheduleEntity s : scheduleService.getAllSchedules()){
-            System.out.println("findAllSchedulles: schedule to observe:");
-            System.out.println(s);
-            for(TimeSlotEntity ts : timeSlotService.getAllTimeSlots()){
-                System.out.println("findAllSchedulles: time slot to observe:");
-                System.out.println(ts);
-                if(s.getId() == ts.getSchedule().getId()){
-                    List<Integer> times = scheduleService.getHoursTimeSlots(s.getId());
-                    Schedule schedule = new Schedule(s.getBeginingDate().toString(),s.getEndingDate().toString(),times.get(0).toString(), times.get(-1).toString(),s.getCapacity(), s.getTimeSlotsDuration());
-                    schedules.add(schedule);
-                }
-            }
-            if(schedules.isEmpty()){
-                Schedule schedule = new Schedule(s.getBeginingDate().toString(),s.getEndingDate().toString(),"no-time-slots", "no-time-slots", s.getCapacity(), s.getTimeSlotsDuration());
-                schedules.add(schedule);
-            }
+            System.out.println(scheduleService.findSchedule(s.getId()));
+            System.out.println(scheduleService.getScheduleTimeSlots(s.getId()));
+            List<Integer> times = scheduleService.getHoursTimeSlots(s.getId());
+            String pattern = "yyyy-MM-dd";
+            DateFormat df = new SimpleDateFormat(pattern);
+            String beginDate = df.format(s.getBeginingDate());
+            String endDate = df.format(s.getEndingDate());
+            Schedule schedule = new Schedule(s.getId(), beginDate, endDate, times.get(0).toString(), times.get(times.size()-1).toString(),s.getCapacity(), s.getTimeSlotsDuration());
+            schedules.add(schedule);
         }
+        System.out.println(schedules);
         mav.addObject("schedules", schedules);
         return mav;
     }
+
     @GetMapping("/list-time-slots")
     public ModelAndView findAllTimeSlotsFromSchedule(@RequestParam Integer schedule_id) {
         ModelAndView mav = new ModelAndView("list-time-slots");
@@ -62,21 +66,35 @@ public class ScheduleController implements WebMvcConfigurer {
         return mav;
     }
 
+    @GetMapping("/time-slot-state")
+    public ModelAndView addTSState(@RequestParam Integer timeslot_id) {
+        ModelAndView mav = new ModelAndView("time-slot-state");
+        TimeSlotEntity ts = timeSlotService.findTimeSlot(timeslot_id).get();
+        TimeSlot timeSlot = new TimeSlot(ts.getId(), ts.getState());
+        mav.addObject("timeSlot", timeSlot);
+        return mav;
+    }
+
+    @PostMapping("/save-time-slot-state")
+    public String saveTSState(@ModelAttribute TimeSlot timeSlot) {
+        TimeSlotEntity ts = timeSlotService.findTimeSlot(timeSlot.getId()).get();
+        TimeSlotEntity timeSlotEntity = new TimeSlotEntity(ts.getStartTime(), ts.getEndTime(), ts.getDate(), ts.getScheduleId(), ts.getCapacity(), timeSlot.getState());
+        timeSlotService.deleteTimeSlot(ts.getId());
+        timeSlotService.createTimeSlot(timeSlotEntity);
+        return "redirect:/list-schedule";
+    }
     @PostMapping("/save-schedule")
     public String saveSchedule(@ModelAttribute Schedule schedule) throws ParseException {
         Date bDate=new SimpleDateFormat("yyyy-MM-dd").parse(schedule.getBeginningDate());
         Date eDate=new SimpleDateFormat("yyyy-MM-dd").parse(schedule.getEndingDate());
         List<TimeSlotEntity> timeSlots = timeSlotService.getTimeSlots(schedule);
-        System.out.println(schedule);
         ScheduleEntity scheduleFinal = new ScheduleEntity(bDate,eDate, schedule.getCapacity(), schedule.getTimeSlotsDuration());
         scheduleService.createSchedule(scheduleFinal);
         List<TimeSlotEntity> timeSlotsFinal = new ArrayList<>();
         for (TimeSlotEntity ts : timeSlots){
             timeSlotsFinal.add(ts);
-            ts.setSchedule(scheduleFinal);
+            ts.setScheduleId(scheduleFinal.getId());
         }
-        System.out.println(timeSlotsFinal);
-        //Aqui os timeSlots no repositório têm schedule, mas não no mysql
         return "saved-schedule";
     }
 

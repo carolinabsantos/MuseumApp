@@ -24,10 +24,6 @@ public class ScheduleEntity {
     @Column(name = "time_slots_duration")
     private Integer timeSlotsDuration;
 
-    @OneToMany(mappedBy = "schedule", fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
-    List<TimeSlotEntity> timeSlots;
-
     public ScheduleEntity(){}
 
     public ScheduleEntity(Date beginingDate, Date endingDate, Integer capacity, Integer timeSlotsDuration){

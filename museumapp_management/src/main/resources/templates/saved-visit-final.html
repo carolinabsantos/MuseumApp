@@ -35,6 +35,7 @@
                     Museum
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" th:href="@{/index-system}">System</a>
                     <a class="dropdown-item" th:href="@{/index-visitor}">Visitors</a>
                     <a class="dropdown-item" th:href="@{/index-visit}">Visits</a>
                     <a class="dropdown-item" th:href="@{/index-artifact}">Artifacts</a>
@@ -78,6 +79,7 @@
             <th>Time Machine</th>
             <th>Visitor Id</th>
             <th>Visit Date</th>
+            <th>Time Slot Id</th>
         </tr>
         </thead>
         <tbody>
@@ -91,7 +93,6 @@
     </table>
 </div>
 <a th:href="@{/home}" class="btn btn-secondary">Home</a>
-<a th:href="@{/book-visit-date(visit_id=${visit.id})}" class="btn btn-secondary">Book visit date</a>
-<input class="btn btn-secondary" type="button" value="Voltar atrás" onclick="history.back()">
+<a th:href="@{/list-visits}" class="btn btn-secondary">List Visits</a>
 </body>
 </html>

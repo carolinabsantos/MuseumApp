@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <script crossorigin="anonymous"
@@ -13,7 +13,7 @@
     <script crossorigin="anonymous"
             integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
             src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-    <title>Museum - Saved Visit</title>
+    <title>Museum - Add Visit Observations</title>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -35,6 +35,7 @@
                     Museum
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" th:href="@{/index-system}">System</a>
                     <a class="dropdown-item" th:href="@{/index-visitor}">Visitors</a>
                     <a class="dropdown-item" th:href="@{/index-visit}">Visits</a>
                     <a class="dropdown-item" th:href="@{/index-artifact}">Artifacts</a>
@@ -59,39 +60,33 @@
 <main role="main">
     <div class="jumbotron">
         <div class="container">
-            <h1 class="display-3">Visit</h1>
-            <p>Here an administrator can see the just added visit in the system.</p>
+            <h1 class="display-3">Time Slot State</h1>
+            <p>Here an administrator can choose to choose the Visit to book.</p>
         </div>
     </div>
 </main>
-<div class="container">
-
-    <h3>Saved Visit</h3>
-
-    <hr/>
-
-    <table class="table table-bordered table-striped">
-
-        <thead>
-        <tr>
-            <th>Visit Id</th>
-            <th>Time Machine</th>
-            <th>Visitor Id</th>
-            <th>Visit Date</th>
-        </tr>
-        </thead>
-        <tbody>
-        <td th:text="${visit.id}" />
-        <td th:text="${visit.timeMachine.name}" />
-        <td th:text="${visit.visitorId}" />
-        <td th:text="${visit.visitDate}" />
-        </tr>
-        </tbody>
-
-    </table>
-</div>
-<a th:href="@{/home}" class="btn btn-secondary">Home</a>
-<a th:href="@{/book-visit-date(visit_id=${visit.id})}" class="btn btn-secondary">Book visit date</a>
-<input class="btn btn-secondary" type="button" value="Voltar atrás" onclick="history.back()">
+<form method="post" th:action="@{/save-time-slot-state}" th:object="${timeSlot}">
+    <div class="form-row">
+        <div class="col-md-6 form-group">
+            <input type="hidden" class="form-control" th:field="*{id}">
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-6 form-group">
+            <label>Type:</label>
+            <div class="col-md-6 form-group" th:each="state : ${T(pt.ulisboa.tecnico.museumapp.entities.TimeSlotState).values()}">
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" th:field="*{state}" th:value="${state}" class="custom-control-input">
+                    <label class="custom-control-label" th:for="${#ids.prev('state')}" th:text="${state}">state</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ul th:if="${#fields.hasErrors('*')}">
+        <li th:each="error : ${#fields.errors('*')}" th:text="${error}">error</li>
+    </ul>
+    <input type="submit" class="btn btn-secondary" value="Submeter">
+    <input class="btn btn-secondary" type="button" value="Voltar atrás" onclick="history.back()">
+</form>
 </body>
 </html>

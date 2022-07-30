@@ -32,21 +32,40 @@ public class VisitEntity implements Serializable {
     @Column(name = "visit_date", nullable = false)
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     private String visitDate;
+
+    @Column(name = "time_slot_id")
+    private Integer timeSlotId;
     @Column(name = "observations", nullable = false)
     protected String observations;
 
-    public VisitEntity(TimeMachineEntity timeMachine, String startTime, String endTime, State state, VisitorEntity visitor, String observations, String visitDate){
+
+    public VisitEntity(TimeMachineEntity timeMachine, String startTime, String endTime, State state, VisitorEntity visitor, Integer timeSlotId, String observations, String visitDate){
         this.timeMachine=timeMachine;
         this.startTime=startTime;
         this.endTime=endTime;
         this.state=state;
         this.visitor=visitor;
+        this.timeSlotId=timeSlotId;
         this.observations=observations;
         this.visitDate=visitDate;
 
     }
 
-    public VisitEntity(TimeMachineEntity timeMachine, VisitorEntity visitor, String observations, String visitDate){
+    public VisitEntity(TimeMachineEntity timeMachine, VisitorEntity visitor, Integer timeSlotId, String observations, String visitDate){
+        this.timeMachine=timeMachine;
+        this.startTime="Not_started";
+        this.endTime="Not_started";
+        this.state=State.TO_START;
+        this.visitor=visitor;
+        this.timeSlotId=timeSlotId;
+        this.observations=observations;
+        this.visitDate=visitDate;
+    }
+
+    public VisitEntity() {
+    }
+
+    public VisitEntity(TimeMachineEntity timeMachine, VisitorEntity visitor, String observations, String visitDate) {
         this.timeMachine=timeMachine;
         this.startTime="Not_started";
         this.endTime="Not_started";
@@ -54,9 +73,17 @@ public class VisitEntity implements Serializable {
         this.visitor=visitor;
         this.observations=observations;
         this.visitDate=visitDate;
+        this.timeSlotId=0;
     }
 
-    protected VisitEntity() {
+    public VisitEntity(TimeMachineEntity timeMachine, VisitorEntity visitor, String observations) {
+        this.timeMachine=timeMachine;
+        this.startTime="Not_started";
+        this.endTime="Not_started";
+        this.state=State.TO_START;
+        this.visitor=visitor;
+        this.observations=observations;
+        this.timeSlotId=0;
     }
 
     public Integer getId() {
@@ -118,6 +145,14 @@ public class VisitEntity implements Serializable {
         this.visitDate = visitDate;
     }
 
+    public Integer getTimeSlotId() {
+        return timeSlotId;
+    }
+
+    public void setTimeSlotId(Integer timeSlotId) {
+        this.timeSlotId = timeSlotId;
+    }
+
     @Override
     public String toString() {
         return "VisitEntity{" +
@@ -128,7 +163,8 @@ public class VisitEntity implements Serializable {
                 ", state=" + state + '\'' +
                 ", visitor=" + visitor + '\'' +
                 ", visit date=" + visitDate + '\'' +
-                ", observations=" + observations +
+                ", observations=" + observations + '\'' +
+                ", timeSlotId=" + timeSlotId +
                 '}';
     }
 }
