@@ -24,6 +24,13 @@ public class VisitorController implements WebMvcConfigurer{
         mav.addObject("visitors", visitorService.getAllVisitors());
         return mav;
     }
+    @GetMapping("/list-selected-visitor")
+    public ModelAndView findVisitor(@RequestParam Integer visitor_id) {
+        ModelAndView mav = new ModelAndView("list-selected-visitor");
+        VisitorEntity visitor = visitorService.findVisitor(visitor_id).get();
+        mav.addObject("visitor", visitor);
+        return mav;
+    }
     @GetMapping("/new-visitor")
     public String createVisitorForm(Model model) {
         model.addAttribute("visitor", new Visitor());

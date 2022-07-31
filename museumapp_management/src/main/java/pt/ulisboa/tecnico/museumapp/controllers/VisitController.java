@@ -1,7 +1,9 @@
 package pt.ulisboa.tecnico.museumapp.controllers;
 
+import com.google.zxing.WriterException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -14,10 +16,13 @@ import pt.ulisboa.tecnico.museumapp.service.TimeSlotService;
 import pt.ulisboa.tecnico.museumapp.service.VisitService;
 import pt.ulisboa.tecnico.museumapp.service.VisitorService;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import static pt.ulisboa.tecnico.museumapp.GenerateQRCode.generateQRCode;
 
 
 @Controller // This means that this class is a Controller
@@ -84,7 +89,7 @@ public class VisitController implements WebMvcConfigurer{
     }
 
     @PostMapping("/save-visit-date")
-    public String saveVisit(@ModelAttribute Visit visit, @ModelAttribute TimeSlot timeSlot) {
+    public String saveVisit(@ModelAttribute Visit visit, @ModelAttribute TimeSlot timeSlot) throws IOException, WriterException {
         VisitEntity visitBefore = visitService.findVisit(visit.getId()).get();
 
         VisitorEntity visitor = visitorService.findVisitor(visitBefore.getVisitor().getId()).get();
@@ -110,7 +115,15 @@ public class VisitController implements WebMvcConfigurer{
         visit.setTimeSlot(visitFinal.getTimeSlotId());
         System.out.println("visit");
         System.out.println(visit);
+        generateQRCode(visitFinal.getId());
         return "saved-visit-final";
+    }
+    @GetMapping("/show-qrcode")
+    public ModelAndView showQRCode(@RequestParam Integer visit_id) {
+        ModelAndView mav = new ModelAndView("show-qrcode");
+        String qrCodeContent = String.format("localhost:8181/visit/%d", visit_id);
+        mav.addObject("qrCodeContent", "/generateQRCode?qrContent=" + qrCodeContent);
+        return mav;
     }
 
     @PostMapping("/save-observations")

@@ -66,29 +66,7 @@
     </div>
 </main>
 <div class="container">
-
-    <h3>Saved Visit</h3>
-
-    <hr/>
-
-    <table class="table table-bordered table-striped">
-
-        <thead>
-        <tr>
-            <th>Visit Id</th>
-            <th>Time Machine</th>
-            <th>Visitor Id</th>
-            <th>Visit Date</th>
-        </tr>
-        </thead>
-        <tbody>
-        <td th:text="${visit.id}"></td>
-        <td th:text="${visit.timeMachine.name}"></td>
-        <td th:text="${visit.visitorId}"></td>
-        <td th:text="${visit.visitDate}"></td>
-        </tbody>
-        <a th:href="@{/show-qrcode(visit_id=${visit.id})}" class="btn btn-secondary">QRCode</a>
-    </table>
+    <img th:src="${qrCodeContent}" />
 </div>
 <a th:href="@{/home}" class="btn btn-secondary">Home</a>
 <a th:href="@{/list-visits}" class="btn btn-secondary">List Visits</a>
