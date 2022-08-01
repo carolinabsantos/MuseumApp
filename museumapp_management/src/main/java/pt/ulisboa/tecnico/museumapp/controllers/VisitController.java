@@ -3,11 +3,15 @@ package pt.ulisboa.tecnico.museumapp.controllers;
 import com.google.zxing.WriterException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import pt.ulisboa.tecnico.museumapp.entities.*;
+import pt.ulisboa.tecnico.museumapp.GenerateQRCode;
+import pt.ulisboa.tecnico.museumapp.email.EmailService;
+import pt.ulisboa.tecnico.museumapp.entities.TimeMachineEntity;
+import pt.ulisboa.tecnico.museumapp.entities.TimeSlotEntity;
+import pt.ulisboa.tecnico.museumapp.entities.VisitEntity;
+import pt.ulisboa.tecnico.museumapp.entities.VisitorEntity;
 import pt.ulisboa.tecnico.museumapp.models.TimeMachine;
 import pt.ulisboa.tecnico.museumapp.models.TimeSlot;
 import pt.ulisboa.tecnico.museumapp.models.Visit;
@@ -16,13 +20,12 @@ import pt.ulisboa.tecnico.museumapp.service.TimeSlotService;
 import pt.ulisboa.tecnico.museumapp.service.VisitService;
 import pt.ulisboa.tecnico.museumapp.service.VisitorService;
 
+import javax.mail.MessagingException;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
-import static pt.ulisboa.tecnico.museumapp.GenerateQRCode.generateQRCode;
+import static pt.ulisboa.tecnico.museumapp.GenerateQRCode.generateQRCodeImage;
 
 
 @Controller // This means that this class is a Controller
@@ -35,7 +38,8 @@ public class VisitController implements WebMvcConfigurer{
     private TimeMachineService timeMachineService;
     @Autowired
     private TimeSlotService timeSlotService;
-    private VisitEntity visitEntity;
+    @Autowired
+    private EmailService emailService;
 
 
     @GetMapping("/book-visit")
@@ -115,15 +119,38 @@ public class VisitController implements WebMvcConfigurer{
         visit.setTimeSlot(visitFinal.getTimeSlotId());
         System.out.println("visit");
         System.out.println(visit);
-        generateQRCode(visitFinal.getId());
+        generateQRCodeImage(visitFinal.getId());
         return "saved-visit-final";
     }
     @GetMapping("/show-qrcode")
     public ModelAndView showQRCode(@RequestParam Integer visit_id) {
         ModelAndView mav = new ModelAndView("show-qrcode");
-        String qrCodeContent = String.format("localhost:8181/visit/%d", visit_id);
-        mav.addObject("qrCodeContent", "/generateQRCode?qrContent=" + qrCodeContent);
+        byte[] image = new byte[0];
+        try {
+
+            // Generate and Return Qr Code in Byte Array
+            image = GenerateQRCode.getQRCodeImage(visit_id);
+
+        } catch (WriterException | IOException e) {
+            e.printStackTrace();
+        }
+        // Convert Byte Array into Base64 Encode String
+        String qrcode = Base64.getEncoder().encodeToString(image);
+
+        mav.addObject("qrcode",qrcode);
+
         return mav;
+    }
+    @GetMapping("/send-qrcode")
+    public String sendQRCode(@RequestParam Integer visit_id) throws MessagingException, IOException {
+        System.out.println(visit_id);
+        VisitEntity v = visitService.findVisit(visit_id).get();
+        System.out.println(v);
+        String qrCodeContent = String.format("localhost:8181/visit/%d", visit_id);
+        String clientEmail = v.getVisitor().getEmail_address();
+        emailService.sendEmailWithAttachment("carolinaparanet@gmail.com", "museudacomputacaotaguspark@gmail.com", qrCodeContent, visit_id);
+        //emailService.send(clientEmail, "museudacomputacaotaguspark@gmail.com", qrCodeContent);
+        return "redirect:/list-visits";
     }
 
     @PostMapping("/save-observations")

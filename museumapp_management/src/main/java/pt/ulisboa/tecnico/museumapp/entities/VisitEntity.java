@@ -3,6 +3,7 @@ package pt.ulisboa.tecnico.museumapp.entities;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
 @Entity
@@ -37,7 +38,6 @@ public class VisitEntity implements Serializable {
     private Integer timeSlotId;
     @Column(name = "observations", nullable = false)
     protected String observations;
-
 
     public VisitEntity(TimeMachineEntity timeMachine, String startTime, String endTime, State state, VisitorEntity visitor, Integer timeSlotId, String observations, String visitDate){
         this.timeMachine=timeMachine;
@@ -152,6 +152,7 @@ public class VisitEntity implements Serializable {
     public void setTimeSlotId(Integer timeSlotId) {
         this.timeSlotId = timeSlotId;
     }
+
 
     @Override
     public String toString() {
