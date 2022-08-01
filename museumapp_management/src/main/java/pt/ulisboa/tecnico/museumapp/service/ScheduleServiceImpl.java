@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pt.ulisboa.tecnico.museumapp.entities.ScheduleEntity;
 import pt.ulisboa.tecnico.museumapp.entities.TimeSlotEntity;
-import pt.ulisboa.tecnico.museumapp.models.Schedule;
 import pt.ulisboa.tecnico.museumapp.repositories.ScheduleRepository;
 import pt.ulisboa.tecnico.museumapp.repositories.TimeSlotRepository;
 
@@ -38,9 +37,8 @@ public class ScheduleServiceImpl implements ScheduleService{
     @Override
     public List<TimeSlotEntity> getScheduleTimeSlots(Integer scheduleId) {
         List<TimeSlotEntity> timeSlotEntities = new ArrayList<>();
-        ScheduleEntity s = scheduleRepository.findById(scheduleId).get();
         for (TimeSlotEntity ts : timeSlotRepository.findAll()){
-            if(s.getId() == ts.getScheduleId()){
+            if(ts.getScheduleId().equals(scheduleId)){
                 timeSlotEntities.add(ts);
             }
         }
@@ -49,8 +47,7 @@ public class ScheduleServiceImpl implements ScheduleService{
 
 
     @Override
-    public List<Integer> getHoursTimeSlots(Integer scheduleId){
-        List<TimeSlotEntity> timeSlotEntities = getScheduleTimeSlots(scheduleId);
+    public List<Integer> getHoursTimeSlots(List<TimeSlotEntity> timeSlotEntities){
         Date startDate = timeSlotEntities.get(0).getStartTime();
         List<Integer> timeSlotTimes = new ArrayList<>();
         int startTime = startDate.getHours();
@@ -63,6 +60,11 @@ public class ScheduleServiceImpl implements ScheduleService{
 
     @Override
     public void deleteSchedule(Integer scheduleId) {
+        for (TimeSlotEntity ts : timeSlotRepository.findAll()){
+            if(ts.getScheduleId().equals(scheduleId)){
+                timeSlotRepository.deleteById(ts.getId());
+            }
+        }
         scheduleRepository.deleteById(scheduleId);
     }
 }

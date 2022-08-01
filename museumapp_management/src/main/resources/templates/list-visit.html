@@ -92,6 +92,7 @@
                 <a th:href="@{/list-selected-visitor(visitor_id = ${visit.visitor.id})}" class="btn btn-info">Visitor Info</a>
                 <a th:href="@{/delete-visit/{id}(id = ${visit.id})}" class="btn btn-info">Delete</a>
                 <a th:href="@{/show-qrcode(visit_id=${visit.id})}" class="btn btn-info">QRCode</a>
+                <a th:href="@{/send-qrcode(visit_id=${visit.id})}" class="btn btn-info">Send QRCode</a>
             </td>
             <td th:text="${visit.state}"></td>
             <td th:text="${visit.timeMachine.name}"/>

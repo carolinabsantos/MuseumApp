@@ -14,7 +14,7 @@ public interface ScheduleService {
 
     List<TimeSlotEntity> getScheduleTimeSlots(Integer scheduleId);
 
-    List<Integer> getHoursTimeSlots(Integer scheduleId);
+    List<Integer> getHoursTimeSlots(List<TimeSlotEntity> timeSlotEntities);
 
     void deleteSchedule(Integer scheduleId);
 

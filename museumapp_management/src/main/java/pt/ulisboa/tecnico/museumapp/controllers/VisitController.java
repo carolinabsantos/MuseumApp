@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import pt.ulisboa.tecnico.museumapp.email.EmailService;
 import pt.ulisboa.tecnico.museumapp.entities.*;
 import pt.ulisboa.tecnico.museumapp.models.TimeMachine;
 import pt.ulisboa.tecnico.museumapp.models.TimeSlot;
@@ -16,6 +17,7 @@ import pt.ulisboa.tecnico.museumapp.service.TimeSlotService;
 import pt.ulisboa.tecnico.museumapp.service.VisitService;
 import pt.ulisboa.tecnico.museumapp.service.VisitorService;
 
+import javax.mail.MessagingException;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -35,7 +37,9 @@ public class VisitController implements WebMvcConfigurer{
     private TimeMachineService timeMachineService;
     @Autowired
     private TimeSlotService timeSlotService;
-    private VisitEntity visitEntity;
+
+    @Autowired
+    private EmailService emailService;
 
 
     @GetMapping("/book-visit")
@@ -94,28 +98,21 @@ public class VisitController implements WebMvcConfigurer{
 
         VisitorEntity visitor = visitorService.findVisitor(visitBefore.getVisitor().getId()).get();
         visitor.setVisit(null);
-        System.out.println(visitor);
         TimeMachineEntity timeMachine= timeMachineService.findTimeMachineByName(visitBefore.getTimeMachine().getName()).get();
         String observations = visitBefore.getObservations();
         Integer timeSlotId = visit.getTimeSlot();
 
         visitService.deleteVisit(visitBefore);
-        VisitEntity visitFinal = new VisitEntity(timeMachine, visitor, timeSlotId, observations, visit.getVisitDate());
+        Integer tsId = timeSlotService.updateTimeSlot(timeSlotId, visitor.getId());
 
-        timeSlotService.updateTimeSlot(timeSlotId, visitor.getId());
-
-        System.out.println("visitFinal");
-        System.out.println(visitFinal);
-        System.out.println("visitFinalTimeSlot");
-        System.out.println(timeSlotService.findTimeSlot(visitFinal.getTimeSlotId()));
+        VisitEntity visitFinal = new VisitEntity(timeMachine, visitor, tsId, observations, visit.getVisitDate());
 
         visitService.createVisit(visitFinal);
         visitor.setVisit(visitFinal);
         visit.setTimeMachine(new TimeMachine(visitFinal.getTimeMachine().getType(), visitFinal.getTimeMachine().getName(), visitFinal.getTimeMachine().getCapacity()));
         visit.setTimeSlot(visitFinal.getTimeSlotId());
-        System.out.println("visit");
-        System.out.println(visit);
         generateQRCode(visitFinal.getId());
+        emailService.send("carolinaparanet@gmail.com", "museudacomputacaotaguspark@gmail.com", String.format("localhost:8181/visit/%d", visitFinal.getId()));
         return "saved-visit-final";
     }
     @GetMapping("/show-qrcode")
@@ -126,9 +123,13 @@ public class VisitController implements WebMvcConfigurer{
         return mav;
     }
 
+    @GetMapping("/send-qrcode")
+    public String sendQRCode(@RequestParam Integer visit_id) throws MessagingException, IOException {
+        emailService.sendEmailWithAttachment("carolinaparanet@gmail.com", "museudacomputacaotaguspark@gmail.com", String.format("localhost:8181/visit/%d", visit_id), visit_id);
+        return "redirect:/list-visits";
+    }
     @PostMapping("/save-observations")
     public String saveObservations(@ModelAttribute VisitEntity visit) {
-        System.out.println(visit);
         VisitEntity v = visitService.findVisit(visit.getId()).get();
 
         VisitEntity visitFinal = new VisitEntity(v.getTimeMachine(), v.getVisitor(), visit.getObservations(), v.getVisitDate());
@@ -140,8 +141,11 @@ public class VisitController implements WebMvcConfigurer{
     @GetMapping("/delete-visit/{id}")
     public String deleteVisit(@PathVariable(value = "id", required = false) Integer visitId) {
         VisitEntity visit = visitService.findVisit(visitId).get();
+        TimeSlotEntity ts = timeSlotService.findTimeSlot(visit.getTimeSlotId()).get();
+        ts.setCapacity(ts.getCapacity()+visit.getVisitor().getNoVisitors());//when delting a visit, the corresponding capacity of the timeSlot is incremented
         visitService.deleteVisit(visit);
         visitorService.deleteVisitor(visit.getVisitor().getId());//when delting a visit, the corresponding visitor is also deleted
+
         return "redirect:/list-visits";
     }
 }

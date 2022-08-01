@@ -37,11 +37,12 @@ public class TimeSlotEntity {
     public TimeSlotEntity() {
     }
 
-    public TimeSlotEntity(Date startTime, Date endTime, Date date, Integer capacity) {
+    public TimeSlotEntity(Integer scheduleId, Date startTime, Date endTime, Date date, Integer capacity) {
         this.startTime = startTime;
         this.endTime = endTime;
         this.date = date;
         this.capacity = capacity;
+        this.scheduleId=scheduleId;
         this.state = TimeSlotState.AVAILABLE;
         this.name=dateToName(date, startTime, endTime);
     }
@@ -64,6 +65,9 @@ public class TimeSlotEntity {
         this.capacity = capacity;
         this.state = state;
         this.name=name;
+    }
+
+    public TimeSlotEntity(Date startDate, Date endDate, Date d, Integer id, Integer capacity) {
     }
 
     public Integer getId() {

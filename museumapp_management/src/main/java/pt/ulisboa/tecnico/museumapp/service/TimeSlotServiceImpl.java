@@ -60,7 +60,7 @@ public class TimeSlotServiceImpl implements TimeSlotService {
     }
 
     @Override
-    public List<TimeSlotEntity> getTimeSlots(Schedule schedule) throws ParseException {
+    public List<TimeSlotEntity> getTimeSlots(Schedule schedule, Integer scheduleId) throws ParseException {
         List<Integer> hours = getHours(schedule.getBeginningHour(), schedule.getEndingHour());
         int startTime = hours.get(0); //we have the "-1" in for because the first cycle would give from the real second
         int endTime = hours.get(1);
@@ -83,7 +83,7 @@ public class TimeSlotServiceImpl implements TimeSlotService {
                 calendar.add(Calendar.MINUTE, n);
                 Date endDate = calendar.getTime();
 
-                TimeSlotEntity timeSlot = new TimeSlotEntity(startDate, endDate, d, schedule.getCapacity());
+                TimeSlotEntity timeSlot = new TimeSlotEntity(scheduleId, startDate, endDate, d, schedule.getCapacity());
                 timeSlotRepository.save(timeSlot);
                 timeSlots.add(timeSlot);
 
@@ -129,7 +129,7 @@ public class TimeSlotServiceImpl implements TimeSlotService {
 
 
     @Override
-    public void updateTimeSlot(Integer timeSlotId, Integer visitorId){
+    public Integer updateTimeSlot(Integer timeSlotId, Integer visitorId){
         TimeSlotEntity ts = findTimeSlot(timeSlotId).get();
         VisitorEntity v = visitorService.findVisitor(visitorId).get();
         Date startTime = ts.getStartTime();
@@ -145,5 +145,6 @@ public class TimeSlotServiceImpl implements TimeSlotService {
         deleteTimeSlot(timeSlotId);
         TimeSlotEntity timeSlot= new TimeSlotEntity(startTime, endTime, date, scheduleId, capacity, state, name);
         createTimeSlot(timeSlot);
+        return timeSlot.getId();
     }
 }

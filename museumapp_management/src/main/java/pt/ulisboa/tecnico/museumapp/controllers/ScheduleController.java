@@ -44,9 +44,7 @@ public class ScheduleController implements WebMvcConfigurer {
         ModelAndView mav = new ModelAndView("list-schedule");
         List<Schedule> schedules = new ArrayList<>();
         for (ScheduleEntity s : scheduleService.getAllSchedules()){
-            System.out.println(scheduleService.findSchedule(s.getId()));
-            System.out.println(scheduleService.getScheduleTimeSlots(s.getId()));
-            List<Integer> times = scheduleService.getHoursTimeSlots(s.getId());
+            List<Integer> times = scheduleService.getHoursTimeSlots(scheduleService.getScheduleTimeSlots(s.getId()));
             String pattern = "yyyy-MM-dd";
             DateFormat df = new SimpleDateFormat(pattern);
             String beginDate = df.format(s.getBeginingDate());
@@ -54,7 +52,6 @@ public class ScheduleController implements WebMvcConfigurer {
             Schedule schedule = new Schedule(s.getId(), beginDate, endDate, times.get(0).toString(), times.get(times.size()-1).toString(),s.getCapacity(), s.getTimeSlotsDuration());
             schedules.add(schedule);
         }
-        System.out.println(schedules);
         mav.addObject("schedules", schedules);
         return mav;
     }
@@ -87,14 +84,15 @@ public class ScheduleController implements WebMvcConfigurer {
     public String saveSchedule(@ModelAttribute Schedule schedule) throws ParseException {
         Date bDate=new SimpleDateFormat("yyyy-MM-dd").parse(schedule.getBeginningDate());
         Date eDate=new SimpleDateFormat("yyyy-MM-dd").parse(schedule.getEndingDate());
-        List<TimeSlotEntity> timeSlots = timeSlotService.getTimeSlots(schedule);
         ScheduleEntity scheduleFinal = new ScheduleEntity(bDate,eDate, schedule.getCapacity(), schedule.getTimeSlotsDuration());
         scheduleService.createSchedule(scheduleFinal);
+        List<TimeSlotEntity> timeSlots = timeSlotService.getTimeSlots(schedule, scheduleFinal.getId());
         List<TimeSlotEntity> timeSlotsFinal = new ArrayList<>();
         for (TimeSlotEntity ts : timeSlots){
             timeSlotsFinal.add(ts);
             ts.setScheduleId(scheduleFinal.getId());
         }
+
         return "saved-schedule";
     }
 

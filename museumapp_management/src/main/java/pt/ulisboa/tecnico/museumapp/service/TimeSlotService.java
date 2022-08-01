@@ -18,7 +18,7 @@ public interface TimeSlotService {
 
     List<Integer> getHours(String bHour, String eHour) throws ParseException;
 
-    List<TimeSlotEntity> getTimeSlots(Schedule schedule) throws ParseException;
+    List<TimeSlotEntity> getTimeSlots(Schedule schedule, Integer scheduleId) throws ParseException;
 
     TimeSlotEntity findTimeSlotByName(String name);
 
@@ -26,5 +26,5 @@ public interface TimeSlotService {
 
     List<TimeSlotEntity> findTimeSlotByVisit(Integer visit_id);
 
-    void updateTimeSlot(Integer timeSlotId, Integer visitorId);
+    Integer updateTimeSlot(Integer timeSlotId, Integer visitorId);
 }
