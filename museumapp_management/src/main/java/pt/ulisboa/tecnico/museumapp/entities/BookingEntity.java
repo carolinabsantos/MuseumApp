@@ -16,6 +16,11 @@ public class BookingEntity {
     @Column(name="visitor_id")
     private Integer visitorId;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "timeslot_id", nullable = false)
+    private TimeSlotEntity timeSlot;
+
+
     public Integer getId() {
         return id;
     }
@@ -44,6 +49,13 @@ public class BookingEntity {
         this.visitorId = visitorId;
     }
 
+    public TimeSlotEntity getTimeSlot() {
+        return timeSlot;
+    }
+
+    public void setTimeSlot(TimeSlotEntity timeSlot) {
+        this.timeSlot = timeSlot;
+    }
 
     @Override
     public String toString() {
@@ -52,6 +64,7 @@ public class BookingEntity {
                 ", visitId=" + visitId +
                 ", timeMachineId=" + timeMachineId +
                 ", visitorId=" + visitorId +
+                ", timeSlot=" + timeSlot +
                 '}';
     }
 }

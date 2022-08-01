@@ -28,6 +28,10 @@ public class TimeSlotEntity {
     @Column(name = "schedule_id")
     private Integer scheduleId;
 
+    @OneToMany(mappedBy = "timeSlot", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private List<BookingEntity> bookedVisits;
+
     @Column(name = "time_slot_state")
     private TimeSlotState state;
 
@@ -151,6 +155,7 @@ public class TimeSlotEntity {
                 ", date=" + date +
                 ", capacity=" + capacity +
                 ", scheduleId=" + scheduleId +
+                ", bookedVisits=" + bookedVisits +
                 ", state=" + state +
                 ", name='" + name + '\'' +
                 '}';

@@ -1,9 +1,7 @@
 package pt.ulisboa.tecnico.museumapp.controllers;
 
-import com.google.zxing.WriterException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -23,8 +21,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-
-import static pt.ulisboa.tecnico.museumapp.GenerateQRCode.generateQRCode;
 
 
 @Controller // This means that this class is a Controller
@@ -93,7 +89,7 @@ public class VisitController implements WebMvcConfigurer{
     }
 
     @PostMapping("/save-visit-date")
-    public String saveVisit(@ModelAttribute Visit visit, @ModelAttribute TimeSlot timeSlot) throws IOException, WriterException {
+    public String saveVisit(@ModelAttribute Visit visit, @ModelAttribute TimeSlot timeSlot) {
         VisitEntity visitBefore = visitService.findVisit(visit.getId()).get();
 
         VisitorEntity visitor = visitorService.findVisitor(visitBefore.getVisitor().getId()).get();
@@ -114,13 +110,6 @@ public class VisitController implements WebMvcConfigurer{
         generateQRCode(visitFinal.getId());
         emailService.send("carolinaparanet@gmail.com", "museudacomputacaotaguspark@gmail.com", String.format("localhost:8181/visit/%d", visitFinal.getId()));
         return "saved-visit-final";
-    }
-    @GetMapping("/show-qrcode")
-    public ModelAndView showQRCode(@RequestParam Integer visit_id) {
-        ModelAndView mav = new ModelAndView("show-qrcode");
-        String qrCodeContent = String.format("localhost:8181/visit/%d", visit_id);
-        mav.addObject("qrCodeContent", "/generateQRCode?qrContent=" + qrCodeContent);
-        return mav;
     }
 
     @GetMapping("/send-qrcode")
