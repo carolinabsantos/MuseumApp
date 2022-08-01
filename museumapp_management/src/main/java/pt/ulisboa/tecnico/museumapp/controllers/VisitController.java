@@ -5,8 +5,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import pt.ulisboa.tecnico.museumapp.GenerateQRCode;
-import pt.ulisboa.tecnico.museumapp.email.EmailService;
 import pt.ulisboa.tecnico.museumapp.entities.TimeMachineEntity;
 import pt.ulisboa.tecnico.museumapp.entities.TimeSlotEntity;
 import pt.ulisboa.tecnico.museumapp.entities.VisitEntity;
@@ -35,9 +33,6 @@ public class VisitController implements WebMvcConfigurer{
     private TimeMachineService timeMachineService;
     @Autowired
     private TimeSlotService timeSlotService;
-    @Autowired
-    private EmailService emailService;
-
 
     @GetMapping("/book-visit")
     public ModelAndView bookVisitView(@RequestParam Integer visitor_id) {
