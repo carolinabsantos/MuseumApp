@@ -91,7 +91,7 @@
                 <a th:href="@{/add-observations(visit_id = ${visit.id})}" class="btn btn-info">Update</a>
                 <a th:href="@{/delete-visit/{id}(id = ${visit.id})}" class="btn btn-info">Delete</a>
                 <a th:href="@{/show-qrcode(visit_id=${visit.id})}" class="btn btn-info">QRCode</a>
-                <a th:href="@{/send-qrcode(visit_id=${visit.id})}" class="btn btn-info">Send QRCode</a>
+                <a th:href="@{/download-qrcode(visit_id=${visit.id})}" class="btn btn-info">Download QRCode</a>
             </td>
             <td th:text="${visit.state}"></td>
             <td th:text="${visit.timeMachine.name}"/>
