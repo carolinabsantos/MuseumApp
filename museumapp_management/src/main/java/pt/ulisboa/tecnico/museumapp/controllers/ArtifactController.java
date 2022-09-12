@@ -19,7 +19,6 @@ public class ArtifactController implements WebMvcConfigurer{
 
     @GetMapping("/new-artifact")
     public String createArtifactForm(Model model) {
-
         model.addAttribute("artifact", new Artifact());
         return "new-artifact";
     }

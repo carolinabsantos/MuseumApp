@@ -46,6 +46,7 @@ public class TimeMachineServiceImpl implements TimeMachineService{
     @Override
     public void updateArtifacts() {
         for (TimeMachineEntity timeMachine : timeMachineRepository.findAll()) {
+            updateArtifactsOnTimeMachine(timeMachine);
             timeMachine.setArtifactsCount(timeMachine.getArtifacts().size());
         }
     }
@@ -64,11 +65,49 @@ public class TimeMachineServiceImpl implements TimeMachineService{
     @Override
     public void updateVisitTime() {
         for (TimeMachineEntity timeMachine : timeMachineRepository.findAll()) {
-            Integer visitTime = timeMachine.getVisitTime();
+            Integer visitTime = 0;
             for (ArtifactEntity a : timeMachine.getArtifacts()){
                 visitTime += a.getTimeToVisit();
             }
             timeMachine.setVisitTime(visitTime);
         }
     }
+
+    @Override
+    public void updateArtifactsOnTimeMachine(TimeMachineEntity timeMachine){
+        System.out.println("Time Machine: " + timeMachine);
+        for (ArtifactEntity artifact : artifactRepository.findAll()){
+            System.out.println("Artifact name: " + artifact.getName() + "; Artifact year: " + artifact.getCreationYear());
+            if (artifactOnTimeMachineByCategory(artifact,timeMachine) | artifactOnTimeMachineByYear(artifact, timeMachine) | artifactOnTimeMachineByTopic(artifact, timeMachine)) {
+                if(timeMachine.getArtifactsCount()==null){
+                    timeMachine.addArtifact(artifact);
+                    System.out.println("Added");
+                }
+                else if(!(timeMachine.getArtifacts().contains(artifact))){
+                    timeMachine.addArtifact(artifact);
+                    System.out.println("Added");
+                }
+            }
+            System.out.println("Not Added");
+        }
+    }
+    @Override
+    public boolean artifactOnTimeMachineByCategory(ArtifactEntity artifact, TimeMachineEntity t){
+        if (artifact.getCategory().equals(t.getName()) | artifact.getCategory2().equals(t.getName()) | artifact.getCategory3().equals(t.getName()) | artifact.getCategory4().equals(t.getName()))
+            return true;
+        return false;
+    }
+    @Override
+    public boolean artifactOnTimeMachineByYear(ArtifactEntity artifact, TimeMachineEntity t){
+        if (artifact.getCreationYear().toString().equals(t.getName()))
+            return true;
+        return false;
+    }
+    @Override
+    public boolean artifactOnTimeMachineByTopic(ArtifactEntity artifact, TimeMachineEntity t){
+        if(artifact.getCountry().equals(t.getName()) | artifact.getBrand().equals(t.getName()) | artifact.getDonatedBy().equals(t.getName()) | artifact.getExhibitor().equals(t.getName()))
+            return true;
+        return false;
+    }
+
 }

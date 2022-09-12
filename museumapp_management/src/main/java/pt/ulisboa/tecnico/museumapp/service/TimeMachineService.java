@@ -23,4 +23,12 @@ public interface TimeMachineService {
     void deleteTimeMachine(Integer timeMachineId);
 
     void updateVisitTime();
+
+    void updateArtifactsOnTimeMachine(TimeMachineEntity t);
+
+    boolean artifactOnTimeMachineByCategory(ArtifactEntity artifact, TimeMachineEntity t);
+
+    boolean artifactOnTimeMachineByYear(ArtifactEntity artifact, TimeMachineEntity t);
+
+    boolean artifactOnTimeMachineByTopic(ArtifactEntity artifact, TimeMachineEntity t);
 }

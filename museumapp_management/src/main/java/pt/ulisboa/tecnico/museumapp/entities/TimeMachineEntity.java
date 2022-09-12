@@ -75,11 +75,10 @@ public class TimeMachineEntity implements Serializable {
 
     public void addArtifact(ArtifactEntity a){
         List<ArtifactEntity> artifactEntities = new ArrayList<>();
-        System.out.println(this.artifacts);
-        System.out.println(a);
+        if(this.artifacts!=null){
+            artifactEntities.addAll(this.artifacts);
+        }
         artifactEntities.add(a);
-        System.out.println(artifactEntities);
-        this.artifacts.addAll(artifactEntities);
         this.setArtifacts(artifactEntities);
     }
 

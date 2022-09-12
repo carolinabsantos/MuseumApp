@@ -20,16 +20,23 @@ public class ArtifactServiceImpl implements ArtifactService{
     @Autowired
     TimeMachineRepository timeMachineRepository;
 
+    @Autowired
+    TimeMachineService timeMachineService;
+
+
     @Override
     public Iterable<ArtifactEntity> getAllArtifacts() {
         return artifactRepository.findAll();
     }
+
     @Override
     public void updateTimeMachine(ArtifactEntity artifact) {
         List<TimeMachineEntity> timeMachines = timeMachineRepository.findAll();
         for (TimeMachineEntity t : timeMachines) {
-            if (artifact.getCategory().equals(t.getName()) | artifact.getCategory2().equals(t.getName()) | artifact.getCategory3().equals(t.getName()) | artifact.getCategory4().equals(t.getName())) {
-                t.addArtifact(artifact);
+            if (timeMachineService.artifactOnTimeMachineByCategory(artifact,t) | timeMachineService.artifactOnTimeMachineByYear(artifact,t) | timeMachineService.artifactOnTimeMachineByTopic(artifact,t)) {
+                if(!(t.getArtifacts().contains(artifact))){
+                    t.addArtifact(artifact);
+                }
             }
         }
     }
