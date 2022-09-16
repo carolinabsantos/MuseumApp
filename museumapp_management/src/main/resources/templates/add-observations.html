@@ -64,7 +64,7 @@
         </div>
     </div>
 </main>
-<form method="post" th:action="@{/save-observations}" th:object="${visit}">
+<form method="post" th:action="@{/save-observations(id = ${visit.id})}" th:object="${visit}">
     <div class="form-row">
         <div class="col-md-6 form-group">
             <input type="hidden" class="form-control" th:field="*{visitorId}">

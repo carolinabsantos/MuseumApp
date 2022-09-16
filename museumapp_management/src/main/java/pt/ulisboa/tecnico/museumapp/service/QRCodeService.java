@@ -18,7 +18,7 @@ public interface QRCodeService {
 
     void deleteQRCode(Integer id);
 
-    String decodeQrCodeFile(File qrCodeFile) throws Exception;
+    String decodeQR(byte[] qrCodeBytes);
 
     QRCodeResult generateQrCodeUrl(QRCodeEntity QRCodeEntity);
 
@@ -27,4 +27,6 @@ public interface QRCodeService {
     boolean downloadQRCode(QRCodeEntity qrCode);
 
     void deleteQRCodeFile(Integer visit_id);
+
+    Integer getVisitId(String qrCodeContent);
 }

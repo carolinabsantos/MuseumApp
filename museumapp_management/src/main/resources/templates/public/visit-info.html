@@ -89,17 +89,32 @@
 </header>
 <main role="main">
     <div class="container">
-        <h1>Choose your QR code image file to upload.</h1>
-        <p class="text-danger" th:if="${errorMessage}" th:text="${errorMessage}"></p>
-        <p class="text-success" th:if="${successMessage}" th:text="${successMessage}"></p>
-        <p class="text-primary" th:if="${qrContent}" th:text="${qrContent}"></p>
-        <form method="POST" enctype="multipart/form-data" action="/uploadQrCode">
-            <div class="form-group">
-                <label for="qrCodeFile">File to upload</label>
-                <input type="file" class="form-control-file" id="qrCodeFile" name="qrCodeFile" >
-            </div>
-            <button type="submit" class="btn btn-qrcode">Upload</button>
-        </form>
+        <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+                <th>Visit Id</th>
+                <th>Visitor First Name</th>
+                <th>Visitor Last Name</th>
+                <th>Time Machine</th>
+                <th>Visit Duration</th>
+                <th>Visit Date</th>
+            </tr>
+            </thead>
+            <tbody>
+            <td th:text="${visit.id}" />
+            <td th:text="${visit.visitor.fName}" />
+            <td th:text="${visit.visitor.lName}" />
+            <td th:text="${visit.timeMachine.name}" />
+            <td th:text="${visit.timeMachine.visitTime}" />
+            <td th:text="${visit.visitDate}" />
+            </tr>
+            </tbody>
+        </table>
+        <td>
+            <form method="post" th:action="@{/started-visit(visitId=${visit.id})}">
+            <button class="btn btn-qrcode" type="submit">Começar a visita</button>
+            </form>
+        </td>
     </div>
 </main>
 

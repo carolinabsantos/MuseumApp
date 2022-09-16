@@ -86,6 +86,17 @@ public class VisitEntity implements Serializable {
         this.timeSlotId=0;
     }
 
+    public VisitEntity(TimeMachineEntity timeMachine, VisitorEntity visitor, String observations, String visitDate, State state, String start_time, Integer time_slot_id) {
+        this.timeMachine=timeMachine;
+        this.startTime=start_time;
+        this.endTime="Not_ended";
+        this.state=state;
+        this.visitor=visitor;
+        this.observations=observations;
+        this.visitDate=visitDate;
+        this.timeSlotId=time_slot_id;
+    }
+
     public Integer getId() {
         return id;
     }

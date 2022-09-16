@@ -8,6 +8,8 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.sun.istack.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Base64Utils;
@@ -23,8 +25,8 @@ import java.awt.image.BufferedImage;
 
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
-import com.google.zxing.qrcode.QRCodeReader;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -40,6 +42,9 @@ public class QRCodeServiceImpl implements QRCodeService{
     QRCodeRepository qrCodeRepository;
     @Autowired
     VisitRepository visitRepository;
+
+
+    private Logger logger = LoggerFactory.getLogger(QRCodeServiceImpl.class);
 
     private static final String QR_CODE_IMAGE_PATH = "./src/main/resources/static/qrcodes/QRCode";
 
@@ -69,17 +74,23 @@ public class QRCodeServiceImpl implements QRCodeService{
     }
 
     @Override
-    public String decodeQrCodeFile(File qrCodeFile) throws Exception {
-        log.info("start decoding file {}", qrCodeFile.getName());
-        BufferedImage bufferedImage = ImageIO.read(qrCodeFile);
-        LuminanceSource luminanceSource = new BufferedImageLuminanceSource(bufferedImage);
-        BinaryBitmap binaryBitmap = new BinaryBitmap(new HybridBinarizer(luminanceSource));
-        Map<DecodeHintType, Object> hintMap = new EnumMap<>(DecodeHintType.class);
-        hintMap.put(DecodeHintType.CHARACTER_SET, "UTF-8");
-        hintMap.put(DecodeHintType.PURE_BARCODE, Void.class);
-        Result result = new QRCodeReader().decode(binaryBitmap, hintMap);
-        log.info("file {} successfully decoded", qrCodeFile.getName());
-        return result.getText();
+    public String decodeQR(byte[] qrCodeBytes) {
+        try {
+            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(qrCodeBytes);
+            BufferedImage bufferedImage = ImageIO.read(byteArrayInputStream);
+            BufferedImageLuminanceSource bufferedImageLuminanceSource = new BufferedImageLuminanceSource(bufferedImage);
+            HybridBinarizer hybridBinarizer = new HybridBinarizer(bufferedImageLuminanceSource);
+            BinaryBitmap binaryBitmap = new BinaryBitmap(hybridBinarizer);
+            MultiFormatReader multiFormatReader = new MultiFormatReader();
+            Result result = multiFormatReader.decode(binaryBitmap);
+
+            return result.getText();
+        } catch (NotFoundException e) {
+            logger.error(e.getMessage(), e);
+        } catch (IOException e) {
+            logger.error(e.getMessage(), e);
+        }
+        return null;
     }
 
     @Override
@@ -163,5 +174,13 @@ public class QRCodeServiceImpl implements QRCodeService{
         hintMap.put(EncodeHintType.MARGIN, 1);
         hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
         return hintMap;
+    }
+
+    @Override
+    public Integer getVisitId(String qrCodeContent){
+        String delimSpace = "/";
+        String[] arr1  = qrCodeContent.split(delimSpace);
+        Integer visit_id = Integer.parseInt(arr1[1]);
+        return visit_id;
     }
 }

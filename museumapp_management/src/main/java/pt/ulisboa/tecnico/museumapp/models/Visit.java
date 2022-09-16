@@ -1,6 +1,8 @@
 package pt.ulisboa.tecnico.museumapp.models;
 
 import pt.ulisboa.tecnico.museumapp.entities.State;
+import pt.ulisboa.tecnico.museumapp.entities.TimeMachineEntity;
+import pt.ulisboa.tecnico.museumapp.entities.VisitorEntity;
 
 import java.util.Date;
 
@@ -50,6 +52,7 @@ public class Visit {
         this.id=id;
         this.visitorId=visitorId;
     }
+
     public TimeMachine getTimeMachine() {
         return timeMachine;
     }

@@ -19,6 +19,13 @@
                 color:#009DE0;
                 border-color: #2F3E48;
             }
+            .container-xxl
+            {
+                position: fixed;
+                background-color: #2F3E48;
+                width: 100%;
+                height: 100%;
+            }
             .navbar-light
             {
                 color: #2F3E48;
@@ -31,28 +38,17 @@
             {
                 color: #009DE0;
             }
-            .start-image {
-                content: '';
-                background-image: url('images/banner.jpg');
-                mask-image: -moz-linear-gradient(transparent, black);
-                height: fit-content;
-                width: 100%;
-                position: relative;
-                left: 0;
-                top: 0;
-            }
-            .jumbotron-fluid-visit
-            {
-                background-color: #2F3E48;
-            }
             .jumbotron-fluid-visit-text
             {
+                transform: translate(20%,50%);
+                align-content: center;
                 text-align: center;
+                position: fixed;
                 color: white;
             }
         </style>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-        <title>MuseuComputação - A sua visita</title>
+        <title>Museu da Computação</title>
     </head>
 </head>
 <body>
@@ -88,20 +84,80 @@
     <!-- Navbar -->
 </header>
 <main role="main">
-    <div class="container">
-        <h1>Choose your QR code image file to upload.</h1>
-        <p class="text-danger" th:if="${errorMessage}" th:text="${errorMessage}"></p>
-        <p class="text-success" th:if="${successMessage}" th:text="${successMessage}"></p>
-        <p class="text-primary" th:if="${qrContent}" th:text="${qrContent}"></p>
-        <form method="POST" enctype="multipart/form-data" action="/uploadQrCode">
-            <div class="form-group">
-                <label for="qrCodeFile">File to upload</label>
-                <input type="file" class="form-control-file" id="qrCodeFile" name="qrCodeFile" >
+    <div class="container-xxl">
+            <div class="jumbotron-fluid-visit-text">
+                <h5 class="mt-0 mb-1">Ups!</h5>
+                <p class="lead">Surgiu um erro!</p>
+                <p class="lead">Ou já realizou a sua visita, ou a mesma já era suposto ter terminado. Por favor, volte a
+                    marcar connosco!</p>
+                <a class="btn btn-qrcode btn-lg" th:href="@{/museum}" role="button">Voltar à pagina principal</a>
             </div>
-            <button type="submit" class="btn btn-qrcode">Upload</button>
-        </form>
+        </div>
     </div>
 </main>
+<!--
+<main role="main">
+    &lt;!&ndash; Background image &ndash;&gt;
+    <div class="p-5 start-image rounded-3">
+        <div class="shade"></div>
+        <div class="d-flex justify-content-center align-items-center">
+            <div class="text-white-shade">
+                <h1 class="mb-3">Museu da Computação</h1>
+                <h4 class="mb-3">do Instituto Superior Técnico - Taguspark</h4>
+                <p> Call to action</p>
+            </div>
+        </div>
+    </div>
+    &lt;!&ndash; Background image &ndash;&gt;
+</main>
+-->
+
+
+
+<!--
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" th:href="@{/museum}">
+        <img src="../../static/images/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
+        Museu da Computação
+    </a>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+            <li class="navbar navbar-light bg-light">
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/about}">Sobre Nós</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/visitas}">Visitas</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/contactos}">Contacte-nos</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<main role="main">
+    <div class="p-5 text-center bg-image rounded-3" style="
+    background-image: url('https://mdbcdn.b-cdn.net/img/new/slides/041.webp');
+    height: 100px;">
+        <div class="mask" style="background-color: rgba(0, 0, 0, 0.6);">
+            <div class="d-flex justify-content-center align-items-center h-100">
+                <div class="text-white">
+                    <h1 class="mb-3">Museu da Computação</h1>
+                    <h4 class="mb-3">do Instituto Superior Técnico - Taguspark</h4>
+                    <a class="btn btn-outline-light btn-lg" href="#!" role="button">Call to action</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="jumbotron">
+        <div class="container">
+            <h1 class="display-3">Museu da Computação</h1>
+            <p>Já tem uma marcação feita? Inicie já a sua visita!</p>
+            <p style="text-align: center"><a class="btn btn-qrcode" th:href="@{/start_visit}" role="button">Ler QRCode »</a></p>
+        </div>
+    </div>
+</main>-->
 
 </body>
 </html>

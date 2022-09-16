@@ -114,12 +114,9 @@ public class VisitController implements WebMvcConfigurer{
     }
 
     @PostMapping("/save-observations")
-    public String saveObservations(@ModelAttribute VisitEntity visit) {
-        VisitEntity v = visitService.findVisit(visit.getId()).get();
-
-        VisitEntity visitFinal = new VisitEntity(v.getTimeMachine(), v.getVisitor(), visit.getObservations(), v.getVisitDate());
-        visitService.deleteVisit(v);
-        visitService.createVisit(visitFinal);
+    public String saveObservations(@ModelAttribute VisitEntity visit, @RequestParam Integer id) {
+        VisitEntity v = visitService.findVisit(id).get();
+        visitService.updateVisitObservations(v.getId(), visit.getObservations());
         return "redirect:/list-visits";
     }
 

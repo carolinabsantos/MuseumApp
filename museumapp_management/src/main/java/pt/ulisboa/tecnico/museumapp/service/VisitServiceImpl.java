@@ -2,6 +2,7 @@ package pt.ulisboa.tecnico.museumapp.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pt.ulisboa.tecnico.museumapp.entities.State;
 import pt.ulisboa.tecnico.museumapp.entities.TimeMachineEntity;
 import pt.ulisboa.tecnico.museumapp.entities.VisitEntity;
 import pt.ulisboa.tecnico.museumapp.models.TimeMachine;
@@ -72,6 +73,22 @@ public class VisitServiceImpl implements VisitService{
             lastElement = (VisitEntity) itr.next();
         }
         return lastElement;
+    }
+    @Override
+    public void startVisit(Integer visitId, String start_time) {
+        visitRepository.updateState(visitId, State.ONGOING);
+        visitRepository.updateStartTime(visitId, start_time );
+        visitRepository.updateEndTime(visitId, "not_ended" );
+    }
+    
+    @Override
+    public void endVisit(Integer visitId, String end_time) {
+        visitRepository.updateState(visitId, State.ENDED);
+        visitRepository.updateEndTime(visitId, end_time );
+    }
+    @Override
+    public void updateVisitObservations(Integer visitId, String observations) {
+        visitRepository.updateObservations(visitId, observations);
     }
 
 }

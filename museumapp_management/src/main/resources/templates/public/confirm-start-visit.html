@@ -52,7 +52,7 @@
             }
         </style>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-        <title>MuseuComputação - A sua visita</title>
+        <title>MuseuComputação - Começar visita</title>
     </head>
 </head>
 <body>
@@ -88,18 +88,15 @@
     <!-- Navbar -->
 </header>
 <main role="main">
-    <div class="container">
-        <h1>Choose your QR code image file to upload.</h1>
-        <p class="text-danger" th:if="${errorMessage}" th:text="${errorMessage}"></p>
-        <p class="text-success" th:if="${successMessage}" th:text="${successMessage}"></p>
-        <p class="text-primary" th:if="${qrContent}" th:text="${qrContent}"></p>
-        <form method="POST" enctype="multipart/form-data" action="/uploadQrCode">
-            <div class="form-group">
-                <label for="qrCodeFile">File to upload</label>
-                <input type="file" class="form-control-file" id="qrCodeFile" name="qrCodeFile" >
+    <div class="jumbotron jumbotron-fluid-visit">
+        <div class="media">
+            <div class="media-body jumbotron-fluid-visit-text">
+                <h5 class="mt-0 mb-1">Tem a certeza que pretende começar a sua visita?</h5>
+                <p class="lead"></p>
+                <a class="btn btn-qrcode btn-lg" th:href="@{/start-visit}" role="button">Sim</a>
+                <input class="btn btn-qrcode btn-lg" type="button" value="Voltar atrás" onclick="history.back()">
             </div>
-            <button type="submit" class="btn btn-qrcode">Upload</button>
-        </form>
+        </div>
     </div>
 </main>
 

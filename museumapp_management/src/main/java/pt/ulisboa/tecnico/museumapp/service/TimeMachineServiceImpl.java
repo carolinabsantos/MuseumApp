@@ -75,20 +75,15 @@ public class TimeMachineServiceImpl implements TimeMachineService{
 
     @Override
     public void updateArtifactsOnTimeMachine(TimeMachineEntity timeMachine){
-        System.out.println("Time Machine: " + timeMachine);
         for (ArtifactEntity artifact : artifactRepository.findAll()){
-            System.out.println("Artifact name: " + artifact.getName() + "; Artifact year: " + artifact.getCreationYear());
             if (artifactOnTimeMachineByCategory(artifact,timeMachine) | artifactOnTimeMachineByYear(artifact, timeMachine) | artifactOnTimeMachineByTopic(artifact, timeMachine)) {
                 if(timeMachine.getArtifactsCount()==null){
                     timeMachine.addArtifact(artifact);
-                    System.out.println("Added");
                 }
                 else if(!(timeMachine.getArtifacts().contains(artifact))){
                     timeMachine.addArtifact(artifact);
-                    System.out.println("Added");
                 }
             }
-            System.out.println("Not Added");
         }
     }
     @Override

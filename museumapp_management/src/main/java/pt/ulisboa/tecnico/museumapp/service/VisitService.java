@@ -1,5 +1,6 @@
 package pt.ulisboa.tecnico.museumapp.service;
 
+import pt.ulisboa.tecnico.museumapp.entities.State;
 import pt.ulisboa.tecnico.museumapp.entities.TimeMachineEntity;
 import pt.ulisboa.tecnico.museumapp.entities.VisitEntity;
 import pt.ulisboa.tecnico.museumapp.models.Visit;
@@ -21,4 +22,10 @@ public interface VisitService {
     VisitEntity findVisitByVisitorId(Integer visitorId);
 
     VisitEntity getLastElement();
+
+    void startVisit(Integer visitId, String start_time);
+
+    void endVisit(Integer visitId, String end_time);
+
+    void updateVisitObservations(Integer visitId, String observations);
 }
