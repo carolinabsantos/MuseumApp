@@ -34,11 +34,21 @@ public class TimeMachineEntity implements Serializable {
     @Column(name = "visitTime", nullable = false)
     protected Integer visitTime;
 
+    @Column(name="image")
+    private String image;
+
     public TimeMachineEntity(TypeOfTimeMachine type, String name, Integer capacity){
         this.type=type;
         this.name=name;
         this.capacity=capacity;
         this.visitTime=0;
+    }
+    public TimeMachineEntity(TypeOfTimeMachine type, String name, Integer capacity, String image){
+        this.type=type;
+        this.name=name;
+        this.capacity=capacity;
+        this.visitTime=0;
+        this.image=image;
     }
 
     protected TimeMachineEntity() {
@@ -106,6 +116,14 @@ public class TimeMachineEntity implements Serializable {
         this.visitTime = visitTime;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     @Override
     public String toString() {
         return "TimeMachineEntity{" +
@@ -114,7 +132,8 @@ public class TimeMachineEntity implements Serializable {
                 ", name='" + name + '\'' +
                 ", artifacts=" + artifacts + '\'' +
                 ", capacity=" + capacity + '\'' +
-                ", visitTime=" + visitTime +
+                ", visitTime=" + visitTime + '\'' +
+                ", image=" + image +
                 '}';
     }
 }

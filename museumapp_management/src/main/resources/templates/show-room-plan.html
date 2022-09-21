@@ -9,11 +9,11 @@
             integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
             src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
     <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-            integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" rel="stylesheet">
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" rel="stylesheet">
     <script crossorigin="anonymous"
             integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
             src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-    <title>Museum - Add Time Machine</title>
+    <title>Museum - Room Plan</title>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -35,6 +35,7 @@
                     Museum
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" th:href="@{/index-system}">System</a>
                     <a class="dropdown-item" th:href="@{/index-visitor}">Visitors</a>
                     <a class="dropdown-item" th:href="@{/index-visit}">Visits</a>
                     <a class="dropdown-item" th:href="@{/index-artifact}">Artifacts</a>
@@ -59,47 +60,16 @@
 <main role="main">
     <div class="jumbotron">
         <div class="container">
-            <h1 class="display-3">Add Time Machine</h1>
-            <p>Here an administrator can choose to add a new Time Machine to the system.</p>
+            <h1 class="display-3">Time Machine</h1>
+            <p>Here an administrator can see the room plan of the time machine chosen.</p>
         </div>
     </div>
 </main>
-<div class="col-md-6 col-md-offset-6" style="margin-left: 390px;">
-<form method="post" th:action="@{/save-time-machine}" th:object="${timeMachine}"
-      enctype="multipart/form-data">
-    <div class="form-row">
-        <div class="col-md-6 form-group">
-            <label>Name:</label>
-            <input type="text" class="form-control" th:field="*{name}">
-        </div>
-    </div>
-    <div class="form-row">
-        <div class="col-md-6 form-group">
-            <label>Capacity:</label>
-            <input type="number" class="form-control" th:field="*{capacity}">
-        </div>
-    </div>
-    <div class="form-row">
-        <div class="col-md-6 form-group">
-            <label>Type:</label>
-            <div class="col-md-6 form-group" th:each="type : ${T(pt.ulisboa.tecnico.museumapp.entities.TypeOfTimeMachine).values()}">
-                <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" th:field="*{type}" th:value="${type}" class="custom-control-input">
-                    <label class="custom-control-label" th:for="${#ids.prev('type')}" th:text="${type}">type</label>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="form-row">
-        <div class="col-md-6 form-group">
-            <label>Photos: </label>
-            <input type="file" name="image" accept="image/png, image/jpeg" />
-        </div>
-    </div>
-
-    <input type="submit" class="btn btn-secondary" value="Submeter">
-    <input class="btn btn-secondary" type="button" value="Voltar atrás" onclick="history.back()">
-</form>
+<div class="container">
+    <img th:src="@{${path}}" alt=""/>
+<!--    <img th:src="@{${'../resources/static/room-plans/' + fileName}}" th:alt="${fileName}" width=""/>-->
 </div>
+<a th:href="@{/home}" class="btn btn-secondary">Home</a>
+<a th:href="@{/list-time-machine}" class="btn btn-secondary">List Time Machines</a>
 </body>
 </html>

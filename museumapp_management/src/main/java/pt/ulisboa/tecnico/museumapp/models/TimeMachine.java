@@ -1,5 +1,6 @@
 package pt.ulisboa.tecnico.museumapp.models;
 
+import org.springframework.web.multipart.MultipartFile;
 import pt.ulisboa.tecnico.museumapp.entities.TypeOfTimeMachine;
 
 import java.sql.Timestamp;
@@ -12,7 +13,17 @@ public class TimeMachine {
     private Integer artifactsCount;
     private Integer capacity;
 
+    private MultipartFile roomPlanFile;
+
     public TimeMachine(){}
+
+    public TimeMachine(TypeOfTimeMachine type, String name,List<Artifact> artifacts, Integer capacity, MultipartFile roomPlanFile){
+        this.type=type;
+        this.name=name;
+        this.artifacts=artifacts;
+        this.capacity=capacity;
+        this.roomPlanFile=roomPlanFile;
+    }
 
     public TimeMachine(TypeOfTimeMachine type, String name,List<Artifact> artifacts, Integer capacity){
         this.type=type;
@@ -65,6 +76,14 @@ public class TimeMachine {
 
     public void setCapacity(Integer capacity) {
         this.capacity = capacity;
+    }
+
+    public MultipartFile getImage() {
+        return roomPlanFile;
+    }
+
+    public void setImage(MultipartFile roomPlanFile) {
+        this.roomPlanFile = roomPlanFile;
     }
 
     @Override

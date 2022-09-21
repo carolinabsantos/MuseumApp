@@ -9,6 +9,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pt.ulisboa.tecnico.museumapp.entities.*;
 import pt.ulisboa.tecnico.museumapp.service.*;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -55,11 +59,22 @@ public class HomePublicController implements WebMvcConfigurer {
         return "public/error";
     }
 
+    private static final String ROOM_PLAN_IMAGE_PATH = "./src/main/resources/static/room-plans/";
     @GetMapping("/visit-info/{visit_id}")
-    public ModelAndView visitInfoView(@PathVariable(value = "visit_id", required = false) Integer visitId) {
-        System.out.println("visitID: " + visitId);
+    public ModelAndView visitInfoView(@PathVariable(value = "visit_id", required = false) Integer visitId) throws IOException {
         VisitEntity visit = visitService.findVisit(visitId).get();
+        TimeSlotEntity ts = timeSlotService.findTimeSlot(visit.getTimeSlotId()).get();
+        String tsName = ts.getName();
+        String roomPlanName = visit.getTimeMachine().getImage();
+        String []formatSplit=roomPlanName.split("\\.",2);
+        String format = formatSplit[1];
+
+        BufferedImage bufferedImage= ImageIO.read(new File(ROOM_PLAN_IMAGE_PATH + roomPlanName));
+        String imagePath= timeMachineService.encodeToString(bufferedImage,format);
+
         ModelAndView mav = new ModelAndView("public/visit-info");
+        mav.addObject("path", imagePath);
+        mav.addObject("tsname", tsName);
         mav.addObject("visit", visit);
         return mav;
     }
@@ -74,14 +89,18 @@ public class HomePublicController implements WebMvcConfigurer {
         String start_time = dtf.format(now);
         redirectAttributes.addFlashAttribute("start_time", "Time now:" + start_time);
         redirectAttributes.addFlashAttribute("visitTimeEnd", "Time now:" + visitTimeEnd);
-        if(now.isAfter(visitTimeEnd) && (visit.getState() == State.TO_START)){
-            visitService.updateVisitObservations(visitId, "Missed");
-            return "public/error-start-visit";
+        if(now.isAfter(visitTimeEnd)){
+            System.out.println("now.isAfter(visitTimeEnd)");
+            if(visit.getState() == State.TO_START){
+                visitService.updateVisitObservations(visitId, "Missed");
+                return "public/error-start-visit";
+            }
+            if(visit.getState() != State.TO_START){
+                visitService.updateVisitObservations(visitId, "Error occrured");
+                return "public/error-start-visit";
+            }
         }
-        if(now.isAfter(visitTimeEnd) && (visit.getState() != State.TO_START)){
-            visitService.updateVisitObservations(visitId, "Error occrured");
-            return "public/error-start-visit";
-        }
+
         if(visit.getState() != State.TO_START) {
             return "public/error-start-visit";
         }

@@ -44,6 +44,7 @@
             .jumbotron-fluid-visit
             {
                 background-color: #2F3E48;
+                margin-top: 100px;
             }
             .jumbotron-fluid-visit-text
             {
@@ -89,33 +90,43 @@
 </header>
 <main role="main">
     <div class="container">
-        <table class="table table-bordered table-striped">
-            <thead>
-            <tr>
-                <th>Visit Id</th>
-                <th>Visitor First Name</th>
-                <th>Visitor Last Name</th>
-                <th>Time Machine</th>
-                <th>Visit Duration</th>
-                <th>Visit Date</th>
-            </tr>
-            </thead>
-            <tbody>
-            <td th:text="${visit.id}" />
-            <td th:text="${visit.visitor.fName}" />
-            <td th:text="${visit.visitor.lName}" />
-            <td th:text="${visit.timeMachine.name}" />
-            <td th:text="${visit.timeMachine.visitTime}" />
-            <td th:text="${visit.visitDate}" />
-            </tr>
-            </tbody>
-        </table>
-        <td>
-            <form method="post" th:action="@{/started-visit(visitId=${visit.id})}">
-            <button class="btn btn-qrcode" type="submit">Começar a visita</button>
-            </form>
-        </td>
+        <div class="row">
+            <br><br>
+            <div class="col-sm">
+                <br><br>
+                <h1>A sua visita:</h1>
+                <ul>
+                    <li><b>Nome:</b> <td th:text="${visit.visitor.fName}" /> <td th:text="${visit.visitor.lName}" /></li>
+                    <li><b>Time Machine:</b> <td th:text="${visit.timeMachine.name}" /> </li>
+                    <li><b>Data da visita:</b> <td th:text="${tsname}"/></li>
+                    <li><b>Duração expectável:</b> <td th:text="${visit.timeMachine.visitTime}" /> minutos</li>
+                    <li><b>Nº de visitantes:</b> <td th:text="${visit.visitor.noVisitors}" /></li>
+                </ul>
+            </div>
+            <div class="col-sm">
+                <br><br>
+                <h4>Rota:</h4>
+                <img th:src="@{${path}}" alt=""/>
+            </div>
+        </div>
     </div>
+    <div class="jumbotron jumbotron-fluid-visit">
+        <div class="media">
+            <div class="media-body jumbotron-fluid-visit-text">
+                <h5 class="mt-0 mb-1">Vamos começar a visita?</h5>
+                <p class="lead"></p>
+                <td>
+                    <form method="post" th:action="@{/started-visit(visitId=${visit.id})}">
+                        <button class="btn btn-qrcode btn-lg" type="submit">Começar a visita</button>
+                        <input class="btn btn-qrcode " type="button" value="Voltar atrás" onclick="history.back()">
+                    </form>
+                </td>
+                <br><br>
+                <p>Ao clicar em "Começar visita" a mesma terá início, não podendo voltar atrás</p>
+            </div>
+        </div>
+    </div>
+
 </main>
 
 </body>
