@@ -1,4 +1,4 @@
-import Fucntionalities.Artifact as Artifact
+import Artifact as Artifact
 
 
 class Exhibitor:

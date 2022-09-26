@@ -16,9 +16,11 @@ public interface ArtifactService {
 
     HashMap<String, HashMap<String, String>> getAllArtifactsForExhibitor(String exhibitor_name);
 
-    HashMap<String, String> listToDictionary(ArtifactEntity a, HashMap<String, String> dictionary);
+    HashMap<String, HashMap<String, String>> listToDictionary(List<ArtifactEntity> artifacts);
 
-    HashMap<String, String> getAllArtifactsForExhibitorAndTimeMachine(String exhibitor_name, String timeMachine_name);
+    HashMap<String, String> artifactToDictionary(ArtifactEntity a, HashMap<String, String> dictionary);
+
+    HashMap<String, HashMap<String, String>> getAllArtifactsForExhibitorAndTimeMachine(String exhibitor_name, String timeMachine_name);
 
     HashMap<String, String> getArtifactForExhibitor(Integer artifactId);
 

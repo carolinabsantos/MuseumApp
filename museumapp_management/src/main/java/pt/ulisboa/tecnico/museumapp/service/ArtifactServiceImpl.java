@@ -34,7 +34,22 @@ public class ArtifactServiceImpl implements ArtifactService{
     }
 
     @Override
-    public HashMap<String, String> listToDictionary(ArtifactEntity a, HashMap<String, String> dictionary) {
+    public HashMap<String, HashMap<String, String>> listToDictionary(List<ArtifactEntity> artifacts) {
+        HashMap<String, String> dictionary = new HashMap<>();
+        HashMap<String, HashMap<String, String>> dictionaryFinal=new HashMap<>();
+        for (int i = 0; i < artifacts.size(); i++) {
+            for (ArtifactEntity a : artifacts) {
+                String id = a.getId().toString();
+                dictionaryFinal.put(id, new HashMap<>());
+                dictionary = artifactToDictionary(a, dictionary);
+                dictionaryFinal.put(a.getId().toString(), dictionary);
+            }
+        }
+        return dictionaryFinal;
+    }
+
+    @Override
+    public HashMap<String, String> artifactToDictionary(ArtifactEntity a, HashMap<String, String> dictionary) {
         dictionary.put("id", a.getId().toString());
         dictionary.put("name", a.getName());
         dictionary.put("designation", a.getDesignation());
@@ -60,27 +75,20 @@ public class ArtifactServiceImpl implements ArtifactService{
     }
     @Override
     public HashMap<String, HashMap<String, String>> getAllArtifactsForExhibitor(String exhibitor_name){
-        HashMap<String, String> dictionary = new HashMap<>();
-        HashMap<String, HashMap<String, String>> dictionaryFinal = new HashMap<String, HashMap<String, String>>();
-        List<ArtifactEntity> artifacts = artifactRepository.findAll();
-        for (int i = 0; i < artifacts.size(); i++){
-            for(ArtifactEntity a :artifacts){
-                if(a.getExhibitor().equals(exhibitor_name)){
-                    dictionary = listToDictionary(a, dictionary);
-                    dictionaryFinal.put(a.getId().toString(), dictionary);
-                }
+        List<ArtifactEntity> temp = artifactRepository.findAll();
+        List<ArtifactEntity> artifacts = new ArrayList<>();
+        for(ArtifactEntity a :temp){
+            if(a.getExhibitor().equals(exhibitor_name)){
+                artifacts.add(a);
             }
-
         }
-
+        HashMap<String, HashMap<String, String>> dictionaryFinal= listToDictionary(artifacts);
         System.out.println("Dictionary Final Final: " + dictionaryFinal);
         return dictionaryFinal;
     }
 
     @Override
-    public HashMap<String, String> getAllArtifactsForExhibitorAndTimeMachine(String exhibitor_name, String timeMachine_name){
-        HashMap<String, String> dictionary = new HashMap<>();
-        HashMap<String, String> dictionaryFinal = new HashMap<>();
+    public HashMap<String, HashMap<String, String>> getAllArtifactsForExhibitorAndTimeMachine(String exhibitor_name, String timeMachine_name){
         List<ArtifactEntity> temp = artifactRepository.findAll();
         List<ArtifactEntity> artifacts = new ArrayList<>();
         for (ArtifactEntity a:temp){
@@ -93,12 +101,7 @@ public class ArtifactServiceImpl implements ArtifactService{
                 }
             }
         }
-        for(ArtifactEntity a :artifacts){
-            dictionary = listToDictionary(a, dictionary);
-            dictionary.forEach(
-                    (key, value) -> dictionaryFinal.merge(key, value, (v1, v2) -> v1 + "," + v2)
-            );
-        }
+        HashMap<String, HashMap<String, String>> dictionaryFinal = listToDictionary(artifacts);
         System.out.println("Dictionary Final Final: " + dictionaryFinal);
         return dictionaryFinal;
     }
@@ -107,7 +110,7 @@ public class ArtifactServiceImpl implements ArtifactService{
     public HashMap<String, String> getArtifactForExhibitor(Integer artifactId){
         HashMap<String, String> dictionary = new HashMap<>();
         ArtifactEntity a = artifactRepository.getById(artifactId);
-        dictionary = listToDictionary(a, dictionary);
+        dictionary = artifactToDictionary(a, dictionary);
         return dictionary;
     }
 

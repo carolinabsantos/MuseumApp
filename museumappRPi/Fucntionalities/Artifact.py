@@ -1,6 +1,5 @@
 import time
-
-from Fucntionalities import DB
+import DB
 
 
 class Artifact:

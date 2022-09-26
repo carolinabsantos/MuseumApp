@@ -2,9 +2,9 @@ import requests
 import logger
 import numpy as np
 
-from Fucntionalities import Artifact as artifacts
-from Fucntionalities import Exhibitor as Exhibitor
-from Fucntionalities import DB
+import Artifact as artifacts
+import Exhibitor as Exhibitor
+import DB
 
 ###### Institiation of the exhibitor #####
 
@@ -33,6 +33,7 @@ def startVisit(visit_id):
             print(visit)
         except:
             return None
+    return visit
 
 
 def checkExhibitorInVisit(visitInfo):
@@ -50,9 +51,10 @@ def checkExhibitorPhase(visitInfo):
         return True
 
 
-def showArtifacts():
-    artifactDict = artifacts.exhibitorArtifacts(exhibitor.get_name())
+def showArtifacts(timeMachine_name):
+    artifactDict = artifacts.timeMachineExhibitorArtifacts(exhibitor.get_name(), timeMachine_name)
     print(artifactDict)
+    return artifactDict
 
 
 def checkVisit(visit, visit_id):
@@ -67,7 +69,7 @@ def checkVisit(visit, visit_id):
             if checkExhibitorPhase(visit):
                 # passar info do artefacto e marcar como visitado o expositor
                 # getAllArtifactsIds from exhibitor
-                showArtifacts()
+                showArtifacts(visit['timeMachine'])
                 print("checkExhibitorPhase is True")
             else:
                 # passar pagina de "não está na altura certa da visita"

@@ -3,7 +3,7 @@ import webbrowser
 
 import websocket as websocket
 
-import Fucntionalities.Visit as visit
+import Visit as visit
 
 RTSP_URL = 'rtsp://192.168.1.123:8554/stream'
 

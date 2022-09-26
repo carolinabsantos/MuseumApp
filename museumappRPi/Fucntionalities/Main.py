@@ -3,6 +3,7 @@ import DB
 import Exhibitor as Exhibitor
 import TimeMachine as TimeMachine
 import Visit as Visit
+from flask import Flask
 
 print("Menu")
 print("1 - all Artifacts")
@@ -43,7 +44,6 @@ while True:
         Visit.getVisitInfo(visit_id)
     else:
         print("Please Enter a Valid Option Number!")
-
 
 #
 # if __name__ == '__main__':

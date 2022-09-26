@@ -4,7 +4,7 @@ import requests
 
 
 def getVisitInfo_from_db(visit_id):
-    response = requests.get('http://localhost:8081/visitState?visit_id=' + visit_id)
+    response = requests.get('http://localhost:8081/visitState?visit_id=' + str(visit_id))
     if response.status_code == 400:
         logger.error(response.request.url)
     elif response.status_code == 200:
@@ -50,7 +50,9 @@ def timeMachineExhibitorArtifacts_from_db(exhibitor_name, timeMachine_name):
         logger.error(response.request.url)
     elif response.status_code == 200:
         try:
-            artifacts = response.json()
-            print(artifacts)
+            json_data = json.loads(response.text)
         except:
             return None
+
+    print(json_data)
+    return json_data

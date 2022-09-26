@@ -5,9 +5,7 @@ import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import pt.ulisboa.tecnico.museumapp.entities.State;
 import pt.ulisboa.tecnico.museumapp.entities.VisitEntity;
 import pt.ulisboa.tecnico.museumapp.service.ArtifactService;
 import pt.ulisboa.tecnico.museumapp.service.VisitService;
@@ -71,7 +69,7 @@ public class ExhibitorController implements WebMvcConfigurer {
 
     @GetMapping("/timeMachineExhibitorArtifacts") public void getTimeMachineExhibitorArtifacts(@RequestParam("exhibitor_name") String exhibitor_name, @RequestParam("timeMachine_name") String timeMachine_name, HttpServletRequest request,
                                                         HttpServletResponse response) throws IOException {
-        HashMap<String, String> artifacts = artifactService.getAllArtifactsForExhibitorAndTimeMachine(exhibitor_name, timeMachine_name);
+        HashMap<String, HashMap<String, String>> artifacts = artifactService.getAllArtifactsForExhibitorAndTimeMachine(exhibitor_name, timeMachine_name);
 
         DataInputStream in = new DataInputStream(request.getInputStream());
         String message;
