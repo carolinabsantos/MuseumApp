@@ -82,6 +82,7 @@
             <th>Visitor First Name</th>
             <th>Visitor Last Name</th>
             <th>Visit Date</th>
+            <th>Visit State</th>
             <th>Observações</th>
         </tr>
         </thead>
@@ -99,6 +100,7 @@
             <td th:text="${visit.visitor.fName}" />
             <td th:text="${visit.visitor.lName}" />
             <td th:text="${visit.visitDate}" />
+            <td th:text="${visit.exhibitors}"/>
             <td th:text="${visit.observations}" />
         </tr>
         </tbody>

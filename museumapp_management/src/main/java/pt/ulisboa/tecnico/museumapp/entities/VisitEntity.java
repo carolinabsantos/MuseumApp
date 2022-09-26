@@ -3,8 +3,10 @@ package pt.ulisboa.tecnico.museumapp.entities;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.awt.image.BufferedImage;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 @Entity
 public class VisitEntity implements Serializable {
@@ -39,18 +41,11 @@ public class VisitEntity implements Serializable {
     @Column(name = "observations", nullable = false)
     protected String observations;
 
-    public VisitEntity(TimeMachineEntity timeMachine, String startTime, String endTime, State state, VisitorEntity visitor, Integer timeSlotId, String observations, String visitDate){
-        this.timeMachine=timeMachine;
-        this.startTime=startTime;
-        this.endTime=endTime;
-        this.state=state;
-        this.visitor=visitor;
-        this.timeSlotId=timeSlotId;
-        this.observations=observations;
-        this.visitDate=visitDate;
+    @Column(name = "exhibitors_names", nullable = false)
+    protected String exhibitors_names;
 
-    }
-
+    @Column(name = "exhibitors_counter")
+    private Integer exhibitors_counter;
     public VisitEntity(TimeMachineEntity timeMachine, VisitorEntity visitor, Integer timeSlotId, String observations, String visitDate){
         this.timeMachine=timeMachine;
         this.startTime="Not_started";
@@ -60,6 +55,7 @@ public class VisitEntity implements Serializable {
         this.timeSlotId=timeSlotId;
         this.observations=observations;
         this.visitDate=visitDate;
+        this.exhibitors_counter=0;
     }
 
     public VisitEntity() {
@@ -74,27 +70,7 @@ public class VisitEntity implements Serializable {
         this.observations=observations;
         this.visitDate=visitDate;
         this.timeSlotId=0;
-    }
-
-    public VisitEntity(TimeMachineEntity timeMachine, VisitorEntity visitor, String observations) {
-        this.timeMachine=timeMachine;
-        this.startTime="Not_started";
-        this.endTime="Not_started";
-        this.state=State.TO_START;
-        this.visitor=visitor;
-        this.observations=observations;
-        this.timeSlotId=0;
-    }
-
-    public VisitEntity(TimeMachineEntity timeMachine, VisitorEntity visitor, String observations, String visitDate, State state, String start_time, Integer time_slot_id) {
-        this.timeMachine=timeMachine;
-        this.startTime=start_time;
-        this.endTime="Not_ended";
-        this.state=state;
-        this.visitor=visitor;
-        this.observations=observations;
-        this.visitDate=visitDate;
-        this.timeSlotId=time_slot_id;
+        this.exhibitors_counter=0;
     }
 
     public Integer getId() {
@@ -164,6 +140,27 @@ public class VisitEntity implements Serializable {
         this.timeSlotId = timeSlotId;
     }
 
+    public String getExhibitors() {
+        return exhibitors_names;
+    }
+
+    public void setExhibitors() {
+        String exhibitorsList = "";
+        String result = "";
+        for (ArtifactEntity a : this.getTimeMachine().getArtifacts()){
+            System.out.println("Time Machine: " + this.getTimeMachine().getName() + "; Artifact name: " + a.getName() + ";  Exhibitor: " + a.getExhibitor());
+            String ex = a.getExhibitor();
+            if(exhibitorsList.equals("")){
+                result = exhibitorsList.concat(ex);
+            }
+            else if(!(exhibitorsList.contains(ex))){
+                result = exhibitorsList.concat("-" + ex);
+            }
+            exhibitorsList = result;
+        }
+        System.out.println("Exhibitors List: " + result);
+        this.exhibitors_names = result;
+    }
 
     @Override
     public String toString() {
@@ -176,7 +173,8 @@ public class VisitEntity implements Serializable {
                 ", visitor=" + visitor + '\'' +
                 ", visit date=" + visitDate + '\'' +
                 ", observations=" + observations + '\'' +
-                ", timeSlotId=" + timeSlotId +
+                ", timeSlotId=" + timeSlotId + '\'' +
+                ", exhibitors visited=" + exhibitors_names +
                 '}';
     }
 }

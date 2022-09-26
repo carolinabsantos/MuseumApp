@@ -58,6 +58,9 @@ public class VisitController implements WebMvcConfigurer{
     @GetMapping("/list-visits")
     public ModelAndView findAllVisits() {
         ModelAndView mav = new ModelAndView("list-visit");
+        for(VisitEntity v : visitService.getAllVisits()){
+            v.setExhibitors();
+        }
         mav.addObject("visits", visitService.getAllVisits());
         return mav;
     }
@@ -100,11 +103,11 @@ public class VisitController implements WebMvcConfigurer{
 
         VisitEntity visitFinal = new VisitEntity(timeMachine, visitor, tsId, observations, visit.getVisitDate());
         visitService.createVisit(visitFinal);
+        visitFinal.setExhibitors();
 
         visitor.setVisit(visitFinal);
         visit.setTimeMachine(new TimeMachine(visitFinal.getTimeMachine().getType(), visitFinal.getTimeMachine().getName(), visitFinal.getTimeMachine().getCapacity()));
         visit.setTimeSlot(visitFinal.getTimeSlotId());
-
         QRCodeEntity qrCodeEntity = new QRCodeEntity(visitFinal.getId());
         QRCodeResult qrCodeResult = qrCodeService.generateQrCodeUrl(qrCodeEntity);
         qrCodeEntity.setQrCode(qrCodeResult.getImage());

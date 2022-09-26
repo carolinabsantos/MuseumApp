@@ -1,6 +1,8 @@
 package pt.ulisboa.tecnico.museumapp.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import pt.ulisboa.tecnico.museumapp.entities.ArtifactEntity;
 
@@ -12,6 +14,5 @@ import java.util.Optional;
 @Transactional
 public interface ArtifactRepository extends JpaRepository <ArtifactEntity, Integer> {
     List<ArtifactEntity> findAll();
-
 }
 
