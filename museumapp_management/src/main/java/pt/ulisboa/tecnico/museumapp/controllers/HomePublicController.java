@@ -60,8 +60,9 @@ public class HomePublicController implements WebMvcConfigurer {
     }
 
     private static final String ROOM_PLAN_IMAGE_PATH = "./src/main/resources/static/room-plans/";
-    @GetMapping("/visit-info/{visit_id}")
-    public ModelAndView visitInfoView(@PathVariable(value = "visit_id", required = false) Integer visitId) throws IOException {
+    @GetMapping("/visit-info")
+    public ModelAndView visitInfoView(@RequestParam("visit_id") String visit_id) throws IOException {
+        Integer visitId = Integer.valueOf(visit_id);
         VisitEntity visit = visitService.findVisit(visitId).get();
         TimeSlotEntity ts = timeSlotService.findTimeSlot(visit.getTimeSlotId()).get();
         String tsName = ts.getName();

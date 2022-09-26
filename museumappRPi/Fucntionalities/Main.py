@@ -2,6 +2,7 @@ import Artifact as ArtifactsList
 import DB
 import Exhibitor as Exhibitor
 import TimeMachine as TimeMachine
+import Visit as Visit
 
 print("Menu")
 print("1 - all Artifacts")
@@ -11,6 +12,7 @@ print("4 - Artifacts of one Exhibitor and one Time Machine")
 print("5 - Information of one Exhibitor")
 print("6 - Information of one Time Machine")
 print("7 - Artifact Specific")
+print("8 - Visit State")
 
 while True:
     ans = input("Choose an Option Number: ")
@@ -34,8 +36,11 @@ while True:
         name = input("enter the time machine name: ")
         print(TimeMachine.printTimeMachine(name))
     elif ans == "7":
-        ida = input("enter the artifact_id: ")
-        print(DB.artifact_from_db(artifact_id=ida))
+        artifact_id = input("enter the artifact id: ")
+        print(DB.artifact_from_db(artifact_id))
+    elif ans == "8":
+        visit_id = input("enter the visit id: ")
+        Visit.getVisitInfo(visit_id)
     else:
         print("Please Enter a Valid Option Number!")
 

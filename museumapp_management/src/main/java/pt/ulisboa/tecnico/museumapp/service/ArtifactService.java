@@ -2,7 +2,6 @@ package pt.ulisboa.tecnico.museumapp.service;
 
 import pt.ulisboa.tecnico.museumapp.entities.ArtifactEntity;
 import pt.ulisboa.tecnico.museumapp.entities.TimeMachineEntity;
-import pt.ulisboa.tecnico.museumapp.entities.VisitorEntity;
 
 import javax.persistence.PreRemove;
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +14,7 @@ import java.util.Optional;
 public interface ArtifactService {
     Iterable <ArtifactEntity> getAllArtifacts();
 
-    HashMap<String, String> getAllArtifactsForExhibitor(String exhibitor_name);
+    HashMap<String, HashMap<String, String>> getAllArtifactsForExhibitor(String exhibitor_name);
 
     HashMap<String, String> listToDictionary(ArtifactEntity a, HashMap<String, String> dictionary);
 

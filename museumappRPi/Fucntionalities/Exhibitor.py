@@ -1,4 +1,4 @@
-from Fucntionalities import Artifact
+import Fucntionalities.Artifact as Artifact
 
 
 class Exhibitor:
@@ -6,8 +6,10 @@ class Exhibitor:
         self.n_artifacts = None
         self.artifacts = None
 
-        self.id = id(self)
         self.name = name
+
+    def __new__(cls, *args, **kwargs):
+        return super().__new__(cls)
 
     def define_artifacts(self, name):
         """
@@ -23,13 +25,21 @@ class Exhibitor:
         """
         self.n_artifacts = len(artifacts)
 
+    def get_name(self):
+        return self.name
+
+    def get_artifacts(self):
+        return self.artifacts
+
+    def get_n_artifacts(self):
+        return self.n_artifacts
+
 
 def printExhibitor(ex_name):
     ex = Exhibitor(ex_name)
     ex.define_artifacts(ex.name)
     ex.define_n_artifacts(ex.artifacts)
     print("Exhibitor Name: " + ex.name)
-    #print(" \n Id: " + ex.id)
     listString = str(ex.artifacts)
     print("Artifacts: " + listString)
     print("Nº of Artifacts: " + str(ex.n_artifacts))

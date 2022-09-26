@@ -3,18 +3,28 @@ import logger
 import requests
 
 
+def getVisitInfo_from_db(visit_id):
+    response = requests.get('http://localhost:8081/visitState?visit_id=' + visit_id)
+    if response.status_code == 400:
+        logger.error(response.request.url)
+    elif response.status_code == 200:
+        try:
+            json_data = json.loads(response.text)
+        except:
+            return None
+    return json_data
+
+
 def allExhibitorArtifacts_from_db(exhibitor_name):
-    # http request
-    # print("Search all artifacts")
     response = requests.get('http://localhost:8081/getAllArtifacts?exhibitor_name=' + exhibitor_name)
     if response.status_code == 400:
         logger.error(response.request.url)
     elif response.status_code == 200:
         try:
-            artifacts = response.json()
-            print(artifacts)
+            json_data = json.loads(response.text)
         except:
             return None
+    return json_data
 
 
 def artifact_from_db(artifact_id):
@@ -25,7 +35,8 @@ def artifact_from_db(artifact_id):
     elif response.status_code == 200:
         try:
             artifact = response.json()
-            print(artifact)
+            dict = json.load(artifact)
+            print(dict)
         except:
             return None
 

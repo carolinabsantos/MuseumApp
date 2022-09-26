@@ -10,6 +10,7 @@ import pt.ulisboa.tecnico.museumapp.models.Visit;
 import pt.ulisboa.tecnico.museumapp.repositories.TimeMachineRepository;
 import pt.ulisboa.tecnico.museumapp.repositories.VisitRepository;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Optional;
 
@@ -89,6 +90,19 @@ public class VisitServiceImpl implements VisitService{
     @Override
     public void updateVisitObservations(Integer visitId, String observations) {
         visitRepository.updateObservations(visitId, observations);
+    }
+
+    @Override
+    public HashMap<String, String> listToDictionary(VisitEntity v){
+        HashMap<String, String > dictionary = new HashMap<>();
+        dictionary.put("id", v.getId().toString());
+        dictionary.put("timeMachine", v.getTimeMachine().getName());
+        dictionary.put("start_time", v.getStartTime());
+        dictionary.put("end_time", v.getEndTime());
+        dictionary.put("state", v.getState().toString());
+        dictionary.put("exhibitors_names", v.getExhibitors());
+        dictionary.put("exhibitors_counter", v.getExhibitors_counter().toString());
+        return dictionary;
     }
 
 }

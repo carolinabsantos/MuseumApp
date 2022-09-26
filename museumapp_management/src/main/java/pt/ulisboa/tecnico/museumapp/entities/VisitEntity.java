@@ -41,7 +41,7 @@ public class VisitEntity implements Serializable {
     @Column(name = "observations", nullable = false)
     protected String observations;
 
-    @Column(name = "exhibitors_names", nullable = false)
+    @Column(name = "exhibitors_names")
     protected String exhibitors_names;
 
     @Column(name = "exhibitors_counter")
@@ -55,6 +55,7 @@ public class VisitEntity implements Serializable {
         this.timeSlotId=timeSlotId;
         this.observations=observations;
         this.visitDate=visitDate;
+        this.exhibitors_names="";
         this.exhibitors_counter=0;
     }
 
@@ -70,6 +71,7 @@ public class VisitEntity implements Serializable {
         this.observations=observations;
         this.visitDate=visitDate;
         this.timeSlotId=0;
+        this.exhibitors_names="";
         this.exhibitors_counter=0;
     }
 
@@ -147,19 +149,30 @@ public class VisitEntity implements Serializable {
     public void setExhibitors() {
         String exhibitorsList = "";
         String result = "";
+        Integer exhibitors_count = 0;
         for (ArtifactEntity a : this.getTimeMachine().getArtifacts()){
             System.out.println("Time Machine: " + this.getTimeMachine().getName() + "; Artifact name: " + a.getName() + ";  Exhibitor: " + a.getExhibitor());
             String ex = a.getExhibitor();
             if(exhibitorsList.equals("")){
                 result = exhibitorsList.concat(ex);
+                exhibitors_count+=1;
             }
             else if(!(exhibitorsList.contains(ex))){
                 result = exhibitorsList.concat("-" + ex);
+                exhibitors_count+=1;
             }
             exhibitorsList = result;
         }
         System.out.println("Exhibitors List: " + result);
+        System.out.println("Exhibitors Counter: " + exhibitors_count);
         this.exhibitors_names = result;
+    }
+
+    public Integer getExhibitors_counter(){
+        return this.exhibitors_counter;
+    }
+    public void setExhibitors_counter(Integer exhibitors_counter) {
+        this.exhibitors_counter = exhibitors_counter;
     }
 
     @Override
@@ -174,7 +187,8 @@ public class VisitEntity implements Serializable {
                 ", visit date=" + visitDate + '\'' +
                 ", observations=" + observations + '\'' +
                 ", timeSlotId=" + timeSlotId + '\'' +
-                ", exhibitors visited=" + exhibitors_names +
+                ", exhibitors visited=" + exhibitors_names + '\'' +
+                ", exhibitors counter=" + exhibitors_counter +
                 '}';
     }
 }

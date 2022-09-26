@@ -5,6 +5,7 @@ import pt.ulisboa.tecnico.museumapp.entities.TimeMachineEntity;
 import pt.ulisboa.tecnico.museumapp.entities.VisitEntity;
 import pt.ulisboa.tecnico.museumapp.models.Visit;
 
+import java.util.HashMap;
 import java.util.Optional;
 
 public interface VisitService {
@@ -28,4 +29,6 @@ public interface VisitService {
     void endVisit(Integer visitId, String end_time);
 
     void updateVisitObservations(Integer visitId, String observations);
+
+    HashMap<String, String> listToDictionary(VisitEntity v);
 }

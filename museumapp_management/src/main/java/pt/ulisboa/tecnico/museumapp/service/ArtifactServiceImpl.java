@@ -59,18 +59,20 @@ public class ArtifactServiceImpl implements ArtifactService{
         return dictionary;
     }
     @Override
-    public HashMap<String, String> getAllArtifactsForExhibitor(String exhibitor_name){
+    public HashMap<String, HashMap<String, String>> getAllArtifactsForExhibitor(String exhibitor_name){
         HashMap<String, String> dictionary = new HashMap<>();
-        HashMap<String, String> dictionaryFinal = new HashMap<>();
+        HashMap<String, HashMap<String, String>> dictionaryFinal = new HashMap<String, HashMap<String, String>>();
         List<ArtifactEntity> artifacts = artifactRepository.findAll();
-        for(ArtifactEntity a :artifacts){
-            if(a.getExhibitor().equals(exhibitor_name)){
-                dictionary = listToDictionary(a, dictionary);
-                dictionary.forEach(
-                        (key, value) -> dictionaryFinal.merge(key, value, (v1, v2) -> v1 + "," + v2)
-                );
+        for (int i = 0; i < artifacts.size(); i++){
+            for(ArtifactEntity a :artifacts){
+                if(a.getExhibitor().equals(exhibitor_name)){
+                    dictionary = listToDictionary(a, dictionary);
+                    dictionaryFinal.put(a.getId().toString(), dictionary);
+                }
             }
+
         }
+
         System.out.println("Dictionary Final Final: " + dictionaryFinal);
         return dictionaryFinal;
     }
