@@ -1,6 +1,8 @@
 import cv2
 import webbrowser
 
+import self as self
+import stomper as stomper
 import websocket as websocket
 
 import Visit as visit
@@ -13,7 +15,7 @@ ws = websocket.WebSocketApp(self.ws_uri, header=self.headers,
                             on_close=self.on_closed)
 ws.on_open = self.on_open
 
-# Iniitial CONNECT required to initialize the server's client registries.
+# Initial CONNECT required to initialize the server's client registries.
 ws.send("CONNECT\naccept-version:1.0,1.1,2.0\n\n\x00\n")
 
 # Subscribing to all required desitnations.

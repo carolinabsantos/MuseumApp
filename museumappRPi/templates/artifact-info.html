@@ -53,7 +53,7 @@
             }
         </style>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-        <title>Available Artifacts</title>
+        <title>Artifact</title>
     </head>
 </head>
 <body>
@@ -64,15 +64,15 @@
             <div class="col-sm">
                 <br><br>
                 <h1>Está no expositor {{exhibitor_name}}!</h1>
-                <p> Aqui pode encontrar uma lista com os artefactos que pertencem à sua visita.</p>
+                <p>Here it is a list of the available artifacts for you to know more about</p>
                 <div class="col-sm">
                     <br><br>
-                    <h1>Os seus artefactos:</h1>
-                    {% for artifact in artifacts %}
+                    <h1>O artefacto:</h1>
                     <ul>
-                        <li><b>Nome:</b> {{artifact[0]}}</li>
+                        {% for item, value in artifact.items() %}
+                        <li><b>{{ item }}:</b> {{ value }} </li>
+                        {% endfor %}
                     </ul>
-                    {% endfor %}
                 </div>
             </div>
         </div>

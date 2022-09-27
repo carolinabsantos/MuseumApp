@@ -5,6 +5,7 @@ import numpy as np
 import Artifact as artifacts
 import Exhibitor as Exhibitor
 import DB
+from Fucntionalities import hello
 
 ###### Institiation of the exhibitor #####
 
@@ -47,14 +48,56 @@ def checkExhibitorPhase(visitInfo):
     exhibitor_counter = int(visitInfo.get('exhibitors_counter'))
     exhibitors_names = visitInfo.get('exhibitors_names')
     names_list = exhibitors_names.split("-")
+    if exhibitor_counter == 0:
+        start_visit_to_qrCode(visitInfo)
     if names_list[exhibitor_counter] == exhibitor.get_name():
         return True
+
+
+def start_visit_to_qrCode(visit_info):
+    return hello.list_artifacts(visit_info.get('id'))
 
 
 def showArtifacts(timeMachine_name):
     artifactDict = artifacts.timeMachineExhibitorArtifacts(exhibitor.get_name(), timeMachine_name)
     print(artifactDict)
     return artifactDict
+
+
+def ArtifactInfo(artifact_id):
+    artifactDict = artifacts.artifactInfo(artifact_id)
+    # print(artifactDict)
+    values = list(artifactDict.items())
+    artifactList = []
+    # print("\n Values: " + str(values) + "\n")
+    for i in range(len(artifactDict.items())):
+        artifactList.append(values[i][1])
+    # print("\n artifactList: " + str(artifactList))
+    return artifactDict, exhibitor.get_name()
+
+
+def ExhibitorPhase(visit_id):
+    visitInstance = getVisitInfo(visit_id)
+    names = (visitInstance["exhibitors_names"]).split("-")
+    counter = int(visitInstance["exhibitors_counter"])
+    error = 0
+    if not checkExhibitorInVisit(visitInstance):
+        error = 0
+    if not checkExhibitorPhase(visitInstance):
+        error = 1
+    return names[counter], error
+
+
+def listShowArtifacts(visit_id):
+    visitInstance = getVisitInfo(visit_id)
+    print(visitInstance["timeMachine"])
+    arts = showArtifacts(visitInstance["timeMachine"])
+    artifactList = []
+    values = list(arts.items())
+    print("\n Values: " + str(values) + "\n")
+    for i in range(len(arts.items())):
+        artifactList.append(list(values[i][1].values()))
+    return artifactList, exhibitor.get_name()
 
 
 def checkVisit(visit, visit_id):

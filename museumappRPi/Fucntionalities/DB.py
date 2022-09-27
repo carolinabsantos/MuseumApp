@@ -34,11 +34,11 @@ def artifact_from_db(artifact_id):
         logger.error(response.request.url)
     elif response.status_code == 200:
         try:
-            artifact = response.json()
-            dict = json.load(artifact)
-            print(dict)
+            json_data = json.loads(response.text)
         except:
             return None
+
+    return json_data
 
 
 def timeMachineExhibitorArtifacts_from_db(exhibitor_name, timeMachine_name):
@@ -54,5 +54,5 @@ def timeMachineExhibitorArtifacts_from_db(exhibitor_name, timeMachine_name):
         except:
             return None
 
-    print(json_data)
+    # print(json_data)
     return json_data

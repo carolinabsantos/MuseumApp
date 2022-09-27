@@ -44,3 +44,12 @@ def allArtifacts(exhibitor_name):
     """
     result = DB.allExhibitorArtifacts_from_db(exhibitor_name)
     return result
+
+
+def artifactInfo(artifact_id):
+    """
+    artifactInfo() -> Shows the information about one specific Artifact
+    Parameters -> None
+    """
+    result = DB.artifact_from_db(artifact_id)
+    return result

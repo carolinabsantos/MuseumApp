@@ -70,7 +70,7 @@ public class ExhibitorController implements WebMvcConfigurer {
     @GetMapping("/timeMachineExhibitorArtifacts") public void getTimeMachineExhibitorArtifacts(@RequestParam("exhibitor_name") String exhibitor_name, @RequestParam("timeMachine_name") String timeMachine_name, HttpServletRequest request,
                                                         HttpServletResponse response) throws IOException {
         HashMap<String, HashMap<String, String>> artifacts = artifactService.getAllArtifactsForExhibitorAndTimeMachine(exhibitor_name, timeMachine_name);
-
+        System.out.println(" -------timeMachineExhibitorArtifacts -------");
         DataInputStream in = new DataInputStream(request.getInputStream());
         String message;
         try {
