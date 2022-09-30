@@ -93,6 +93,11 @@ public class VisitServiceImpl implements VisitService{
     }
 
     @Override
+    public void updateVisitExhibitorCounter(Integer visitId, Integer counter) {
+        visitRepository.updateExhibitorCounter(visitId, counter);
+    }
+
+    @Override
     public HashMap<String, String> listToDictionary(VisitEntity v){
         HashMap<String, String > dictionary = new HashMap<>();
         dictionary.put("id", v.getId().toString());

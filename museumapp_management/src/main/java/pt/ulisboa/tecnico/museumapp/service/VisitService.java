@@ -30,5 +30,7 @@ public interface VisitService {
 
     void updateVisitObservations(Integer visitId, String observations);
 
+    void updateVisitExhibitorCounter(Integer visitId, Integer counter);
+
     HashMap<String, String> listToDictionary(VisitEntity v);
 }

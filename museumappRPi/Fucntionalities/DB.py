@@ -4,7 +4,7 @@ import requests
 
 
 def getVisitInfo_from_db(visit_id):
-    response = requests.get('http://localhost:8081/visitState?visit_id=' + str(visit_id))
+    response = requests.get('http://192.168.1.121:8081/visitState?visit_id=' + str(visit_id))
     if response.status_code == 400:
         logger.error(response.request.url)
     elif response.status_code == 200:
@@ -16,7 +16,7 @@ def getVisitInfo_from_db(visit_id):
 
 
 def allExhibitorArtifacts_from_db(exhibitor_name):
-    response = requests.get('http://localhost:8081/getAllArtifacts?exhibitor_name=' + exhibitor_name)
+    response = requests.get('http://192.168.1.121:8081/getAllArtifacts?exhibitor_name=' + exhibitor_name)
     if response.status_code == 400:
         logger.error(response.request.url)
     elif response.status_code == 200:
@@ -28,7 +28,7 @@ def allExhibitorArtifacts_from_db(exhibitor_name):
 
 
 def artifact_from_db(artifact_id):
-    request = 'http://localhost:8081/getArtifact?artifact_id=' + str(artifact_id)
+    request = 'http://192.168.1.121:8081/getArtifact?artifact_id=' + str(artifact_id)
     response = requests.get(request)
     if response.status_code == 400:
         logger.error(response.request.url)
@@ -42,9 +42,9 @@ def artifact_from_db(artifact_id):
 
 
 def timeMachineExhibitorArtifacts_from_db(exhibitor_name, timeMachine_name):
-    request = 'http://localhost:8081/timeMachineExhibitorArtifacts?exhibitor_name=' + str(
+    request = 'http://192.168.1.121:8081/timeMachineExhibitorArtifacts?exhibitor_name=' + str(
         exhibitor_name) + '&timeMachine_name=' + str(timeMachine_name)
-    print(request)
+    #print(request)
     response = requests.get(request)
     if response.status_code == 400:
         logger.error(response.request.url)

@@ -19,19 +19,6 @@
                 color:#009DE0;
                 border-color: #2F3E48;
             }
-
-            .btn-back
-            {
-                background-color: #FFFFFF;
-                color:#009DE0;
-                border-color: #2F3E48;
-            }
-            .btn-back:hover, .btn-back:focus, .btn-back:active, .btn-back.active, .open .dropdown-toggle.btn-back
-            {
-                background-color: #2F3E48;
-                color:#FFFFFF;
-                border-color: #2F3E48;
-            }
             .navbar-light
             {
                 color: #2F3E48;
@@ -69,30 +56,15 @@
         <title>Artifact</title>
     </head>
 </head>
-<body>
-<main role="main">
-    <div class="container">
-        <div class="row">
+<div class="jumbotron jumbotron-fluid-visit">
+    <div class="media">
+        <div class="media-body jumbotron-fluid-visit-text">
+            <h5 class="mt-0 mb-1"> Este é o expositor {{exhibitor_name}}! </h5>
+            <h6> {{ message }}</h6>
+            <p> Siga para o expositor <u>{{right_exhibitor_name}}</u> </p>
+            <p class="lead"></p>
             <br><br>
-            <div class="col-sm">
-                <br><br>
-                <h1>Está no expositor {{exhibitor_name}}!</h1>
-                <p>Here it is a list of the available artifacts for you to know more about</p>
-                <div class="col-sm">
-                    <br><br>
-                    <h1>O artefacto:</h1>
-                    <ul>
-                        {% for item, value in artifact.items() %}
-                        <li><b>{{ item }}:</b> {{ value }} </li>
-                        {% endfor %}
-                    </ul>
-                    <a class='btn btn-back' href="{{ url_for('list_artifacts') }}">Voltar atrás</a>
-                </div>
-            </div>
         </div>
     </div>
-
-</main>
-
-</body>
+</div>
 </html>

@@ -15,7 +15,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
+import static org.thymeleaf.util.ListUtils.size;
 
 @Controller
 public class ExhibitorController implements WebMvcConfigurer {
@@ -37,7 +43,7 @@ public class ExhibitorController implements WebMvcConfigurer {
             message = "200 " + t.toString();
         }
 
-        System.out.println(message);
+        System.out.println(message + " Got to getAllArtifacts");
         JSONObject json = new JSONObject(artifacts);
         PrintWriter out = response.getWriter();
         out.write(json.toString());
@@ -58,7 +64,7 @@ public class ExhibitorController implements WebMvcConfigurer {
             message = "200 " + t.toString();
         }
 
-        System.out.println(message);
+        System.out.println(message + " Got to getArtifact");
         JSONObject json = new JSONObject(artifact);
         PrintWriter out = response.getWriter();
         out.write(json.toString());
@@ -70,7 +76,7 @@ public class ExhibitorController implements WebMvcConfigurer {
     @GetMapping("/timeMachineExhibitorArtifacts") public void getTimeMachineExhibitorArtifacts(@RequestParam("exhibitor_name") String exhibitor_name, @RequestParam("timeMachine_name") String timeMachine_name, HttpServletRequest request,
                                                         HttpServletResponse response) throws IOException {
         HashMap<String, HashMap<String, String>> artifacts = artifactService.getAllArtifactsForExhibitorAndTimeMachine(exhibitor_name, timeMachine_name);
-        System.out.println(" -------timeMachineExhibitorArtifacts -------");
+
         DataInputStream in = new DataInputStream(request.getInputStream());
         String message;
         try {
@@ -79,7 +85,7 @@ public class ExhibitorController implements WebMvcConfigurer {
             message = "200 " + t.toString();
         }
 
-        System.out.println(message);
+        System.out.println(message + " Got to getTimeMachineExhibitorArtifacts");
         JSONObject json = new JSONObject(artifacts);
         PrintWriter out = response.getWriter();
         out.write(json.toString());
@@ -94,6 +100,7 @@ public class ExhibitorController implements WebMvcConfigurer {
 
     @GetMapping ("/visitState") public void getVisitState(@RequestParam("visit_id") String visit_id, HttpServletRequest request,
                                                                   HttpServletResponse response) throws IOException {
+	System.out.println(Integer.valueOf(visit_id) + "type: " + Integer.valueOf(visit_id).getClass());
         VisitEntity visit = visitService.findVisit(Integer.valueOf(visit_id)).get();
         HashMap<String, String> visitInfo = visitService.listToDictionary(visit);
         System.out.println(visitInfo);
@@ -106,7 +113,50 @@ public class ExhibitorController implements WebMvcConfigurer {
             message = "200 " + t.toString();
         }
 
-        System.out.println(message);
+        System.out.println(message + " Got to visitState");
+        JSONObject json = new JSONObject(visitInfo);
+        PrintWriter out = response.getWriter();
+        out.write(json.toString());
+        in.close();
+        //System.out.println("1");
+        out.close();
+        //System.out.println("2");
+        out.flush();
+        //System.out.println("3");
+    }
+
+    @GetMapping ("/endExhibitor") public void endExhibitor(@RequestParam("visit_id") String visit_id, HttpServletRequest request,
+                                                          HttpServletResponse response) throws IOException {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+
+        String endTime = dtf.format(now);
+        List<String> exhibitors;
+
+        VisitEntity visit = visitService.findVisit(Integer.valueOf(visit_id)).get();
+        System.out.println("Visit to change: " + visit);
+        System.out.println("Counter to change: " + visit.getExhibitors_counter());
+        Integer counter = visit.getExhibitors_counter() + 1;
+        System.out.println("Counter changed: " + counter);
+        visitService.updateVisitExhibitorCounter(Integer.valueOf(visit_id), counter);
+        exhibitors = List.of((visit.getExhibitors().split("-")));
+        System.out.println("Visit exhibitors list: " + exhibitors);
+        if (counter == exhibitors.size()){
+            visitService.endVisit(Integer.valueOf(visit_id), endTime);
+        }
+        System.out.println("Visit changed: " + visitService.findVisit(Integer.valueOf(visit_id)).get());
+        HashMap<String, String> visitInfo = visitService.listToDictionary(visit);
+        System.out.println(visitInfo);
+
+        DataInputStream in = new DataInputStream(request.getInputStream());
+        String message;
+        try {
+            message = "100 ok";
+        } catch (Throwable t) {
+            message = "200 " + t.toString();
+        }
+
+        System.out.println(message + " Got to endOfExhibitor");
         JSONObject json = new JSONObject(visitInfo);
         PrintWriter out = response.getWriter();
         out.write(json.toString());

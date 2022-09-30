@@ -5,12 +5,14 @@ import numpy as np
 import Artifact as artifacts
 import Exhibitor as Exhibitor
 import DB
-from Fucntionalities import hello
+import __init__
+
+import hello
 
 ###### Institiation of the exhibitor #####
 
 exhibitor = Exhibitor.Exhibitor.__new__(Exhibitor.Exhibitor)
-exhibitor.__init__("ddd")
+exhibitor.__init__("Eletronica")
 
 
 def getVisitInfo(visit_id):
@@ -19,13 +21,26 @@ def getVisitInfo(visit_id):
         Parameters -> visit_id(int)
         """
     result = DB.getVisitInfo_from_db(visit_id)
-    print(result)
+    # print(result)
     checkVisit(result, visit_id)
     return result
 
 
 def startVisit(visit_id):
-    response = requests.get('http://localhost:8081/visit-info?visit_id=' + str(visit_id))
+    response = requests.get('http://192.168.1.121:8081/visit-info?visit_id=' + str(visit_id))
+    if response.status_code == 400:
+        logger.error(response.request.url)
+    elif response.status_code == 200:
+        try:
+            visit = response.json()
+            # print(visit)
+        except:
+            return None
+    return visit
+
+
+def endExhibitor(visit_id):
+    response = requests.get('http://192.168.1.121:8081/endExhibitor?visit_id=' + str(visit_id))
     if response.status_code == 400:
         logger.error(response.request.url)
     elif response.status_code == 200:
@@ -34,7 +49,6 @@ def startVisit(visit_id):
             print(visit)
         except:
             return None
-    return visit
 
 
 def checkExhibitorInVisit(visitInfo):
@@ -60,7 +74,7 @@ def start_visit_to_qrCode(visit_info):
 
 def showArtifacts(timeMachine_name):
     artifactDict = artifacts.timeMachineExhibitorArtifacts(exhibitor.get_name(), timeMachine_name)
-    print(artifactDict)
+    # print(artifactDict)
     return artifactDict
 
 
@@ -90,11 +104,11 @@ def ExhibitorPhase(visit_id):
 
 def listShowArtifacts(visit_id):
     visitInstance = getVisitInfo(visit_id)
-    print(visitInstance["timeMachine"])
+    # print(visitInstance["timeMachine"])
     arts = showArtifacts(visitInstance["timeMachine"])
     artifactList = []
     values = list(arts.items())
-    print("\n Values: " + str(values) + "\n")
+    # print("\n Values: " + str(values) + "\n")
     for i in range(len(arts.items())):
         artifactList.append(list(values[i][1].values()))
     return artifactList, exhibitor.get_name()
@@ -112,7 +126,7 @@ def checkVisit(visit, visit_id):
             if checkExhibitorPhase(visit):
                 # passar info do artefacto e marcar como visitado o expositor
                 # getAllArtifactsIds from exhibitor
-                showArtifacts(visit['timeMachine'])
+                showArtifacts(visit['timeMachine'], visit_id)
                 print("checkExhibitorPhase is True")
             else:
                 # passar pagina de "não está na altura certa da visita"

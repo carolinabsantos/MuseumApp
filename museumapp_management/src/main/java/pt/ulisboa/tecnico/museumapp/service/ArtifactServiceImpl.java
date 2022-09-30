@@ -38,11 +38,9 @@ public class ArtifactServiceImpl implements ArtifactService{
         HashMap<String, HashMap<String, String>> dictionaryFinal=new HashMap<>();
         for (ArtifactEntity a : artifacts) {
             HashMap<String, String> dictionary = new HashMap<>();
-            System.out.println("a Brand: " + a.getBrand());
             String id = a.getId().toString();
             dictionaryFinal.put(id, new HashMap<>());
             dictionary = artifactToDictionary(a, dictionary);
-            System.out.println("a dicitionary: " + dictionary);
             dictionaryFinal.put(a.getId().toString(), dictionary);
         }
         return dictionaryFinal;
@@ -83,7 +81,6 @@ public class ArtifactServiceImpl implements ArtifactService{
             }
         }
         HashMap<String, HashMap<String, String>> dictionaryFinal= listToDictionary(artifacts);
-        System.out.println("Dictionary Final: " + dictionaryFinal);
         return dictionaryFinal;
     }
 
@@ -101,9 +98,7 @@ public class ArtifactServiceImpl implements ArtifactService{
                 }
             }
         }
-        System.out.println("Artifacts: " + artifacts);
         HashMap<String, HashMap<String, String>> dictionaryFinal = listToDictionary(artifacts);
-        System.out.println("Dictionary Final Final: " + dictionaryFinal);
         return dictionaryFinal;
     }
 
@@ -112,7 +107,6 @@ public class ArtifactServiceImpl implements ArtifactService{
         HashMap<String, String> dictionary = new HashMap<>();
         ArtifactEntity a = artifactRepository.getById(artifactId);
         dictionary = artifactToDictionary(a, dictionary);
-        System.out.println("Dictionary: " + dictionary);
         return dictionary;
     }
 
@@ -157,8 +151,6 @@ public class ArtifactServiceImpl implements ArtifactService{
                 artifactsFromTimeMachine.add(a);
             }
         }
-        System.out.println("artifactsFromTimeMachine");
-        System.out.println(artifactsFromTimeMachine);
         return artifactsFromTimeMachine;
     }
     @Override
