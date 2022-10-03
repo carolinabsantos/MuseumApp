@@ -53,37 +53,16 @@
             }
         </style>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-        <title>Read QRCode</title>
+        <title>Artifact</title>
     </head>
 </head>
-<body>
-<main role="main">
-    <div class="jumbotron jumbotron-fluid-visit">
-        <div class="media">
-            <div class="media-body jumbotron-fluid-visit-text">
-                <h5 class="mt-0 mb-1">Read your QRCode</h5>
-                <p class="lead"></p>
-                <br><br>
-                <img src="{{ url_for('video_feed')}}" , onload="qrcodeDetected()">
-                <script>
-                    async function qrcodeDetected() {
-                        let response = await fetch('/qrcode_detection');
-                        let qr_code = JSON.parse(await response.text());
-                        if(qr_code === "false"){
-                            console.log("QRCode not detected!");
-                        }
-                        else{
-                            console.log("QRCode detected for visit id: " + qr_code);
-                            location.replace("http://192.168.1.157:8000/list-artifacts/" + qr_code);
-                        }
-                    }
-                </script>
-
-            </div>
+<div class="jumbotron jumbotron-fluid-visit">
+    <div class="media">
+        <div class="media-body jumbotron-fluid-visit-text">
+            <h5 class="mt-0 mb-1"> Estamos a ver quais os seus aretefactos... </h5>
+            <p class="lead"></p>
+            <br><br>
         </div>
     </div>
-
-</main>
-
-</body>
+</div>
 </html>

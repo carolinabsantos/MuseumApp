@@ -100,8 +100,7 @@ public class ExhibitorController implements WebMvcConfigurer {
 
     @GetMapping ("/visitState") public void getVisitState(@RequestParam("visit_id") String visit_id, HttpServletRequest request,
                                                                   HttpServletResponse response) throws IOException {
-	System.out.println(Integer.valueOf(visit_id) + "type: " + Integer.valueOf(visit_id).getClass());
-        VisitEntity visit = visitService.findVisit(Integer.valueOf(visit_id)).get();
+	    VisitEntity visit = visitService.findVisit(Integer.valueOf(visit_id)).get();
         HashMap<String, String> visitInfo = visitService.listToDictionary(visit);
         System.out.println(visitInfo);
 
