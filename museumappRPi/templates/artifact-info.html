@@ -86,7 +86,7 @@
                         <li><b>{{ item }}:</b> {{ value }} </li>
                         {% endfor %}
                     </ul>
-                    <a class='btn btn-back' href="{{ url_for('list_artifacts') }}">Voltar atrás</a>
+                    <a class='btn btn-back' href="{{ url_for('list_artifacts', visitId=visit_id) }}">Voltar atrás</a>
                 </div>
             </div>
         </div>

@@ -79,10 +79,12 @@ public class HomePublicController implements WebMvcConfigurer {
         mav.addObject("visit", visit);
         return mav;
     }
-    @PostMapping("/started-visit") public String startedVisit(@RequestParam Integer visitId, RedirectAttributes redirectAttributes) {
-        VisitEntity visit = visitService.findVisit(visitId).get();
+    @GetMapping("/started-visit")
+    public String startedVisit(@RequestParam("visit_id") String visitId, RedirectAttributes redirectAttributes) {
+        Integer visit_id = Integer.valueOf(visitId);
+        VisitEntity visit = visitService.findVisit(visit_id).get();
         TimeSlotEntity timeSlot = timeSlotService.findTimeSlot(visit.getTimeSlotId()).get();
-
+        System.out.println("Got to started-visit!");
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime visitTimeEnd = new java.sql.Timestamp(
@@ -93,11 +95,11 @@ public class HomePublicController implements WebMvcConfigurer {
         if(now.isAfter(visitTimeEnd)){
             System.out.println("now.isAfter(visitTimeEnd)");
             if(visit.getState() == State.TO_START){
-                visitService.updateVisitObservations(visitId, "Missed");
+                visitService.updateVisitObservations(visit_id, "Missed");
                 return "public/error-start-visit";
             }
             if(visit.getState() != State.TO_START){
-                visitService.updateVisitObservations(visitId, "Error occrured");
+                visitService.updateVisitObservations(visit_id, "Error occrured");
                 return "public/error-start-visit";
             }
         }
@@ -105,7 +107,7 @@ public class HomePublicController implements WebMvcConfigurer {
         if(visit.getState() != State.TO_START) {
             return "public/error-start-visit";
         }
-        visitService.startVisit(visitId, start_time);
+        visitService.startVisit(visit_id, start_time);
         return "redirect:/museum";
     }
     @GetMapping("/available-visits") public String indexAvailableVisits() {

@@ -68,13 +68,24 @@
                 <script>
                     async function qrcodeDetected() {
                         let response = await fetch('/qrcode_detection');
-                        let qr_code = JSON.parse(await response.text());
-                        if(qr_code === "false"){
+                        // console.log((await response.text()).toString())
+                        let qr_code = (JSON.parse(await response.text())).toString();
+                        let info = qr_code.split(",");
+                        console.log("Info: " + info);
+                        console.log("Visit id: " + info[0]);
+                        console.log("Visit state: " + info[1]);
+                        if(info[0] === "false"){
                             console.log("QRCode not detected!");
                         }
                         else{
-                            console.log("QRCode detected for visit id: " + qr_code);
-                            location.replace("http://192.168.1.157:8000/list-artifacts/" + qr_code);
+                            if(info[1] == "start"){
+                                console.log("QRCode detected for visit id: " + info[0]);
+                                location.replace("http://192.168.1.157:8081/started-visit?visit_id=" + info[0]);
+                            }
+                            else if(info[1] == "exhibitor"){
+                                console.log("QRCode detected for visit id: " + info[0]);
+                                location.replace("http://192.168.1.157:8000/list-artifacts/" + info[0]);
+                            }
                         }
                     }
                 </script>

@@ -10,6 +10,7 @@ import imutils
 import cv2
 import os
 from functools import wraps
+
 logging.getLogger("urllib3").setLevel(logging.WARNING)
 
 app = Flask(__name__, template_folder="../templates")
@@ -53,14 +54,14 @@ def qrcode_detection():
 def reading(url):
     url_parts = str(url).split("/")
     visit_id = url_parts[-1]
-    return visit_id
-    # visitInfo = visit.getVisitInfo(visit_id)
-    # print("Visit info: " + str(visitInfo))
-    # visit.checkVisit(visitInfo, visit_id)
+    visitInfo = visit.getVisitInfo(visit_id)
+    state = visit.checkVisit(visitInfo)
+    print("state " + state)
+    return visit_id, state
 
 
 def stream(frameCount):
-    global outputFrame, lock, data,qrcode
+    global outputFrame, lock, data, qrcode
     if cap.isOpened():
         # cv2.namedWindow(('IP camera DEMO'), cv2.WINDOW_AUTOSIZE)
         while True:
@@ -140,7 +141,7 @@ def artifact_info(artifact_id, visit_id):
     led_name = artifact["name"]
     # leds.controlArtifact(led_name=led_name, on_off=True)
     exhibitorName = visit.ArtifactInfo(artifact_id)[1]
-    return render_template('artifact-info.html', artifact=artifact, exhibitor_name=exhibitorName)
+    return render_template('artifact-info.html', artifact=artifact, exhibitor_name=exhibitorName, visit_id=visit_id)
 
 
 @app.route('/error-exhibitor-not-in-visit/<visit_id>')

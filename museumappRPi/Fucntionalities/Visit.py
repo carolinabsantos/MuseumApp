@@ -24,21 +24,19 @@ def getVisitInfo(visit_id):
         """
     print("Visit id: " + str(visit_id))
     result = DB.getVisitInfo_from_db(visit_id)
-    checkVisit(result, visit_id)
     return result
 
 
-# def startVisit(visit_id):
-#     response = requests.get('http://192.168.1.121:8081/visit-info?visit_id=' + str(visit_id))
-#     if response.status_code == 400:
-#         logger.error(response.request.url)
-#     elif response.status_code == 200:
-#         try:
-#             visit = response.json()
-#             # print(visit)
-#         except:
-#             return None
-#     return visit
+def startVisit(visit_id):
+    response = requests.get(DB_URL + 'started-visit?visit_id=' + str(visit_id))
+    if response.status_code == 400:
+        logger.error(response.request.url)
+    elif response.status_code == 200:
+        try:
+            visit = response.json()
+            # print(visit)
+        except:
+            return None
 
 
 def endExhibitor(visit_id):
@@ -129,20 +127,11 @@ def listShowArtifacts(visit_id):
     return artifactList, exhibitor.get_name()
 
 
-def checkVisit(visit, visit_id):
+def checkVisit(visit):
+    state = ""
     if ('state', 'TO_START') in visit.items():
         print("visit ready to start")
-        if checkExhibitorInVisit(visit):
-            # condicao que ve se aquele e o expositor certo para aquele momento da visita
-            print("checkExhibitorInVisit is True")
-            if checkExhibitorPhase(visit):
-                # passar info do artefacto e marcar como visitado o expositor
-                # getAllArtifactsIds from exhibitor
-                print("checkExhibitorPhase is True")
-                hello.list_artifacts(visit_id)
-            else:
-                # passar pagina de "não está na altura certa da visita"
-                print("checkExhibitorPhase is False")
+        state = "start"
     elif ('state', 'ONGOING') in visit.items():
         # condicao que ve se aquele expositor pertence aquela visita
         if checkExhibitorInVisit(visit):
@@ -151,12 +140,13 @@ def checkVisit(visit, visit_id):
             if checkExhibitorPhase(visit):
                 # passar info do artefacto e marcar como visitado o expositor
                 # getAllArtifactsIds from exhibitor
-                artifactList, exhibitor_name = listShowArtifacts(visit)
-                hello.list_artifacts(visit_id)
+                # artifactList, exhibitor_name = listShowArtifacts(visit)
+                state = "exhibitor"
                 print("checkExhibitorPhase is True")
             else:
                 # passar pagina de "não está na altura certa da visita"
                 print("checkExhibitorPhase is False")
         else:
             print("checkExhibitorInVisit is False")
+    return state
     # passar página de "este expositor não faz parte da sua visita"
