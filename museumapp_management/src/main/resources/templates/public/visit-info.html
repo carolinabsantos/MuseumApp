@@ -106,7 +106,7 @@
             <div class="col-sm">
                 <br><br>
                 <h4>Rota:</h4>
-                <img th:src="@{${path}}" alt=""/>
+                <img th:src="@{${path}}" alt="" width="400" height="500" />
             </div>
         </div>
     </div>
@@ -116,7 +116,7 @@
                 <h5 class="mt-0 mb-1">Vamos começar a visita?</h5>
                 <p class="lead"></p>
                 <td>
-                    <form method="post" th:action="@{/started-visit(visitId=${visit.id})}">
+                    <form method="post" th:action="@{/started-visit(visit_id=${visit.id})}">
                         <button class="btn btn-qrcode btn-lg" type="submit">Começar a visita</button>
                         <input class="btn btn-qrcode " type="button" value="Voltar atrás" onclick="history.back()">
                     </form>

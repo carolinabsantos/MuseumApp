@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 import pt.ulisboa.tecnico.museumapp.entities.*;
 import pt.ulisboa.tecnico.museumapp.service.*;
 
@@ -42,9 +43,12 @@ public class HomePublicController implements WebMvcConfigurer {
         return "public/confirm-start-visit";
     }
 
-    @GetMapping("/start-visit") public String startVisit() {
-        return "public/start-visit";
+    @GetMapping("/start-visit") public RedirectView startVisit() {
+        RedirectView redirectView = new RedirectView();
+        redirectView.setUrl("http://192.168.1.121:8000/");
+        return redirectView;
     }
+
 
     @GetMapping("/login") public String login() {
         return "public/error";
@@ -79,10 +83,9 @@ public class HomePublicController implements WebMvcConfigurer {
         mav.addObject("visit", visit);
         return mav;
     }
-    @GetMapping("/started-visit")
-    public String startedVisit(@RequestParam("visit_id") String visitId, RedirectAttributes redirectAttributes) {
-        Integer visit_id = Integer.valueOf(visitId);
-        VisitEntity visit = visitService.findVisit(visit_id).get();
+    @PostMapping("/started-visit")
+    public String startedVisit(@RequestParam("visit_id") Integer visitId, RedirectAttributes redirectAttributes) {
+        VisitEntity visit = visitService.findVisit(visitId).get();
         TimeSlotEntity timeSlot = timeSlotService.findTimeSlot(visit.getTimeSlotId()).get();
         System.out.println("Got to started-visit!");
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
@@ -95,11 +98,11 @@ public class HomePublicController implements WebMvcConfigurer {
         if(now.isAfter(visitTimeEnd)){
             System.out.println("now.isAfter(visitTimeEnd)");
             if(visit.getState() == State.TO_START){
-                visitService.updateVisitObservations(visit_id, "Missed");
+                visitService.updateVisitObservations(visitId, "Missed");
                 return "public/error-start-visit";
             }
             if(visit.getState() != State.TO_START){
-                visitService.updateVisitObservations(visit_id, "Error occrured");
+                visitService.updateVisitObservations(visitId, "Error occrured");
                 return "public/error-start-visit";
             }
         }
@@ -107,7 +110,7 @@ public class HomePublicController implements WebMvcConfigurer {
         if(visit.getState() != State.TO_START) {
             return "public/error-start-visit";
         }
-        visitService.startVisit(visit_id, start_time);
+        visitService.startVisit(visitId, start_time);
         return "redirect:/museum";
     }
     @GetMapping("/available-visits") public String indexAvailableVisits() {

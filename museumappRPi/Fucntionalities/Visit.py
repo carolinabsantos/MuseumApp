@@ -12,9 +12,9 @@ import hello
 ###### Institiation of the exhibitor #####
 
 exhibitor = Exhibitor.Exhibitor.__new__(Exhibitor.Exhibitor)
-exhibitor.__init__("ddd")
+exhibitor.__init__("Eletronica")
 
-DB_URL = 'http://192.168.1.157:8081/'
+DB_URL = 'http://192.168.1.121:8081/'
 
 
 def getVisitInfo(visit_id):

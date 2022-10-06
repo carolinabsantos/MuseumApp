@@ -15,6 +15,7 @@ def turnOnAllLeds():
     artifact3.on()
     artifact4.on()
 
+
 def turnOffAllLeds():
     artifact2.off()
     artifact1.off()

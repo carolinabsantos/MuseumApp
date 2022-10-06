@@ -3,6 +3,7 @@ from time import sleep
 
 from flask import Flask, render_template, url_for, redirect, Response, jsonify
 import Visit as visit
+import leds
 import threading
 import argparse
 import datetime, time
@@ -14,7 +15,7 @@ from functools import wraps
 logging.getLogger("urllib3").setLevel(logging.WARNING)
 
 app = Flask(__name__, template_folder="../templates")
-app.config['SERVER_NAME'] = '192.168.1.157:8000'
+app.config['SERVER_NAME'] = '192.168.1.121:8000'
 app.config['DEBUG'] = True
 # app.config['PREFERRED_URL_SCHEME'] = 'http'
 # app.config['APPLICATION_ROOT'] = '/Users/carolina/Desktop/MuseumApp/museumappRPi'
@@ -114,6 +115,7 @@ def video_feed():
 @app.route('/end-exhibitor/<visitId>')
 def end_exhibitor(visitId):
     visit.endExhibitor(visitId)
+    leds.turnOffAllLeds()
     return redirect(url_for('read_qrcode'))
 
 
@@ -122,9 +124,9 @@ def list_artifacts(visitId):
     print("Chegou a listArtifacts")
     artifacts = visit.listShowArtifacts(visitId)[0]
     print(artifacts)
-    # for i in range(len(artifacts)):
-    # led_name = artifacts[i][12]
-    # leds.controlArtifact(led_name=led_name, on_off=True)
+    for i in range(len(artifacts)):
+        led_name = artifacts[i][12]
+        leds.controlArtifact(led_name=led_name, on_off=True)
     exhibitorName = visit.listShowArtifacts(visitId)[1]
     print("visit_id= " + str(visitId))
     return render_template('list-artifacts.html', artifacts=artifacts, exhibitor_name=exhibitorName, visit_id=visitId)
@@ -133,13 +135,10 @@ def list_artifacts(visitId):
 @app.route('/artifact-info/<artifact_id>/<visit_id>')
 def artifact_info(artifact_id, visit_id):
     print("Artifact Id: " + artifact_id)
-    artifacts = visit.listShowArtifacts(visit_id)[0]
-    for i in range(len(artifacts)):
-        led_name = artifacts[i][12]
-        # leds.controlArtifact(led_name=led_name, on_off=False)
+    leds.turnOffAllLeds()
     artifact = visit.ArtifactInfo(artifact_id)[0]
     led_name = artifact["name"]
-    # leds.controlArtifact(led_name=led_name, on_off=True)
+    leds.controlArtifact(led_name=led_name, on_off=True)
     exhibitorName = visit.ArtifactInfo(artifact_id)[1]
     return render_template('artifact-info.html', artifact=artifact, exhibitor_name=exhibitorName, visit_id=visit_id)
 
@@ -182,4 +181,4 @@ if __name__ == '__main__':
 
 # release the video stream pointer
 cap.release()
-cv2.destroyAllWindows()
+#cv2.destroyAllWindows()

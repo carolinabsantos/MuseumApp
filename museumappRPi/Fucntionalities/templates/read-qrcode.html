@@ -44,7 +44,6 @@
             .jumbotron-fluid-visit
             {
                 background-color: #2F3E48;
-                margin-top: 100px;
             }
             .jumbotron-fluid-visit-text
             {
@@ -53,22 +52,50 @@
             }
         </style>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-        <title>Read QRCode</title>
+        <title>MuseuComputação - A sua visita</title>
     </head>
 </head>
 <body>
-<main role="main">
-    <div class="jumbotron jumbotron-fluid-visit">
-        <div class="media">
-            <div class="media-body jumbotron-fluid-visit-text">
-                <h5 class="mt-0 mb-1">Read your QRCode</h5>
-                <p class="lead"></p>
-                <br><br>
-                <img src="{{ url_for('video_feed')}}">
-            </div>
+<header>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <img src="/images/logo.png" width="30" height="30" class="d-inline-block align-center" alt=""></a>
+        <a class="navbar-brand" th:href="@{/museum}">Museu da Computação</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/about}">Sobre Nós</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/visits}">Visitas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/contacts}">Contactos</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link-contacts" style="color: #009DE0" th:href="@{/login}">Login</a>
+                    </li>
+                </ul>
+            </ul>
         </div>
+    </nav>
+    <!-- Navbar -->
+</header>
+<body>
+<main role="main">
+    <div class="container">
+        <h1>Choose your QR code image file to upload.</h1>
+        <p class="text-danger" th:if="${errorMessage}" th:text="${errorMessage}"></p>
+        <p class="text-success" th:if="${successMessage}" th:text="${successMessage}"></p>
+        <p class="text-primary" th:if="${qrContent}" th:text="${qrContent}"></p>
+        <img src="{{ url_for('video_feed')}}">
     </div>
-
 </main>
 
 </body>

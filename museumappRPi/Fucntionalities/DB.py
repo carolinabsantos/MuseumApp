@@ -2,7 +2,7 @@ import json
 import logger
 import requests
 
-DB_URL = 'http://192.168.1.157:8081/'
+DB_URL = 'http://192.168.1.121:8081/'
 
 
 def getVisitInfo_from_db(visit_id):
