@@ -61,13 +61,14 @@
     <div class="jumbotron">
         <div class="container">
             <h1 class="display-3">Visit</h1>
-            <p>Here an administrator can see the just added visit in the system.</p>
+            <p>Here an administrator can see the QRCode of the selected visit.</p>
         </div>
     </div>
 </main>
 <div class="container">
     <img th:src="${qrCode}" />
 </div>
+<br>
 <a th:href="@{/home}" class="btn btn-secondary">Home</a>
 <a th:href="@{/list-visits}" class="btn btn-secondary">List Visits</a>
 </body>

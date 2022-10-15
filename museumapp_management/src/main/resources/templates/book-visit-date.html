@@ -81,24 +81,18 @@
 
         <thead>
         <tr>
-            <th>Id</th>
-            <th>Start Time</th>
-            <th>End Time</th>
+            <th>Name</th>
             <th>Date</th>
             <th>Capacity</th>
             <th>State</th>
-            <th>Name</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="timeSlot: ${timeSlots}">
-            <td th:text="${timeSlot.id}"></td>
-            <td th:text="${timeSlot.startTime}"></td>
-            <td th:text="${timeSlot.endTime}"></td>
+            <td th:text="${timeSlot.name}"></td>
             <td th:text="${#dates.format(timeSlot.date, 'dd/MM/yyyy')}"></td>
             <td th:text="${timeSlot.capacity}"></td>
             <td th:text="${timeSlot.state}"></td>
-            <td th:text="${timeSlot.name}"></td>
         </tr>
         </tbody>
 

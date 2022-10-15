@@ -57,7 +57,7 @@ public class TimeMachineController implements WebMvcConfigurer {
     public String saveTimeMachine(@ModelAttribute TimeMachine timeMachine, HttpServletRequest request, @RequestParam("image") MultipartFile multipartFile) throws IOException {
         String roomPlanName = timeMachineService.getRoomPlanName(timeMachine.getName());
         String uploadDir = ROOM_PLAN_IMAGE_PATH;
-
+        TimeMachineEntity tm;
 
         String uploadDirectory = request.getServletContext().getRealPath(uploadDir);
         log.info("uploadDirectory:: " + uploadDirectory);
@@ -76,10 +76,17 @@ public class TimeMachineController implements WebMvcConfigurer {
             e.printStackTrace();
         }
 
-        TimeMachineEntity timeMachineFinal = new TimeMachineEntity(timeMachine.getType(), timeMachine.getName(), timeMachine.getCapacity(), roomPlanName);
-        timeMachineService.createTimeMachine(timeMachineFinal);
-        TimeMachineEntity tm = timeMachineService.findTimeMachineByName(timeMachineFinal.getName()).get();
+        if (timeMachineService.findTimeMachineByName(timeMachine.getName()).isPresent()) {
+            Integer id = timeMachineService.findTimeMachineByName(timeMachine.getName()).get().getId();
+            timeMachineService.updateTimeMachine(id, timeMachine.getCapacity(), timeMachine.getType(), roomPlanName);
+            tm = timeMachineService.findTimeMachine(id).get();
+        }
+        else {
+            TimeMachineEntity timeMachineFinal = new TimeMachineEntity(timeMachine.getType(), timeMachine.getName(), timeMachine.getCapacity(), roomPlanName);
+            timeMachineService.createTimeMachine(timeMachineFinal);
+            tm = timeMachineService.findTimeMachineByName(timeMachineFinal.getName()).get();
 
+        }
         timeMachineService.saveRoomPlan(uploadDir, roomPlanName, multipartFile);
         artifactService.getArtifactsFromTimeMachine(tm);
         return "saved-time-machine";
@@ -90,7 +97,6 @@ public class TimeMachineController implements WebMvcConfigurer {
         ModelAndView mav = new ModelAndView("new-time-machine");
         TimeMachineEntity timeMachine = timeMachineService.findTimeMachine(timeMachine_id).get();
         mav.addObject("timeMachine", timeMachine);
-        timeMachineService.deleteTimeMachine(timeMachine_id);
         return mav;
     }
 

@@ -13,6 +13,8 @@ public class TimeMachine {
     private Integer artifactsCount;
     private Integer capacity;
 
+    private Integer id;
+
     private MultipartFile roomPlanFile;
 
     public TimeMachine(){}

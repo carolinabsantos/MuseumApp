@@ -79,11 +79,10 @@
             <th>State</th>
             <th>Time Machine</th>
             <th>Nº Visitors</th>
-            <th>Visitor First Name</th>
-            <th>Visitor Last Name</th>
+            <th>Visitor Name</th>
             <th>Visit Date</th>
-            <th>Visit State</th>
-            <th>Observações</th>
+            <th>Exhibitors</th>
+            <th>Observations</th>
         </tr>
         </thead>
         <tbody>
@@ -97,8 +96,7 @@
             <td th:text="${visit.state}"></td>
             <td th:text="${visit.timeMachine.name}"/>
             <td th:text="${visit.visitor.noVisitors}" />
-            <td th:text="${visit.visitor.fName}" />
-            <td th:text="${visit.visitor.lName}" />
+            <td th:text="${visit.visitor.fName + ' ' + visit.visitor.lName}" />
             <td th:text="${visit.visitDate}" />
             <td th:text="${visit.exhibitors}"/>
             <td th:text="${visit.observations}" />

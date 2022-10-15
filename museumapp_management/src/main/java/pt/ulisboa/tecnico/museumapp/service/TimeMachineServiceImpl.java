@@ -6,6 +6,7 @@ import org.springframework.util.Base64Utils;
 import org.springframework.web.multipart.MultipartFile;
 import pt.ulisboa.tecnico.museumapp.entities.ArtifactEntity;
 import pt.ulisboa.tecnico.museumapp.entities.TimeMachineEntity;
+import pt.ulisboa.tecnico.museumapp.entities.TypeOfTimeMachine;
 import pt.ulisboa.tecnico.museumapp.repositories.ArtifactRepository;
 import pt.ulisboa.tecnico.museumapp.repositories.TimeMachineRepository;
 
@@ -293,5 +294,12 @@ public class TimeMachineServiceImpl implements TimeMachineService{
             e.printStackTrace();
         }
         return imageString;
+    }
+
+    @Override
+    public void updateTimeMachine(Integer id, Integer capacity, TypeOfTimeMachine type, String image){
+        timeMachineRepository.updateTimeMachineType(id, type);
+        timeMachineRepository.updateTimeMachineCapacity(id, capacity);
+        timeMachineRepository.updateTimeMachineImage(id, image);
     }
 }
