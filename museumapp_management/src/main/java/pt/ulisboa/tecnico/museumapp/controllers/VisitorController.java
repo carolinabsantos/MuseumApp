@@ -31,10 +31,11 @@ public class VisitorController implements WebMvcConfigurer{
     }
     @PostMapping("/save-visitor")
     public String saveVisitor(@ModelAttribute Visitor visitor) {
-        VisitorEntity visitorFinal = new VisitorEntity(visitor.getfName(), visitor.getlName(), visitor.getEmail_address(), visitor.getContact(), visitor.getNoVisitors());
+        Integer contact = Integer.valueOf(visitor.getContact());
+        VisitorEntity visitorFinal = new VisitorEntity(visitor.getfName(), visitor.getlName(), visitor.getEmail_address(), contact, visitor.getNoVisitors());
         visitorService.createVisitor(visitorFinal);
         visitor.setId(visitorFinal.getId());
-        return "saved-visitor";
+        return "book-visit-time-machine";
     }
     @GetMapping("/update-visitor")
     public ModelAndView updateVisitorView(@RequestParam Integer visitor_id) {

@@ -38,6 +38,7 @@ public class VisitEntity implements Serializable {
 
     @Column(name = "time_slot_id")
     private Integer timeSlotId;
+
     @Column(name = "observations", nullable = false)
     protected String observations;
 

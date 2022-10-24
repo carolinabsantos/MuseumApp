@@ -12,7 +12,7 @@ import hello
 ###### Institiation of the exhibitor #####
 
 exhibitor = Exhibitor.Exhibitor.__new__(Exhibitor.Exhibitor)
-exhibitor.__init__("Eletronica")
+exhibitor.__init__("II - Eletronica")
 
 DB_URL = 'http://192.168.1.121:8081/'
 

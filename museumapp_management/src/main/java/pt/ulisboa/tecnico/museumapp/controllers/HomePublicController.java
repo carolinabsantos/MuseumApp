@@ -113,7 +113,4 @@ public class HomePublicController implements WebMvcConfigurer {
         visitService.startVisit(visitId, start_time);
         return "redirect:/museum";
     }
-    @GetMapping("/available-visits") public String indexAvailableVisits() {
-        return "available-visits";
-    }
 }

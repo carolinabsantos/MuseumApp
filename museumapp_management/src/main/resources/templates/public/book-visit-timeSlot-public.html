@@ -49,10 +49,6 @@
             {
                 color: white;
             }
-            .jumbotron-fluid-book-text
-            {
-                color: #2F3E48;
-            }
         </style>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
         <title>Museu da Computação</title>
@@ -62,7 +58,7 @@
 <header>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <img src="images/logo.png" width="30" height="30" class="d-inline-block align-center" alt=""></a>
+        <img src="/images/logo.png" width="30" height="30" class="d-inline-block align-center" alt=""></a>
         <a class="navbar-brand" th:href="@{/museum}">Museu da Computação</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -90,101 +86,60 @@
     </nav>
     <!-- Navbar -->
     <!-- Background image -->
-    <div class="p-5 text-center">
+    <div class="p-5 text-center start-image">
         <div class="mask">
             <div class="d-flex justify-content-center align-items-center h-100">
                 <div class="text-black">
                     <h1 class="mb-3">Museu da Computação</h1>
                     <h4 class="mb-3">Instituto Superior Técnico - Taguspark</h4>
+                    <p> Call to action</p>
                 </div>
             </div>
         </div>
     </div>
     <!-- Background image -->
 </header>
-<main role="main">
-    <div class="jumbotron jumbotron-fluid-book">
-        <div class="media">
-            <div class="media-body jumbotron-fluid-book-text">
-                <h5 class="mt-0 mb-1">Marcar visita</h5>
-                <p class="lead">Quer marcar a sua visita? Vamos começar!</p>
-                <a class="btn btn-qrcode btn-lg" th:href="@{/new-public-visitor}" role="button">Marcar visita</a>
-            </div>
+<form method="post" th:action="@{/save-visit-timeSlot-public}" th:object="${visit}">
+    <div class="form-row">
+        <div class="col-md-6 form-group">
+            <input type="hidden" class="form-control" th:field="*{id}" required>
         </div>
     </div>
-    <div class="jumbotron jumbotron-fluid-visit">
-        <div class="media">
-            <div class="media-body jumbotron-fluid-visit-text">
-                <h5 class="mt-0 mb-1">Começar visita</h5>
-                <p class="lead">Já marcou a sua visita? Vamos começar!</p>
-                <a class="btn btn-qrcode btn-lg" th:href="@{/start-visit}" role="button">Ler QRCode</a>
-            </div>
+    <div class="form-row">
+        <p th:utext="${visitDate}"></p>
+        <div class="col-md-6 form-group">
+            <input type="hidden" class="form-control" th:field="*{visitDate}" required>
         </div>
     </div>
-</main>
-<!--
-<main role="main">
-    &lt;!&ndash; Background image &ndash;&gt;
-    <div class="p-5 start-image rounded-3">
-        <div class="shade"></div>
-        <div class="d-flex justify-content-center align-items-center">
-            <div class="text-white-shade">
-                <h1 class="mb-3">Museu da Computação</h1>
-                <h4 class="mb-3">do Instituto Superior Técnico - Taguspark</h4>
-                <p> Call to action</p>
-            </div>
-        </div>
-    </div>
-    &lt;!&ndash; Background image &ndash;&gt;
-</main>
--->
+    <table class="table table-bordered table-striped">
 
+        <thead>
+        <tr>
+            <th>Horários disponíveis:</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="timeSlot: ${timeSlots}">
+            <td th:text="${timeSlot.name}"></td>
+        </tr>
+        </tbody>
 
-
-<!--
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" th:href="@{/museum}">
-        <img src="../../static/images/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
-        Museu da Computação
-    </a>
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-        <ul class="navbar-nav">
-            <li class="navbar navbar-light bg-light">
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/about}">Sobre Nós</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/visitas}">Visitas</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/contactos}">Contacte-nos</a>
-            </li>
-        </ul>
-    </div>
-</nav>
-<main role="main">
-    <div class="p-5 text-center bg-image rounded-3" style="
-    background-image: url('https://mdbcdn.b-cdn.net/img/new/slides/041.webp');
-    height: 100px;">
-        <div class="mask" style="background-color: rgba(0, 0, 0, 0.6);">
-            <div class="d-flex justify-content-center align-items-center h-100">
-                <div class="text-white">
-                    <h1 class="mb-3">Museu da Computação</h1>
-                    <h4 class="mb-3">do Instituto Superior Técnico - Taguspark</h4>
-                    <a class="btn btn-outline-light btn-lg" href="#!" role="button">Call to action</a>
-                </div>
-            </div>
+    </table>
+    <div class="form-row">
+        <div class="col-md-6 form-group">
+            <tr><td>Time Slot:</td>
+                <td><label>
+                    <select name="timeSlot">
+                        <option th:each="timeSlot : ${timeSlots}" th:text="${timeSlot.name}" th:value="${timeSlot.id}"></option>
+                    </select>
+                </label>
+            </tr>
         </div>
     </div>
-    <div class="jumbotron">
-        <div class="container">
-            <h1 class="display-3">Museu da Computação</h1>
-            <p>Já tem uma marcação feita? Inicie já a sua visita!</p>
-            <p style="text-align: center"><a class="btn btn-qrcode" th:href="@{/start_visit}" role="button">Ler QRCode »</a></p>
-        </div>
-    </div>
-</main>-->
-
+    <ul th:if="${#fields.hasErrors('*')}">
+        <li th:each="error : ${#fields.errors('*')}" th:text="${error}">error</li>
+    </ul>
+    <input type="submit" class="btn btn-secondary" value="Submeter">
+</form>
 </body>
 </html>
