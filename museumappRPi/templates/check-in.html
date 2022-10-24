@@ -47,11 +47,12 @@
             }
             .jumbotron-fluid-visit-text
             {
+                text-align: center;
                 color: white;
             }
         </style>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-        <title>Museu da Computação</title>
+        <title>MuseuComputação - A sua visita</title>
     </head>
 </head>
 <body>
@@ -85,46 +86,37 @@
         </div>
     </nav>
     <!-- Navbar -->
-    <!-- Background image -->
-    <div class="p-5 text-center">
-        <div class="mask">
-            <div class="d-flex justify-content-center align-items-center h-100">
-                <div class="text-black">
-                    <h1 class="mb-3">Museu da Computação</h1>
-                    <h4 class="mb-3">Instituto Superior Técnico - Taguspark</h4>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Background image -->
 </header>
-<form method="post" th:action="@{/save-public-visit-info}" th:object="${visit}">
-    <div class="form-row">
-        <div class="col-md-6 form-group">
-            <input type="hidden" class="form-control" th:field="*{visitorId}" required>
-        </div>
-    </div>
-    <div class="form-row">
-        <div class="col-md-6 form-group">
-            <input type="date" class="form-control" th:field="*{visitDate}" required>
-        </div>
-    </div>
-    <div class="form-row">
-        <div class="col-md-6 form-group">
-            <label>Time Machine:</label>
-            <div class="col-md-6 form-group" th:each="timeMachine: ${timeMachines}">
-                <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" th:field="*{timeMachine.name}" th:value="${timeMachine.name}" class="custom-control-input">
-                    <label class="custom-control-label" th:for="${#ids.prev('timeMachine.name')}" th:text="${timeMachine.name}" required>name</label>
-                </div>
+<main role="main">
+    <div class="jumbotron jumbotron-fluid-visit">
+        <div class="media">
+            <div class="media-body jumbotron-fluid-visit-text">
+                <h5 class="mt-0 mb-1">Leia aqui o seu QRCode</h5>
+                <p class="lead"></p>
+                <br><br>
+                <img src="{{ url_for('video_feed')}}" , onload="qrcodeDetected()">
+                <script>
+                    async function qrcodeDetected() {
+                        let response = await fetch('/qrcode_detection');
+                        let qr_code = (await response.json()).toString();
+                        let info = qr_code.split(",");
+                        if(info[0] === "false"){
+                           // console.log("QRCode not detected!");
+                        }
+                        else{
+                            if(info[1] == "start"){
+                                console.log("QRCode detected for visit id: " + info[0]);
+                                location.replace("http://192.168.1.121:8081/visit-info?visit_id=" + info[0]);
+                            }
+                        }
+                    }
+                </script>
+
             </div>
         </div>
     </div>
-    <ul th:if="${#fields.hasErrors('*')}">
-        <li th:each="error : ${#fields.errors('*')}" th:text="${error}">error</li>
-    </ul>
-    <input type="submit" class="btn btn-secondary" value="Submeter">
-    <input class="btn btn-secondary" type="button" value="Voltar atrás" onclick="history.back()">
-</form>
+
+</main>
+
 </body>
 </html>

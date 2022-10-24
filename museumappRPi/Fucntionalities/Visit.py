@@ -12,10 +12,13 @@ import hello
 ###### Institiation of the exhibitor #####
 
 exhibitor = Exhibitor.Exhibitor.__new__(Exhibitor.Exhibitor)
-exhibitor.__init__("II - Eletronica")
+exhibitor.__init__("I Eletronica")
 
 DB_URL = 'http://192.168.1.121:8081/'
 
+def getExhibitorName():
+    name = exhibitor.get_name()
+    return name
 
 def getVisitInfo(visit_id):
     """
@@ -97,19 +100,24 @@ def ArtifactInfo(artifact_id):
 
 
 def ExhibitorPhase(visit_id):
+    names_list = []
     visitInstance = getVisitInfo(visit_id)
     names = (visitInstance["exhibitors_names"])
     counter = int(visitInstance["exhibitors_counter"])
+    error = 0
+    state = checkVisit(visitInstance)
+    if state == "start":
+        error = 2
+    elif not checkExhibitorInVisit(visitInstance):
+        error = 0
+    elif not checkExhibitorPhase(visitInstance):
+        error = 1
     if "-" not in names:
-        names_list = list(names)
+        print("Solo uno exhibitor: " + names)
+        return names, error
     else:
         names_list = names.split("-")
     print("Name in list: " + str(names_list))
-    error = 0
-    if not checkExhibitorInVisit(visitInstance):
-        error = 0
-    if not checkExhibitorPhase(visitInstance):
-        error = 1
     return names_list[counter], error
 
 
@@ -144,9 +152,11 @@ def checkVisit(visit):
                 state = "exhibitor"
                 print("checkExhibitorPhase is True")
             else:
+                state = "not-in-phase"
                 # passar pagina de "não está na altura certa da visita"
                 print("checkExhibitorPhase is False")
         else:
+            state = "not-in-visit"
             print("checkExhibitorInVisit is False")
     return state
     # passar página de "este expositor não faz parte da sua visita"

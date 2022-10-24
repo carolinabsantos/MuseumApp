@@ -45,7 +45,7 @@ public class HomePublicController implements WebMvcConfigurer {
 
     @GetMapping("/start-visit") public RedirectView startVisit() {
         RedirectView redirectView = new RedirectView();
-        redirectView.setUrl("http://192.168.1.121:8000/");
+        redirectView.setUrl("http://192.168.1.121:8000/check-in");
         return redirectView;
     }
 

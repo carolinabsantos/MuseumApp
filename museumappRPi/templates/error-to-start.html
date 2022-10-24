@@ -59,15 +59,12 @@
 <div class="jumbotron jumbotron-fluid-visit">
     <div class="media">
         <div class="media-body jumbotron-fluid-visit-text">
-            <h5 class="mt-0 mb-1"> Este é o expositor {{exhibitor_name}}! </h5>
-            <h6> {{ message }}</h6>
-            <p> Siga para o expositor <u>{{right_exhibitor_name}}</u> </p>
+            <h5 class="mt-0 mb-1"> Ups! Houve um problema com a sua visita... </h5>
+            <h5> {{ message }}</h5>
             <p class="lead"></p>
             <br><br>
         </div>
     </div>
-    <div class="vertical-center">
-        <a class='btn btn-qrcode' href="{{ url_for('read_qrcode') }}">Voltar ao in      cio</a>
-    </div>
+    <a class='btn btn-qrcode' href="{{ url_for('read_qrcode') }}">Voltar ao início</a>
 </div>
 </html>

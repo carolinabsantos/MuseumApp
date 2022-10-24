@@ -59,7 +59,7 @@
 <header>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <img src="/images/logo.png" width="30" height="30" class="d-inline-block align-center" alt=""></a>
+        <img src="https://github.com/carolinabsantos/MuseumApp/blob/main/images/logo.png?raw=true" width="30" height="30" class="d-inline-block align-center" alt=""></a>
         <a class="navbar-brand" th:href="@{/museum}">Museu da Computação</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -98,23 +98,27 @@
                 <script>
                     async function qrcodeDetected() {
                         let response = await fetch('/qrcode_detection');
-                        // console.log((await response.text()).toString())
                         let qr_code = (await response.json()).toString();
                         let info = qr_code.split(",");
-                        console.log("qrcode: " + qr_code);
-                        // console.log("Visit id: " + info[0]);
-                        // console.log("Visit state: " + info[1]);
                         if(info[0] === "false"){
-                            console.log("QRCode not detected!");
+                           // console.log("QRCode not detected!");
                         }
                         else{
-                            if(info[1] == "start"){
-                                console.log("QRCode detected for visit id: " + info[0]);
-                                location.replace("http://192.168.1.121:8081/visit-info?visit_id=" + info[0]);
-                            }
-                            else if(info[1] == "exhibitor"){
+                            if(info[1] == "exhibitor"){
                                 console.log("QRCode detected for visit id: " + info[0]);
                                 location.replace("http://192.168.1.121:8000/list-artifacts/" + info[0]);
+                            }
+                            else if(info[1] == "start"){
+                                console.log("QRCode detected for visit id: " + info[0]);
+                                location.replace("http://192.168.1.121:8000/error-to-start/" + info[0]);
+                            }
+                            else if(info[1] == "not-in-visit"){
+                                console.log("QRCode detected for visit id: " + info[0]);
+                                location.replace("http://192.168.1.121:8000/error-exhibitor-not-in-visit/" + info[0]);
+                            }
+                            else if(info[1] == "not-in-phase"){
+                                console.log("QRCode detected for visit id: " + info[0]);
+                                location.replace("http://192.168.1.121:8000/error-exhibitor-not-in-visit/" + info[0]);
                             }
                         }
                     }

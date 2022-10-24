@@ -42,6 +42,11 @@ def read_qrcode():
     return render_template('read-qrcode.html')
 
 
+@app.route('/check-in')
+def check_in():
+    return render_template('check-in.html')
+
+
 @app.route('/qrcode_detection')
 def qrcode_detection():
     global qrcode, data
@@ -57,7 +62,7 @@ def reading(url):
     visit_id = url_parts[-1]
     visitInfo = visit.getVisitInfo(visit_id)
     state = visit.checkVisit(visitInfo)
-    print("state " + state)
+    print("state: " + state)
     return visit_id, state
 
 
@@ -145,9 +150,9 @@ def artifact_info(artifact_id, visit_id):
 
 @app.route('/error-exhibitor-not-in-visit/<visit_id>')
 def error_exhibitor_not_in_visit(visit_id):
-    artifact_id = 7
     rightExhibitorName = visit.ExhibitorPhase(visit_id)[0]
-    exhibitorName = visit.ArtifactInfo(artifact_id)[1]
+    print("rightExhibitorName: " + rightExhibitorName)
+    exhibitorName = visit.getExhibitorName()
     error = visit.ExhibitorPhase(visit_id)[1]
     if error == 0:
         message = "Este expositor não faz parte da sua visita."
@@ -158,6 +163,16 @@ def error_exhibitor_not_in_visit(visit_id):
     print(exhibitorName)
     return render_template('error-exhibitor-not-in-visit.html', right_exhibitor_name=rightExhibitorName,
                            exhibitor_name=exhibitorName, message=message)
+
+
+@app.route('/error-to-start/<visit_id>')
+def error_exhibitor_to_start(visit_id):
+    error = visit.ExhibitorPhase(visit_id)[1]
+    if error == 2:
+        message = "Visita não iniciada. Dirija-se à entrada e faça o seu check-in."
+    else:
+        message = "Ups! Ocorreu um erro! \n Por favor dirija-se a alguém do museu. \n Pedimos desculpa pelo incómodo "
+    return render_template('error-to-start.html', message=message)
 
 
 if __name__ == '__main__':
@@ -181,4 +196,4 @@ if __name__ == '__main__':
 
 # release the video stream pointer
 cap.release()
-#cv2.destroyAllWindows()
+# cv2.destroyAllWindows()

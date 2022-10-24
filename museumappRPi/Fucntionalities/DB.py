@@ -30,8 +30,7 @@ def allExhibitorArtifacts_from_db(exhibitor_name):
 
 
 def artifact_from_db(artifact_id):
-    request = DB_URL + 'getArtifact?artifact_id=' + str(artifact_id)
-    response = requests.get(request)
+    response = requests.get(DB_URL + 'getArtifact?artifact_id=' + str(artifact_id))
     if response.status_code == 400:
         logger.error(response.request.url)
     elif response.status_code == 200:
@@ -39,7 +38,6 @@ def artifact_from_db(artifact_id):
             json_data = json.loads(response.text)
         except:
             return None
-
     return json_data
 
 

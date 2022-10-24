@@ -24,15 +24,27 @@ def turnOffAllLeds():
 
 
 def controlArtifact(led_name, on_off):
-    if led_name == "Perfuradora":
+    if led_name == "1":
         if on_off:
             artifact1.on()  # turn on artifact1
             print("artifact2 turned on!")
         if not on_off:
             artifact1.off()
-    elif led_name == "A":
+    elif led_name == "2":
         if on_off:
             artifact2.on()  # turn on artifact1
             print("artifact1 turned on!")
         if not on_off:
             artifact2.off()
+    elif led_name == "3":
+        if on_off:
+            artifact3.on()  # turn on artifact1
+            print("artifact1 turned on!")
+        if not on_off:
+            artifact3.off()
+    elif led_name == "4":
+        if on_off:
+            artifact4.on()  # turn on artifact1
+            print("artifact1 turned on!")
+        if not on_off:
+            artifact4.off()
