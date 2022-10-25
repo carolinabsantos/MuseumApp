@@ -10,10 +10,51 @@
             src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
     <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
           integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" rel="stylesheet">
+    <style>
+        .btn-qrcode
+        {
+            background-color: #009DE0;
+            color:#FFFFFF;
+            border-color: #2F3E48;
+        }
+        .btn-qrcode:hover, .btn-qrcode:focus, .btn-qrcode:active, .btn-qrcode.active, .open .dropdown-toggle.btn-qrcode
+        {
+            background-color: #FFFFFF;
+            color:#009DE0;
+            border-color: #2F3E48;
+        }
+        .container-xxl
+        {
+            position: fixed;
+            background-color: #2F3E48;
+            width: 100%;
+            height: 100%;
+        }
+        .navbar-light
+        {
+            color: #2F3E48;
+        }
+        .nav-link
+        {
+            color: #2F3E48;
+        }
+        .nav-link-contacts
+        {
+            color: #009DE0;
+        }
+        .jumbotron-fluid-visit-text
+        {
+            transform: translate(20%,50%);
+            align-content: center;
+            text-align: center;
+            position: fixed;
+            color: white;
+        }
+    </style>
     <script crossorigin="anonymous"
             integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
             src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-    <title>Museum - All Schedules</title>
+    <title>Museum - Delete Schedule</title>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -55,55 +96,18 @@
             </li>
         </ul>
     </div>
-    <input class="btn btn-secondary" type="button" value="Voltar atrás" onclick="history.back()">
 </nav>
+    <!-- Navbar -->
+</header>
 <main role="main">
     <div class="jumbotron">
         <div class="container">
-            <h1 class="display-3">Schedules</h1>
-            <p>Here an administrator can see all the Schedules in the system.</p>
+            <h1 class="display-3">Ups!</h1>
+            <p class="lead">Ocorreu um erro!</p>
+            <p class="lead">Este schedule ainda tem visitas marcadas. Elemine-as antes para poder eliminar este horário.</p>
+            <a class="btn btn-secondary" th:href="@{/list-schedule}" role="button">Voltar atrás</a>
         </div>
     </div>
 </main>
-<div class="container">
-
-    <h3>List of schedules</h3>
-
-    <hr/>
-
-    <table class="table table-bordered table-striped">
-
-        <thead>
-        <tr>
-            <th>Actions</th>
-            <th>Id</th>
-            <th>Begining Date</th>
-            <th>Ending Date</th>
-            <th>Begining Hour</th>
-            <th>Ending Hour</th>
-            <th>Time Slot Duration (in minutes)</th>
-            <th>Capacity</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="schedule: ${schedules}">
-            <td>
-                <a th:href="@{/list-time-slots(schedule_id = ${schedule.id})}" class="btn btn-info">Time Slots</a>
-                <a th:href="@{/delete-schedule/{id}(id = ${schedule.id})}" class="btn btn-info">Delete</a>
-            </td>
-            <td th:text="${schedule.id}"></td>
-            <td th:text="${schedule.beginningDate}"></td>
-            <td th:text="${schedule.endingDate}"></td>
-            <td th:text="${schedule.beginningHour}"></td>
-            <td th:text="${schedule.endingHour}"></td>
-            <td th:text="${schedule.timeSlotsDuration}"></td>
-            <td th:text="${schedule.capacity}"></td>
-        </tr>
-        </tbody>
-
-    </table>
-</div>
-<a th:href="@{/new-schedule}" class="btn btn-secondary">Add new schedule</a>
-<input class="btn btn-secondary" type="button" value="Voltar atrás" onclick="history.back()">
 </body>
 </html>

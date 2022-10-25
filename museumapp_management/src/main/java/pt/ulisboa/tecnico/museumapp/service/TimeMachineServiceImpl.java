@@ -4,9 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Base64Utils;
 import org.springframework.web.multipart.MultipartFile;
-import pt.ulisboa.tecnico.museumapp.entities.ArtifactEntity;
-import pt.ulisboa.tecnico.museumapp.entities.TimeMachineEntity;
-import pt.ulisboa.tecnico.museumapp.entities.TypeOfTimeMachine;
+import pt.ulisboa.tecnico.museumapp.entities.*;
 import pt.ulisboa.tecnico.museumapp.repositories.ArtifactRepository;
 import pt.ulisboa.tecnico.museumapp.repositories.TimeMachineRepository;
 
@@ -17,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 

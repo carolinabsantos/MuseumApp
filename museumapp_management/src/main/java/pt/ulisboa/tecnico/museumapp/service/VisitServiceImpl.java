@@ -81,10 +81,11 @@ public class VisitServiceImpl implements VisitService{
         visitRepository.updateStartTime(visitId, start_time );
         visitRepository.updateEndTime(visitId, "not_ended" );
     }
-    
+
     @Override
     public void endVisit(Integer visitId, String end_time) {
         visitRepository.updateState(visitId, State.ENDED);
+        visitRepository.updateTimeSlotId(visitId,0);
         visitRepository.updateEndTime(visitId, end_time );
     }
     @Override

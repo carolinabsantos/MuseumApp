@@ -37,4 +37,9 @@ public interface VisitRepository extends JpaRepository<VisitEntity, Integer> {
     @Modifying
     @Query("update VisitEntity v set v.exhibitors_counter = :exhibitor_counter where v.id = :id")
     void updateExhibitorCounter(@Param(value = "id") Integer id, @Param(value = "exhibitor_counter") Integer exhibitor_counter);
+
+    @Modifying
+    @Query("update VisitEntity v set v.timeSlotId = :timeSlotId where v.id = :id")
+    void updateTimeSlotId(@Param(value = "id") Integer id,@Param(value = "timeSlotId") Integer timeSlotId);
+
 }

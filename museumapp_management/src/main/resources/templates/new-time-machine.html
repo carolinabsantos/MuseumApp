@@ -70,33 +70,26 @@
     <div class="form-row">
         <div class="col-md-6 form-group">
             <label>Name:</label>
-            <input type="text" class="form-control" th:field="*{name}">
+            <input type="text" class="form-control" th:field="*{name}" required>
         </div>
-    </div>
-    <div class="form-row">
         <div class="col-md-6 form-group">
             <label>Capacity:</label>
-            <input type="number" class="form-control" th:field="*{capacity}">
+            <input type="number" class="form-control" th:field="*{capacity}" required>
         </div>
-    </div>
-    <div class="form-row">
         <div class="col-md-6 form-group">
             <label>Type:</label>
             <div class="col-md-6 form-group" th:each="type : ${T(pt.ulisboa.tecnico.museumapp.entities.TypeOfTimeMachine).values()}">
                 <div class="custom-control custom-radio custom-control-inline">
                     <input type="radio" th:field="*{type}" th:value="${type}" class="custom-control-input">
-                    <label class="custom-control-label" th:for="${#ids.prev('type')}" th:text="${type}">type</label>
+                    <label class="custom-control-label" th:for="${#ids.prev('type')}" th:text="${type}" required>type</label>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="form-row">
         <div class="col-md-6 form-group">
             <label>Photos: </label>
-            <input type="file" name="image" accept="image/png, image/jpeg" />
+            <input type="file" name="image" accept="image/png, image/jpeg" required/>
         </div>
     </div>
-
     <input type="submit" class="btn btn-secondary" value="Submeter">
     <input class="btn btn-secondary" type="button" value="Voltar atrás" onclick="history.back()">
 </form>

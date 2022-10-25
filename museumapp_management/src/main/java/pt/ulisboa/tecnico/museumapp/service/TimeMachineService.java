@@ -1,9 +1,7 @@
 package pt.ulisboa.tecnico.museumapp.service;
 
 import org.springframework.web.multipart.MultipartFile;
-import pt.ulisboa.tecnico.museumapp.entities.ArtifactEntity;
-import pt.ulisboa.tecnico.museumapp.entities.TimeMachineEntity;
-import pt.ulisboa.tecnico.museumapp.entities.TypeOfTimeMachine;
+import pt.ulisboa.tecnico.museumapp.entities.*;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;

@@ -1,6 +1,7 @@
 package pt.ulisboa.tecnico.museumapp.service;
 
 import pt.ulisboa.tecnico.museumapp.entities.TimeSlotEntity;
+import pt.ulisboa.tecnico.museumapp.entities.VisitEntity;
 import pt.ulisboa.tecnico.museumapp.models.Schedule;
 import pt.ulisboa.tecnico.museumapp.models.TimeSlot;
 
@@ -27,4 +28,6 @@ public interface TimeSlotService {
     List<TimeSlotEntity> findTimeSlotByVisit(Integer visit_id);
 
     Integer updateTimeSlot(Integer timeSlotId, Integer visitorId);
+
+    boolean checkTimeSlot(VisitEntity visit, Integer id);
 }

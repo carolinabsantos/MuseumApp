@@ -17,6 +17,7 @@ import pt.ulisboa.tecnico.museumapp.models.TimeSlot;
 import pt.ulisboa.tecnico.museumapp.models.Visit;
 import pt.ulisboa.tecnico.museumapp.service.ScheduleService;
 import pt.ulisboa.tecnico.museumapp.service.TimeSlotService;
+import pt.ulisboa.tecnico.museumapp.service.VisitService;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -32,11 +33,16 @@ public class ScheduleController implements WebMvcConfigurer {
     @Autowired
     TimeSlotService timeSlotService;
     private List<TimeSlotEntity> timeSlots;
+    @Autowired
+    VisitService visitService;
 
     @GetMapping("/new-schedule")
     public String createScheduleForm(Model model) {
         model.addAttribute("schedule", new Schedule());
         return "new-schedule";
+    }
+    @GetMapping("/error-delete-schedule") public String errorDeleteSchedule() {
+        return "error-delete-schedule";
     }
 
     @GetMapping("/list-schedule")
@@ -98,6 +104,13 @@ public class ScheduleController implements WebMvcConfigurer {
 
     @GetMapping("/delete-schedule/{id}")
     public String deleteSchedule(@PathVariable(value = "id", required = false) Integer scheduleId) {
+        ScheduleEntity schedule = scheduleService.findSchedule(scheduleId).get();
+        for (VisitEntity visit : visitService.getAllVisits()) {
+            if(timeSlotService.checkTimeSlot(visit, schedule.getId())){
+                System.out.println("true");
+                return "redirect:/error-delete-schedule";
+            }
+        }
         scheduleService.deleteSchedule(scheduleId);
         return "redirect:/list-schedule";
     }

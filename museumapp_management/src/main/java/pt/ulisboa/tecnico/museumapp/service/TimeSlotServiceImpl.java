@@ -101,16 +101,7 @@ public class TimeSlotServiceImpl implements TimeSlotService {
         }
         return null;
     }
-    @Override
-    public List<TimeSlotEntity> findTimeSlotBySchedule(Integer scheduleId){
-        List<TimeSlotEntity> timeSlots = new ArrayList<>();
-        for (TimeSlotEntity ts: timeSlotRepository.findAll()){
-            if (ts.getScheduleId() == scheduleId){
-                timeSlots.add(ts);
-            }
-        }
-        return timeSlots;
-    }
+
     @Override
     public List<TimeSlotEntity> findTimeSlotByVisit(Integer visit_id){
         VisitEntity visit = visitService.findVisit(visit_id).get();
@@ -146,5 +137,28 @@ public class TimeSlotServiceImpl implements TimeSlotService {
         TimeSlotEntity timeSlot= new TimeSlotEntity(startTime, endTime, date, scheduleId, capacity, state, name);
         createTimeSlot(timeSlot);
         return timeSlot.getId();
+    }
+
+    @Override
+    public List<TimeSlotEntity> findTimeSlotBySchedule(Integer scheduleId){
+        List<TimeSlotEntity> timeSlots = new ArrayList<>();
+        for (TimeSlotEntity ts: timeSlotRepository.findAll()){
+            if (ts.getScheduleId() == scheduleId){
+                timeSlots.add(ts);
+            }
+        }
+        return timeSlots;
+    }
+
+    @Override
+    public boolean checkTimeSlot(VisitEntity visit, Integer scheduleId) {
+        boolean result = false;
+        List<TimeSlotEntity> timeSlots = findTimeSlotBySchedule(scheduleId);
+        for (TimeSlotEntity ts : timeSlots){
+            if (ts.getId() == visit.getTimeSlotId()){
+                result = true;
+            }
+        }
+        return result;
     }
 }
